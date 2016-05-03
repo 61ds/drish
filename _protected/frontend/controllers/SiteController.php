@@ -94,7 +94,7 @@ class SiteController extends Controller
      * Displays the about static page.
      *
      * @return string
-     */
+     */ 
     public function actionAbout()
     {
         return $this->render('about');

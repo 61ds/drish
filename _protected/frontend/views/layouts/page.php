@@ -29,7 +29,7 @@ InnerAsset::register($this);
 	<div class="page-content">
 		<?= $this->render('header.php')?>
 		<?= Alert::widget() ?>
-		<?= $content ?>
+		<?= $content ?> 
 		<?= $this->render('footer.php')?>
 	</div>
 </div><!--end full page-->

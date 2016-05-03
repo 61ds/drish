@@ -58,16 +58,16 @@ class PagesController extends BackendController
     {
         $model = new Pages();
 		$image = UploadedFile::getInstance($model, 'featured_image');
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
 			if($image != '')
 			{
 					$name = time();
 					$size = Yii::$app->params['folders']['size'];
-					$main_folder = Yii::$app->controller->id;
+					$main_folder = "pages";
 					$image_name= $this->uploadImage($image,$name,$main_folder,$size);
 					$model->featured_image = $image_name;
 			}
-            
+            $model->save();
 			Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Page has been created successfully!'));
 			 return $this->redirect(['index']);
         } else {
@@ -98,7 +98,7 @@ class PagesController extends BackendController
 					$name = time();
 				}
 				$size = Yii::$app->params['folders']['size'];
-				$main_folder = Yii::$app->controller->id;
+				$main_folder = "pages";
 
 				$image_name= $this->uploadImage($image,$name,$main_folder,$size);
 				$model->featured_image = $image_name;
@@ -124,10 +124,9 @@ class PagesController extends BackendController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+		Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Page has been Deleted successfully!'));
         return $this->redirect(['index']);
     }
-
     /**
      * Finds the Pages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
