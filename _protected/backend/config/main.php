@@ -21,20 +21,10 @@ return [
                 'baseUrl' => '@web/themes/admin',
             ],
         ],
-		'user' => [
-			'identityClass' => 'common\models\UserIdentity',
-			'enableAutoLogin' => true,
-			'identityCookie' => [
-				'name' => '_backendUser', // unique for frontend
-				'path'=>'/backend'  // correct path for the frontend app.
-			]
-		],
-		
-		'session' => [
-			'name' => '_backendSessionId', // unique for frontend
-			'savePath' => __DIR__ . '/../runtime', // a temporary folder on frontend
-		],	
-		
+        'user' => [
+            'identityClass' => 'common\models\UserIdentity',
+            'enableAutoLogin' => true,
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -48,13 +38,5 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
-	'modules' => [
-		'treemanager' =>  [
-			'class' => '\kartik\tree\Module',
-
-			// other module settings, refer detailed documentation
-		]			
-		
-	],	
     'params' => $params,
 ];
