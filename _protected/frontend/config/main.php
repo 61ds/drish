@@ -30,7 +30,6 @@ return [
                 'womens.html' => 'women/index',
                 'children.html' => 'children/index',
                 '/<slug:.*?>.html'=>'/site/page',
-                '/blog'=>'/site/blog',
 
 
             ),

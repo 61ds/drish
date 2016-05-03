@@ -64,7 +64,7 @@ class PagesController extends BackendController
 					$name = time();
 					$size = Yii::$app->params['folders']['size'];
 					$main_folder = Yii::$app->controller->id;
-					$image_name= $this->uploadImage($image,$name,$size);
+					$image_name= $this->uploadImage($image,$name,$main_folder,$size);
 					$model->featured_image = $image_name;
 			}
             
