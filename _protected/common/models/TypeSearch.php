@@ -39,7 +39,7 @@ class TypeSearch extends Category
      *
      * @return ActiveDataProvider
      */
-    public function search($id)
+    public function search($params,$id)
     {
        
 		if($id){

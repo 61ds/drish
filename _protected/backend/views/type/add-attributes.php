@@ -71,7 +71,7 @@ if(unserialize($category_attrs->slider_attributes)==null){
 				
             <div class="box">
 			<div class="box-body table-responsive">	
-			<div class="col-md-6">
+			<div class="col-md-12">
 				<div class="box-header">
 					<h3 class="box-title">General Attributes</h3>
 				</div>
@@ -114,49 +114,7 @@ if(unserialize($category_attrs->slider_attributes)==null){
 						],		
 						]); ?>
                 </div>
-				<div class="col-md-6">
-				<div class="box-header">
-					<h3 class="box-title">Slider Attributes</h3>
-				</div>
-						<?= GridView::widget([
-							'dataProvider' => $dataProvider2,
-							'columns' => [
-								['class' => 'yii\grid\SerialColumn','header'=>'S.No.'],
-								[
-								'attribute' => 'name',
-								'value' =>  function ($model) {return $model->name;},
-								'filter' => false,
-								],
-								[
-									'attribute' => 'status',
-									'value' => function ($model) use ($slider_attr_ids,$category) {
-										if (in_array($model->id,$slider_attr_ids )) {
-											return Html::a(Yii::t('app', 'Active'), null, [
-												'class' => 'btn btn-success attr-status',
-												'data-id' => $model->id,
-												'data-status' => 1,
-												'data-type' => 2,
-												'data-category' => $category->id,
-												'href' => 'javascript:void(0);',
-											]);
-										} else {
-											return Html::a(Yii::t('app', 'Inactive'), null, [
-												'class' => 'btn btn-danger attr-status',
-												'data-id' => $model->id,
-												'data-status' => 2,
-												'data-type' => 2,
-												'data-category' => $category->id,
-												'href' => 'javascript:void(0);',
-											]);
-										}
-									},
-									'contentOptions' => ['style' => 'width:160px;text-align:center'],
-									'format' => 'raw',
-									'filter'=>array("1"=>"Active","0"=>"Inactive"),
-								],
-						],		
-						]); ?>
-                </div>
+
                 </div>
             </div>
         </div>

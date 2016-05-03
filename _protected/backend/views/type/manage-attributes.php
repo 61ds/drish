@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = 'Value Sorting';
             </div>
             <div class="box">
 			<div class="box-body">	
-			<div class="col-md-6">
+			<div class="col-md-12">
 				<div class="box-header">
 					<h3 class="box-title">General Attributes</h3>
 				</div>
@@ -71,38 +71,7 @@ $this->params['breadcrumbs'][] = 'Value Sorting';
                 ?>
                    
                 </div>
-				<div class="col-md-6">
-				<div class="box-header">
-					<h3 class="box-title">Slider Attributes</h3>
-				</div>
-				<?php
-					if(count($slider_attrs)){
-				?>
-                    <ul data-id="<?=$id ?>" class="box-group" id="sortable2">
-                        <?php
-						
-							foreach($slider_attrs as $value){
-								?>
-								<li id="<?= $value->id ?>">
-									<i class="fa fa-arrows"></i>
-									<?= $value->name ?>
-								</li>
-								<?php
-							}
-				?>
-				    </ul>
-				<?php
-				    } else {
-					?>
-					<p style="margin-bottom:0px;">
-                        <span>No Attributes are found.</span>
-						<?= Html::a('Click here to add Attributes', ['add-attributes','id'=>$category->id], ['class' => '']) ?>
-                    </p>
-				<?php
-				    }
-                ?>
-                   
-                </div>
+
             </div>
         </div>
     </div>

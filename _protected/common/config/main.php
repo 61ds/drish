@@ -1,11 +1,11 @@
 <?php
 return [
-    'name' => 'My Company',
+    'name' => 'Drish',
     //'language' => 'sr',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
 	'bootstrap' => [
 		'common\config\settings',
-    ],		
+    ],	
     'components' => [
         'assetManager' => [
             'bundles' => [
@@ -41,20 +41,6 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-        ],
-        'i18n' => [
-            'translations' => [
-                'app*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/translations',
-                    'sourceLanguage' => 'en',
-                ],
-                'yii' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/translations',
-                    'sourceLanguage' => 'en'
-                ],
-            ],
         ],
         'eauth' => [
             'class' => 'nodge\eauth\EAuth',
@@ -94,25 +80,6 @@ return [
                 ],
             ],
         ],
-        'i18n' => [
-            'translations' => [
-                'eauth' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@eauth/messages',
-                ],
-            ],
-        ],
-
-        // (optionally) you can configure pretty urls
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                'login/<service:google|facebook|etc>' => 'site/login',
-            ],
-        ],
-
-        // (optionally) you can configure logging
         'log' => [
             'targets' => [
                 [
@@ -122,9 +89,46 @@ return [
                     'logVars' => [],
                 ],
             ],
+        ],		
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/translations',
+                    'sourceLanguage' => 'en',
+                ],
+                'yii' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/translations',
+                    'sourceLanguage' => 'en'
+                ],
+				'eauth' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@eauth/messages',
+                ],
+            ],
         ],
     ], // components
-
+	'modules' => [
+		'redactor' => [
+            'class' => 'yii\redactor\RedactorModule',
+            'uploadDir' => '@webroot/uploads/images',
+            'uploadUrl' => '@web/uploads/images',
+            'imageAllowExtensions'=>['jpg','png','gif']
+        ],
+		'treemanager' =>  [
+			'class' => '\kartik\tree\Module',
+			// other module settings, refer detailed documentation
+		],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+            // enter optional module parameters below - only if you need to
+            // use your own export download action or custom translation
+            // message source
+            // 'downloadAction' => 'gridview/export/download',
+            // 'i18n' => []
+        ]
+	],
     // set allias for our uploads folder so it can be shared by both frontend and backend applications
     // @appRoot alias is definded in common/config/bootstrap.php file
     'aliases' => [

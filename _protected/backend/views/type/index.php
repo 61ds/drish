@@ -6,8 +6,9 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\StatesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$id = $category->id;
-if($id){
+
+if($category){
+	$id = $category->id;
 	$this->params['breadcrumbs'][] = ['label' => 'Main Categories', 'url' => ['index']];
 	$parents = $category->parents();
 	if($parents->count()){
