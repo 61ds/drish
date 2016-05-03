@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\User;
 use common\models\LoginForm;
+use common\models\Pages;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -392,4 +393,11 @@ class SiteController extends Controller
 
         return $this->redirect('login');
     }
+	public function actionPage($slug){
+		$this->layout="page";
+		$page = Pages::find()->where(['slug' =>$slug ])->one();
+		return $this->render('page', [
+                'model' => $page,
+            ]);
+	}
 }
