@@ -32,6 +32,12 @@ class Product extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $category;
+    public $step;
+    public $general_attrs;
+    public $feat_image;
+
     public $featured_image;
     public static function tableName()
     {
@@ -44,11 +50,14 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'category_id', 'quantity', 'price', 'market_price', 'descr', 'short_descr'], 'required'],
+            [['name', 'category_id', 'article_id','sku','quantity', 'price', 'market_price', 'descr', 'short_descr'], 'required'],
             [['category_id', 'quantity', 'price', 'market_price', 'status', 'soldout', 'created_at', 'updated_at'], 'integer'],
             [['descr', 'short_descr', 'meta_description'], 'string'],
+            ['general_attrs', 'required',
+                'message' => 'Please select one option.'
+            ],
             [['name','sku','article_id'], 'string', 'max' => 110],
-            [['meta_title', 'meta_keyword'], 'string', 'max' => 255],
+            [['meta_title', 'meta_keyword','article_id','sku'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -73,18 +82,27 @@ class Product extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'category_id' => 'Category',
+            'category_id' => 'Category ID',
+            'varient_id' => 'Varient ID',
             'quantity' => 'Quantity',
             'price' => 'Price',
             'market_price' => 'Market Price',
             'descr' => 'Description',
             'short_descr' => 'Short Description',
+            'descr' => 'Descr',
+            'short_descr' => 'Short Descr',
+            'article_id' => 'Article id',
+            'sku' => 'SKU',
             'status' => 'Status',
+            'is_variant' => 'Is Variant',
             'soldout' => 'Soldout',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'meta_title' => 'Meta Title',
             'meta_description' => 'Meta Description',
             'meta_keyword' => 'Meta Keyword',
+            'article_id' => 'Article ID',
+            'sku' => 'Sku',
         ];
     }
 
@@ -95,8 +113,66 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
+
     public function getCategories(){
         $cat = Category::find()->where(['status' => 1])->orderBy('name')->all();
         return ArrayHelper::map($cat,'id','name');
     }
+
+    public function getProductDescValues()
+    {
+        return $this->hasMany(ProductDescValues::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductDropdownValues()
+    {
+        return $this->hasMany(ProductDropdownValues::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductImages()
+    {
+        return $this->hasMany(ProductImages::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductSliderValues()
+    {
+        return $this->hasMany(ProductSliderValues::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductTextValues()
+    {
+        return $this->hasMany(ProductTextValues::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVarientProducts()
+    {
+        return $this->hasMany(VarientProduct::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return ProductQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ProductQuery(get_called_class());
+    }
+
+
+
 }

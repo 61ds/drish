@@ -5,15 +5,27 @@ namespace backend\controllers;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
+use common\models\ProductForm;
+use common\models\Category;
+use common\models\Attributes;
+use common\models\ProductSliderValues;
+use common\models\ProductDropdownValues;
+use common\models\ProductImages;
+use common\models\DropdownValuesSearch;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\Response;
+use yii\helpers\ArrayHelper;
+use common\traits\ImageUploadTrait;
+use yii\web\UploadedFile;
 /**
  * ProductController implements the CRUD actions for Product model.
  */
 class ProductController extends BackendController
 {
+    use ImageUploadTrait;
     public function behaviors()
     {
         return [
@@ -60,19 +72,232 @@ class ProductController extends BackendController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($start=0)
     {
-        $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+		$session = Yii::$app->session;
+		if($start ==1){
+			$session->remove('category_id');
+			$session->remove('user_id');
+			$session->remove('last_selected_step');
+			$session->remove('selected_categories');
+
+		}
+        if (!$session->isActive){
+            // open a session
+            $session->open();
+        }
+
+        $model = new Product();
+        $ProductImagesModel = new ProductImages();
+        if(Yii::$app->request->isPost){
+
+            if(Yii::$app->request->post('step')=="sc"){
+                $selected_categories = Yii::$app->request->post('ProductForm')['category'];
+                $model->category_id = $selected_categories[count($selected_categories)-1];
+
+                //store sc data to session
+                $session->set('category_id', $model->category_id);
+                $session->set('last_selected_step', "sc");
+                $session->set('user_id', Yii::$app->user->identity->id);
+                $session->set('selected_categories', json_encode($selected_categories));
+
+                $categoryModel = Category::findOne($model->category_id);
+
+                if (($attrsModel = $categoryModel->categoryAttributes) === null) {
+                    $attrsModel = $categoryModel->createAttrsModel;
+                }
+
+                $general_added = unserialize($attrsModel->general_attributes);
+
+                $general_attrs = array();
+                foreach($general_added as $attr){
+                    $general_attrs[] = Attributes::findOne(['id'=>$attr]);
+                }
+                $ProductImagesModel = new ProductImages();
+                return $this->render('addproduct', [
+                    'model' => $model,
+                    'general_attrs' => $general_attrs,
+                    'dropdownmodel' => new DropdownValuesSearch(),
+                    'category' => $categoryModel,
+                    'ProductImagesModel' => $ProductImagesModel,
+
+                ]);
+
+            }else if(Yii::$app->request->post('step')=="pbi"){
+
+                $main_image = UploadedFile::getInstance($ProductImagesModel, 'main_image');
+
+                $flip_image = UploadedFile::getInstance($ProductImagesModel, 'flip_image');
+                $other_images = UploadedFile::getInstances($ProductImagesModel, 'other_image');
+
+                //product save
+                if($model->load(Yii::$app->request->post())){
+                    $model->category_id = $session->get('category_id');
+
+                    if($model->save()){
+
+                        //save dropdown values
+                        foreach($model->general_attrs as $gen_attrs){
+                            $ProductDropdownValues = new ProductDropdownValues;
+                            $ProductDropdownValues->product_id = $model->id;
+                            $ProductDropdownValues->value_id = $gen_attrs;
+                            $ProductDropdownValues->save();
+                        }
+
+
+                        $ProductImagesModel->product_id = $model->id;
+                        //save main image
+                        if($main_image)
+                        {
+                            $name = time().$model->id;
+                            $size = Yii::$app->params['folders']['size'];
+                            $main_folder = "product/main/".$model->id;
+                            $image_name= $this->uploadImage($main_image,$name,$main_folder,$size);
+                            $ProductImagesModel->main_image = $image_name;
+                        }
+                        if($flip_image)
+                        {
+                            $name = time().$model->id;
+                            $size = Yii::$app->params['folders']['size'];
+                            $main_folder = "product/flip/".$model->id;
+                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size);
+                            $ProductImagesModel->flip_image = $image_name;
+                        }
+                        //save all other images
+                        if($other_images)
+                        {
+
+                            $prod_otherimages = array();
+                            foreach($other_images as $other_image){
+
+                                $name = time().$model->id;
+                                $size = Yii::$app->params['folders']['size'];
+                                $main_folder = "product/other/".$model->id;
+                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size);
+                                $prod_otherimages[] = $image_name;
+                            }
+                            $ProductImagesModel->other_image = serialize($prod_otherimages);
+                        }
+                        $ProductImagesModel->save();
+
+                    }else{
+                        print_r($model->getErrors());
+                        die;
+                    }
+                }else{
+                    print_r($model->getErrors());
+                    die;
+                }
+                $session->remove('category_id');
+                $session->remove('user_id');
+                $session->remove('last_selected_step');
+                $session->remove('selected_categories');
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! your product is successfully created and sent to admin for approval."));
+                $model = new ProductForm();
+                return $this->render('select-category', [
+                    'model' => $model,
+                ]);
+            }
+
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+
+            if ($session->has('last_selected_step')){
+
+                $selected_categories = json_decode($session->get('selected_categories'));
+
+                //update previous product
+                if($session->get('last_selected_step')=="sc"){
+                    if(Yii::$app->user->identity->id !== $session->get('user_id')){
+                        return $this->redirect(['select-category']);
+                    }
+                    $model->category_id = $session->get('category_id');
+
+                    $categoryModel = Category::findOne($model->category_id);
+
+                    if (($attrsModel = $categoryModel->categoryAttributes) === null) {
+                        $attrsModel = $categoryModel->createAttrsModel;
+                    }
+
+                    $general_added = unserialize($attrsModel->general_attributes);
+
+                    $general_attrs = array();
+                    foreach($general_added as $attr){
+                        $general_attrs[] = Attributes::findOne(['id'=>$attr]);
+                    }
+
+                    $ProductImagesModel = new ProductImages();
+                    return $this->render('addproduct', [
+                        'model' => $model,
+                        'general_attrs' => $general_attrs,
+                        'dropdownmodel' => new DropdownValuesSearch,
+                        'category' => $categoryModel,
+                        'ProductImagesModel' => $ProductImagesModel,
+                    ]);
+
+                }else if($session->get('last_selected_step')=="pbi"){
+                    $selected_categories = Yii::$app->request->post('ProductForm')['category'];
+                    $model->category_id = $selected_categories[count($selected_categories)-1];
+
+                    //store sc data to session
+                    $session->set('category_id', $model->category_id);
+                    $session->set('user_id', Yii::$app->user->identity->id);
+
+                    $categoryModel = Category::findOne($model->category_id);
+                    if (($attrsModel = $categoryModel->categoryAttributes) === null) {
+                        $attrsModel = $categoryModel->createAttrsModel;
+                    }
+                    $general_added = unserialize($attrsModel->general_attributes);
+                    $general_attrs = array();
+                    foreach($general_added as $attr){
+                        $general_attrs[] = Attributes::findOne(['id'=>$attr]);
+                    }
+
+                    $ProductImagesModel = new ProductImages();
+                    return $this->render('addproduct', [
+                        'model' => $model,
+                        'general_attrs' => $general_attrs,
+                        'dropdownmodel' => new DropdownValuesSearch,
+                        'category' => $categoryModel,
+                        'ProductImagesModel' => $ProductImagesModel,
+                    ]);
+
+                }
+            }else{
+                //add new product
+                $model = new ProductForm();
+                $session->remove('category_id');
+                $session->remove('user_id');
+                $session->remove('last_selected_step');
+                $session->remove('selected_categories');
+                return $this->render('select-category', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 
+    public function actionSubcategories($id)
+    {
+        $model = new ProductForm();
+        $result = $model->getCategories($id);
+        $count = $model->getCategoriesCount($id);
+        if($count){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'result' => $result,
+                'count' => $count,
+            ];
+        } else {
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'result' => $result,
+                'count' => $count,
+            ];
+        }
+
+    }
     /**
      * Updates an existing Product model.
      * If update is successful, the browser will be redirected to the 'view' page.

@@ -48,7 +48,15 @@
 
                         ],
                     ],
-
+                    [
+                        'label' => 'Product Management',
+                        'icon' => 'fa fa-sitemap',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'All products', 'icon' => 'fa fa-angle-right', 'url' => ['/product'],'active' => ($this->context->route == 'product/index'),],
+                            ['label' => 'Add products', 'icon' => 'fa fa-angle-right', 'url' => ['/product/create'],'active' => ($this->context->route == 'product/create'),],
+                        ],
+                    ],
                     [
                         'label' => 'Category Management',
                         'icon' => 'fa fa-sitemap',

@@ -96,6 +96,7 @@ class Category extends \kartik\tree\models\Tree
         $model = CategoryAttributes::findOne(['category_id' => $this->id]);
         return $model;
     }
+
     public function getCreateAttrsModel()
     {
         $model = new CategoryAttributes();
@@ -104,6 +105,9 @@ class Category extends \kartik\tree\models\Tree
         $model->slider_attributes = serialize(array());
         $model->save();
         return $model;
+    }
+    public function getCategories($id){
+
     }
     /**
      * @inheritdoc
