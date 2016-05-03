@@ -2,10 +2,9 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
-use yii\web\Controller;
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use Yii;
 
 /**
  * Site controller.
@@ -13,13 +12,42 @@ use Yii;
  */
 class SiteController extends BackendController
 {
+    /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
 
     /**
      * Declares external actions for the controller.
      *
      * @return array
      */
-    public $profile;
     public function actions()
     {
         return [
@@ -28,15 +56,7 @@ class SiteController extends BackendController
             ],
         ];
     }
-    public function behaviors() {
-        return [
-            'eauth' => [
-                // required to disable csrf validation on OpenID requests
-                'class' => \nodge\eauth\openid\ControllerBehavior::className(),
-                'only' => ['login'],
-            ],
-        ];
-    }
+
     /**
      * Displays the index (home) page.
      * Use it in case your home page contains static content.
@@ -56,43 +76,11 @@ class SiteController extends BackendController
      */
     public function actionLogin()
     {
-
-
         if (!Yii::$app->user->isGuest) 
         {
             return $this->goHome();
         }
-        $serviceName = Yii::$app->getRequest()->getQueryParam('service');
-        if (isset($serviceName)) {
-            /** @var $eauth \nodge\eauth\ServiceBase */
-            $eauth = Yii::$app->get('eauth')->getIdentity($serviceName);
-            $eauth->setRedirectUrl(Yii::$app->getUser()->getReturnUrl());
-            $eauth->setCancelUrl(Yii::$app->getUrlManager()->createAbsoluteUrl('site/login'));
 
-            try {
-                if ($eauth->authenticate()) {
-//                  var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes()); exit;
-
-                    $identity = User::findByEAuth($eauth);
-                    Yii::$app->getUser()->login($identity);
-
-                    // special redirect with closing popup window
-                    $eauth->redirect();
-                }
-                else {
-                    // close popup window and redirect to cancelUrl
-                    $eauth->cancel();
-                }
-            }
-            catch (\nodge\eauth\ErrorException $e) {
-                // save error to show it later
-                Yii::$app->getSession()->setFlash('error', 'EAuthException: '.$e->getMessage());
-
-                // close popup window and redirect to cancelUrl
-//              $eauth->cancel();
-                $eauth->redirect($eauth->getCancelUrl());
-            }
-        }
         // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
@@ -100,11 +88,9 @@ class SiteController extends BackendController
         $lwe ? $model = new LoginForm(['scenario' => 'lwe']) : $model = new LoginForm() ;
 
         // everything went fine, log in the user
-        if ($model->load(Yii::$app->request->post()) && $model->login()) 
+        if ($model->load(Yii::$app->request->post()) && $model->login('admin'))
         {
-
-			return $this->goHome();
-
+            return $this->goBack();
         } 
         // errors will be displayed
         else 
@@ -125,29 +111,5 @@ class SiteController extends BackendController
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-    public static function findIdentity($id) {
-        if (Yii::$app->getSession()->has('user-'.$id)) {
-            return new self(Yii::$app->getSession()->get('user-'.$id));
-        }
-        else {
-            return isset(self::$users[$id]) ? new self(self::$users[$id]) : null;
-        }
-    }
-    public static function findByEAuth($service) {
-        if (!$service->getIsAuthenticated()) {
-            throw new ErrorException('EAuth user should be authenticated before creating identity.');
-        }
-
-        $id = $service->getServiceName().'-'.$service->getId();
-        $attributes = [
-            'id' => $id,
-            'username' => $service->getAttribute('name'),
-            'authKey' => md5($id),
-            'profile' => $service->getAttributes(),
-        ];
-        $attributes['profile']['service'] = $service->getServiceName();
-        Yii::$app->getSession()->set('user-'.$id, $attributes);
-        return new self($attributes);
     }
 }

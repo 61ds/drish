@@ -3,10 +3,12 @@ namespace backend\controllers;
 
 use common\models\User;
 use common\models\UserSearch;
+use common\models\AmbsOnboarding;
+use common\models\AmbassadorProfile;
 use common\rbac\models\Role;
+use Yii;
 use yii\base\Model;
 use yii\web\NotFoundHttpException;
-use Yii;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -53,8 +55,9 @@ class UserController extends BackendController
     public function actionCreate()
     {
         $user = new User(['scenario' => 'create']);
+        $user->chapter_id = 0;
         $role = new Role();
-		
+
         if ($user->load(Yii::$app->request->post()) && 
             $role->load(Yii::$app->request->post()) &&
             Model::validateMultiple([$user, $role]))
@@ -76,6 +79,76 @@ class UserController extends BackendController
                 'user' => $user,
                 'role' => $role,
             ]);
+        }
+    }
+
+    public function actionCreateAmbassador($id = 0)
+    {   $user = new User(['scenario' => 'create']);
+        $role = new Role();
+
+        if ($user->load(Yii::$app->request->post()) &&
+            $role->load(Yii::$app->request->post()) &&
+            Model::validateMultiple([$user, $role]))
+        {
+            $user->setPassword($user->password);
+            $user->generateAuthKey();
+
+            if ($user->save())
+            {
+                $role->user_id = $user->getId();
+                $role->save();
+                if($id != 0){
+                    $data = AmbsOnboarding::findOne($id);
+                    $data->updateAttributes(['approved' => 1]);
+
+                    $ambas_model = new AmbassadorProfile;
+
+                    foreach($data as $key => $value){
+                        if($key != 'id' && $key != "approved" && $key != "created_at" && $key != "updated_at")
+                            $ambas_model->$key =  $value;
+                    }
+                    $ambas_model->user_id =  $user->id;
+                    $ambas_model->onboarding_id =  $data->id;
+
+                    $ambas_model->save();
+
+
+
+                }
+
+            }
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Ambassdor has been Created successfully!'));
+            return $this->redirect(['update', 'id' => $user->id]);
+        }
+        else
+        {
+            if($id != 0){
+                $data = AmbsOnboarding::findOne($id);
+
+                if($data){
+                    $user->email =  $data->email;
+                    $user->chapter_id =  $data->chapter;
+                    return $this->render('create-ambassador', [
+                        'user' => $user,
+                        'role' => $role,
+                        'board' => $data,
+                    ]);
+                }else{
+                    return $this->render('create-ambassador', [
+                        'user' => $user,
+                        'role' => $role,
+                    ]);
+                }
+
+            }else{
+                $data = AmbsOnboarding::findOne($id);
+                return $this->render('create-ambassador', [
+                    'user' => $user,
+                    'role' => $role,
+                    'board' => $data,
+                ]);
+            }
+
         }
     }
 
@@ -123,16 +196,41 @@ class UserController extends BackendController
             }            
 
             $user->save(false);
-            $role->save(false); 
-            
-            return $this->redirect(['view', 'id' => $user->id]);
+            $role->save(false);
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Profile updated successfully!'));
+
+            return $this->redirect(['update', 'id' => $user->id]);
         }
         else 
         {
-            return $this->render('update', [
-                'user' => $user,
-                'role' => $role,
-            ]);
+            if($role->item_name == "ambassador") {
+                if($id != 0){
+                    $data = AmbassadorProfile::find()->where(['user_id' =>  $user->id])->one();
+
+                    if($data){
+                        $user->email =  $data->email;
+                        $user->chapter_id =  $data->chapter;
+                        return $this->render('updateambassador', [
+                            'user' => $user,
+                            'role' => $role,
+                            'board' => $data,
+                        ]);
+                    }else{
+                        return $this->render('create-ambassador', [
+                            'user' => $user,
+                            'role' => $role,
+                        ]);
+                    }
+
+                }
+
+            }else {
+
+                return $this->render('update', [
+                    'user' => $user,
+                    'role' => $role,
+                ]);
+            }
         }
     }
 
@@ -147,6 +245,14 @@ class UserController extends BackendController
      */
     public function actionDelete($id)
     {
+
+        $data = AmbassadorProfile::find()->where(['user_id'=>$id])->one();
+
+        $data1 = AmbsOnboarding::findOne($data->onboarding_id);
+		if($data1){
+			$data1->updateAttributes(['approved' => 0]);
+			$data->delete();
+		}
         $this->findModel($id)->delete();
 
         // delete this user's role from auth_assignment table
