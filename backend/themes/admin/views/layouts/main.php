@@ -5,7 +5,7 @@ use yii\web\View;
 /* @var $content string */
 
 
-$this->registerJs("var current_url = ".json_encode(Yii::$app->request->absoluteUrl).";var controller =".json_encode(Yii::$app->controller->id).";var baseurl = ".json_encode(Yii::$app->request->baseUrl).";", View::POS_END);
+$this->registerJs("var current_url = ".json_encode(Yii::$app->request->absoluteUrl).";var controller =".json_encode(Yii::$app->controller->id).";var themepath = ".json_encode(Yii::$app->view->theme->baseUrl).";var baseurl = ".json_encode(Yii::$app->request->baseUrl).";", View::POS_END);
 
 
 if (Yii::$app->controller->action->id === 'login') { 

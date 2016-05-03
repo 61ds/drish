@@ -38,7 +38,7 @@ class TypeController extends BackendController
     public function actionIndex($id=0)
     {
         $searchModel = new TypeSearch();
-        $dataProvider = $searchModel->search($id);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
 
         return $this->render('index', [
 			'category' => Category::findOne(['id'=>$id]),

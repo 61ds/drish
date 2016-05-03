@@ -55,8 +55,8 @@ class BackendController extends Controller
                         'roles' => ['admin','theCreator'],						
                     ],					
                     [
-                        'controllers' => ['pages','category'],
-                        'actions' => ['index', 'create','update','update-any-status','manage','save','remove','move'],
+                        'controllers' => ['pages','category','type'],
+                        'actions' => ['index', 'create','update','update-any-status','manage','save','remove','move','delete'],
                         'allow' => true,
                         'roles' => ['admin','theCreator'],
                     ],		
