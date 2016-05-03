@@ -20,6 +20,21 @@ return [
                 'baseUrl' => '@web/themes/drish',
             ],
         ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => array(
+                '/' => 'site/index',
+                'mens.html' => 'men/index',
+                'womens.html' => 'women/index',
+                'children.html' => 'children/index',
+                '/<slug:.*?>.html'=>'/site/page',
+                '/blog'=>'/site/blog',
+
+
+            ),
+        ],
         'user' => [
             'identityClass' => 'common\models\UserIdentity',
             'enableAutoLogin' => true,

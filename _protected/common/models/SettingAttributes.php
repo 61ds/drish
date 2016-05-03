@@ -170,7 +170,7 @@ class SettingAttributes extends \yii\db\ActiveRecord
 			
 		foreach($data as $data1){
 				
-			if($data1->input_type==1 || $data1->input_type==2){
+			if($data1->input_type==1 || $data1->input_type==2 || $data1->input_type==6){
 				$text_model = new SettingTextValues;
 				$item_data = $text_model->find()->where(['setting_attribute_id'=>$data1->id])->one();
 				if($item_data != ""){

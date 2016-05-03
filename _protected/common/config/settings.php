@@ -25,14 +25,14 @@ class settings implements BootstrapInterface {
 
     public function bootstrap($app) {
 		$setting_model = new SettingAttributes();
-		$set_id = array(1,2,3,4);
+		$set_id = array(1,2,3,4,5);
 		foreach($set_id as $set_id1){
 			$setting_models = $setting_model->getSiteInfo($set_id1);
-			
+			//echo"<pre>";print_r($setting_models);
 			foreach ($setting_models as $key => $val) {
 				Yii::$app->params['settings'][$key] = $val;
 			}				
-		}
+		}//die;
 		Yii::$app->params['adminEmail'] = Yii::$app->params['settings']['admin_mail'];
 		Yii::$app->params['siteName'] = Yii::$app->params['settings']['site_meta_title'];
 

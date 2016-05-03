@@ -26,13 +26,19 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@themes';
-    
+
     public $css = [
-        'css/site.css',
+        'css/jquery.fullPage.css',
+        'css/bootstrap.min.css',
+        'css/style.css',
+        'css/responsive.css',
     ];
     public $js = [
+        'http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js',
+        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js',
+        'js/jquery.fullPage.js',
     ];
-    
+
     public $depends = [
         'yii\web\YiiAsset',
     ];
