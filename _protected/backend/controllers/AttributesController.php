@@ -140,7 +140,7 @@ class AttributesController extends BackendController
     {
         if (($model = DropdownValues::findOne($id)) !== null) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['update-attr-value', 'id' => $model->id]);
             } else {
                 return $this->render('update-attr-value', [
                     'model' => $model,
