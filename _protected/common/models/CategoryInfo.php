@@ -37,7 +37,7 @@ class CategoryInfo extends \yii\db\ActiveRecord
             [['cat_id'], 'required'],
             [['cat_id'], 'integer'],
             [['descr', 'meta_descr', 'meta_key'], 'string'],
-            [['banner', 'image', 'meta_title'], 'string', 'max' => 255],
+            [['banner', 'video','image', 'meta_title'], 'string', 'max' => 255],
             [['cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['cat_id' => 'id']],
         ];
     }
@@ -53,6 +53,7 @@ class CategoryInfo extends \yii\db\ActiveRecord
             'descr' => 'Descr',
             'banner' => 'Banner',
             'image' => 'Image',
+            'video' => 'Featured Video',
             'meta_title' => 'Meta Title',
             'meta_descr' => 'Meta Descr',
             'meta_key' => 'Meta Key',

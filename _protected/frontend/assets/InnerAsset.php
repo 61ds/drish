@@ -38,7 +38,7 @@ class InnerAsset extends AssetBundle
         'css/jquery.mmenu.all.css',
     ];
     public $js = [
-        'js/jquery.min.js',
+
         'js/jquery.bxslider.min.js',
         'js/custom.js',
         'js/modernizr.custom.js',

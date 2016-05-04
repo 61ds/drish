@@ -45,7 +45,15 @@ if($node->banner != ''){
 			],
 		]
 	]) ?>
-
+	<?= $form->field($node, 'video')->widget(FileInput::classname(),
+	[
+		'options' => ['accept' => 'video/*','value' => ''],
+		'pluginOptions' => [
+			'showCaption' => false,
+			'showRemove' => true,
+			'showUpload' => false,
+		]
+	]) ?>
 <?= $form->field($node, 'banner')->widget(FileInput::classname(),
 	[
 		'options' => ['accept' => 'image/*', 'value' => $node->banner],

@@ -39,6 +39,7 @@ class Category extends \kartik\tree\models\Tree
     public $meta_descr;
     public $meta_title;
     public $banner;
+    public $video;
     /**
      * @inheritdoc
      */
@@ -56,7 +57,7 @@ class Category extends \kartik\tree\models\Tree
         $rules[] = ['descr', 'safe'];
         $rules[] = ['slug', 'string'];
         $rules[] = ['status', 'integer'];
-        $rules[] = [['image','banner','meta_descr','meta_title'], 'safe'];
+        $rules[] = [['image','banner','video','meta_descr','meta_title'], 'safe'];
 
         return $rules;
     }

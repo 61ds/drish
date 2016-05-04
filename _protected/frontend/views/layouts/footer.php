@@ -42,13 +42,7 @@ use frontend\widgets\FooterMenu;
 								  <li><a href="<?= Yii::$app->params['settings']['youtube'] ?>"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
 							<?php } ?>
 							
-							
-                           
-                            
-                             
-							
-                           
-                          
+
                         </ul>
                     </div><!--end foot-social-->
 					 <a href="<?= Yii::$app->homeUrl ?>" class="f-logo-m"><img src="<?= Yii::$app->homeUrl ?>uploads/settings/main/<?= Yii::$app->params['settings']['innerlogo'] ?>" alt="Drish" class="img-responsive foot-logo"></a>

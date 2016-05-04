@@ -2,6 +2,30 @@
 
 		$(document).ready(function(){
 
+			$('nav#menu').mmenu({
+				extensions	: [ 'effect-slide-menu', 'pageshadow' ],
+				searchfield	: true,
+				counters	: true,
+				navbar 		: {
+					title		: 'Menu'
+				},
+				navbars		: [
+					{
+						position	: 'top',
+						content		: [ 'searchfield' ]
+					}, {
+						position	: 'top',
+						content		: [
+							'prev',
+							'title',
+							'close'
+						]
+					}
+				]
+			});
+
+
+
 			$("body").show();
 
 			if($(".address li span").length){
