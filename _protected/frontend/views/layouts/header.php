@@ -1,3 +1,6 @@
+<?php
+use frontend\widgets\HomeMenuMain;
+?>
  <div class="free-shipping">
                <div class="container-fluid">
                   <div class="row">
