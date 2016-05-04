@@ -36,7 +36,7 @@ if($category){
 					<?= GridView::widget([
 						'dataProvider' => $dataProvider,
 						'columns' => [
-							['class' => 'yii\grid\SerialColumn'],
+							['class' => 'yii\grid\SerialColumn','header'=>"Sr. No."],
 
 							'name',
 							[

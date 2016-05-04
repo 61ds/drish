@@ -36,6 +36,7 @@ class Product extends \yii\db\ActiveRecord
     public $category;
     public $step;
     public $general_attrs;
+    public $optional_attrs;
     public $feat_image;
 
     public $featured_image;
@@ -56,6 +57,7 @@ class Product extends \yii\db\ActiveRecord
             ['general_attrs', 'required',
                 'message' => 'Please select one option.'
             ],
+            [['optional_attrs'], 'safe'],
             [['name','sku','article_id'], 'string', 'max' => 110],
             [['meta_title', 'meta_keyword','article_id','sku'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
@@ -173,6 +175,12 @@ class Product extends \yii\db\ActiveRecord
         return new ProductQuery(get_called_class());
     }
 
+	public function getSpecialProducts()
+    {
 
+        $product = $this->find()->where(['status' => 1])->orderBy('name')->all();
+		
+        return ArrayHelper::map($product,'id','name');
+    }
 
 }

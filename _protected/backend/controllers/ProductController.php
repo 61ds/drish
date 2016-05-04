@@ -12,6 +12,8 @@ use common\models\ProductSliderValues;
 use common\models\ProductDropdownValues;
 use common\models\ProductImages;
 use common\models\DropdownValuesSearch;
+use common\models\ProductTextValues;
+use common\models\ProductDescValues;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -89,6 +91,7 @@ class ProductController extends BackendController
         }
 
         $model = new Product();
+        $product_model = Product::find()->where(['status' => 1])->all();
         $ProductImagesModel = new ProductImages();
         if(Yii::$app->request->isPost){
 
@@ -121,6 +124,7 @@ class ProductController extends BackendController
                     'dropdownmodel' => new DropdownValuesSearch(),
                     'category' => $categoryModel,
                     'ProductImagesModel' => $ProductImagesModel,
+                    'product_model' => $product_model,
 
                 ]);
 
@@ -134,15 +138,52 @@ class ProductController extends BackendController
                 //product save
                 if($model->load(Yii::$app->request->post())){
                     $model->category_id = $session->get('category_id');
-
+					$model->related = serialize(Yii::$app->request->post('related'));
+					$special =Yii::$app->request->post('Product');
+					$model->special = $special['special'];
                     if($model->save()){
-
+						
                         //save dropdown values
-                        foreach($model->general_attrs as $gen_attrs){
-                            $ProductDropdownValues = new ProductDropdownValues;
+                        foreach($model->general_attrs as $key=>$gen_attrs){
+							
+							$check_type =  Attributes::find()->where(['id'=>$key])->one();
+							if($check_type->entity_id == 2){
+								$ProductDropdownValues = new ProductDropdownValues;
+								$ProductDropdownValues->value_id = $gen_attrs;
+							}elseif($check_type->entity_id == 4){
+								$ProductDropdownValues = new ProductDescValues;
+								$ProductDropdownValues->value = $gen_attrs;
+								$ProductDropdownValues->attr_id = $key;
+								$ProductDropdownValues->status = 1;
+							}elseif($check_type->entity_id == 1){
+								$ProductDropdownValues = new ProductTextValues;
+								$ProductDropdownValues->value = $gen_attrs;
+								$ProductDropdownValues->attr_id = $key;
+								$ProductDropdownValues->status = 1;
+							}
                             $ProductDropdownValues->product_id = $model->id;
-                            $ProductDropdownValues->value_id = $gen_attrs;
                             $ProductDropdownValues->save();
+                        }
+						 foreach($model->optional_attrs as $key=>$optional_attrs){
+							$check_type =  Attributes::find()->where(['id'=>$key])->one();
+							if($check_type->entity_id == 2){
+								$ProductDropdownValues = new ProductDropdownValues;
+								$ProductDropdownValues->value_id = $optional_attrs;
+							}elseif($check_type->entity_id == 4){
+								$ProductDropdownValues = new ProductDescValues;
+								$ProductDropdownValues->value = $optional_attrs;
+								$ProductDropdownValues->status = 1;
+								$ProductDropdownValues->attr_id = $key;
+							}elseif($check_type->entity_id == 1){
+								$ProductDropdownValues = new ProductTextValues;
+								$ProductDropdownValues->value = $optional_attrs;
+								$ProductDropdownValues->status = 1;
+								$ProductDropdownValues->attr_id = $key;
+							}
+                            
+                            $ProductDropdownValues->product_id = $model->id;
+                             $ProductDropdownValues->save();
+							
                         }
 
 
@@ -225,7 +266,6 @@ class ProductController extends BackendController
                     foreach($general_added as $attr){
                         $general_attrs[] = Attributes::findOne(['id'=>$attr]);
                     }
-
                     $ProductImagesModel = new ProductImages();
                     return $this->render('addproduct', [
                         'model' => $model,
@@ -233,6 +273,7 @@ class ProductController extends BackendController
                         'dropdownmodel' => new DropdownValuesSearch,
                         'category' => $categoryModel,
                         'ProductImagesModel' => $ProductImagesModel,
+						'product_model' => $product_model,
                     ]);
 
                 }else if($session->get('last_selected_step')=="pbi"){
@@ -252,7 +293,11 @@ class ProductController extends BackendController
                     foreach($general_added as $attr){
                         $general_attrs[] = Attributes::findOne(['id'=>$attr]);
                     }
-
+                    $general_added = unserialize($attrsModel->optional_attributes);
+                    $optional_attrs = array();
+                    foreach($general_added as $attr){
+                        $general_attrs[] = Attributes::findOne(['id'=>$attr]);
+                    }
                     $ProductImagesModel = new ProductImages();
                     return $this->render('addproduct', [
                         'model' => $model,
@@ -260,6 +305,7 @@ class ProductController extends BackendController
                         'dropdownmodel' => new DropdownValuesSearch,
                         'category' => $categoryModel,
                         'ProductImagesModel' => $ProductImagesModel,
+						'product_model' => $product_model,
                     ]);
 
                 }

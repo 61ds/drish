@@ -39,8 +39,8 @@ class ProductForm extends Model
         return [
             [['category'], 'required'],
             [['seller_id', 'category_id', 'quantity', 'price', 'market_price', 'status', 'soldout'], 'integer'],
-            [['description'], 'string'],
-            [['name'], 'string', 'max' => 110],
+            [['description','related'], 'string'],
+            [['name','special'], 'string', 'max' => 110],
         ];
     }
 
@@ -62,6 +62,7 @@ class ProductForm extends Model
             'soldout' => 'Soldout',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'special' => 'Special Product',
         ];
     }
 	
@@ -129,4 +130,5 @@ class ProductForm extends Model
     {
         return new ProductQuery(get_called_class());
     }
+
 }

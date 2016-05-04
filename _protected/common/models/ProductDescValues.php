@@ -32,9 +32,8 @@ class ProductDescValues extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'product_id', 'attr_id', 'status'], 'integer'],
+            [['product_id', 'attr_id', 'status'], 'integer'],
             [['product_id', 'attr_id', 'value'], 'required'],
-            [['value'], 'number'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['attr_id'], 'exist', 'skipOnError' => true, 'targetClass' => Attributes::className(), 'targetAttribute' => ['attr_id' => 'id']],
         ];
@@ -46,7 +45,6 @@ class ProductDescValues extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'product_id' => 'Product ID',
             'attr_id' => 'Attr ID',
             'value' => 'Value',
