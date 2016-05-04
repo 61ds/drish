@@ -132,7 +132,8 @@ class SettingAttributesController extends Controller
 							
 						}
 				}
-				foreach($_FILES['SettingTextValues']['name']['video'] as $keys => $values){
+				if(isset($_FILES['SettingTextValues']['name']['video'])){
+					foreach($_FILES['SettingTextValues']['name']['video'] as $keys => $values){
 
 						$text_model = new SettingTextValues;
 						$get_value = $text_model->find()->where(['setting_id'=> $set_id , 'setting_attribute_id' =>$keys])->one();
@@ -186,6 +187,7 @@ class SettingAttributesController extends Controller
 							}
 							
 						}
+					}
 				}
 			}
 			

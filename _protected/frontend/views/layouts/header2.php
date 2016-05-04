@@ -1,3 +1,7 @@
+<?php
+use frontend\widgets\HomeMenuLeft;
+?>
+
 <div class="slide-content">
                   <!--header start-->
                   <header class="slider_top">
@@ -72,14 +76,7 @@
                         <!--end row-->
                         <div class="row">
                            <div class="col-lg-12">
-                              <ul class="shop-txt">
-                                 <li> <a href="#">Shop</a></li>
-                                 <li> <a href="#">Customize</a></li>
-                                 <li> <a href="our-story.html">Our Story</a></li>
-                                 <li> <a href="foot-health-children.html">Foot Health</a></li>
-                                 <li> <a href="#">Customer Diaries</a></li>
-                                 <li> <a href="#">Community</a></li>
-                              </ul>
+						   <?= HomeMenuLeft::widget([ 'id'=>26 ]) ?> 
                            </div>
                            <!--end col-lg-12-->
                         </div>

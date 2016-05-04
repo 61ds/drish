@@ -1,0 +1,1 @@
+<?php use yii\helpers\Url;	echo' <ul class="shop-txt">';foreach($menus as $menu){		 ?>			<li><a href="<?= Yii::$app->homeUrl.$menu['link'] ?>" ><?= $menu['name'] ?></a></li>          		<?php		}echo'</ul>';	?>
