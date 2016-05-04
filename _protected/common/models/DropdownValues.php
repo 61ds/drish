@@ -35,7 +35,7 @@ class DropdownValues extends \yii\db\ActiveRecord
             [['name', 'attribute_id'], 'required'],
             [['attribute_id', 'sort_order', 'status'], 'integer'],
             ['name', 'unique', 'targetAttribute' => ['name', 'attribute_id']],
-            [['name'], 'string', 'max' => 50]
+            [['name','displayname'], 'string', 'max' => 50]
         ];
     }
 
@@ -48,6 +48,7 @@ class DropdownValues extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'attribute_id' => 'Attribute ID',
+            'display_name' => 'Display Name',
             'sort_order' => 'Sort Order',
             'status' => 'Status',
         ];

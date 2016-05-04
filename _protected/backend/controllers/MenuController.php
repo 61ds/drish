@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Category;
 use Yii;
 use common\models\Menu;
 use common\models\Pages;
@@ -121,7 +122,28 @@ class MenuController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-	
+    public function actionTermValue($slug,$type)
+    {
+        $search_results = '';
+        if($type == 1){
+            $menutype = Pages::find()->where(['slug' => $slug])->one();
+            if(count($menutype) > 0) {
+               $search_results = $menutype->id;
+            }
+        }elseif($type == 3){
+            $menutype = Category::find()->where(['slug' => $slug])->one();
+            if(count($menutype) > 0) {
+                $search_results = $menutype->id;
+            }
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'result'=>$search_results,
+        ];
+
+
+    }
 	public function actionValues($id=0)
 	{
 		$search_results = '';		
@@ -133,7 +155,17 @@ class MenuController extends Controller
 				   $search_results .= "<option value='".$links->slug."'>".$links->name."</option>";
 				}
 			}			
-		}
+		}elseif($id == 3){
+            $menutype = Category::find()->where(['lvl'=>0])->all();
+
+            if(count($menutype) > 0) {
+                $search_results .= "<option value=''>-Select Category-</option>";
+                foreach($menutype as $links){
+                    $search_results .= "<option value='".$links->slug."'>".$links->name."</option>";
+                }
+            }
+        }
+
 		Yii::$app->response->format = Response::FORMAT_JSON;
 		return [
 			'result'=>$search_results,

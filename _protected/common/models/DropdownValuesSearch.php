@@ -19,7 +19,7 @@ class DropdownValuesSearch extends DropdownValues
     {
         return [
             [['id', 'attribute_id', 'sort_order', 'status'], 'integer'],
-            [['name'], 'safe'],
+            [['name','displayname'], 'safe'],
         ];
     }
 
@@ -66,6 +66,7 @@ class DropdownValuesSearch extends DropdownValues
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'displayname', $this->displayname]);
 
         return $dataProvider;
     }

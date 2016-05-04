@@ -11,28 +11,10 @@ use frontend\widgets\HomeMenuMain;
                            <span class="menu-text">Menu</span>
                         </div>
                         <nav id="menu">
-                           <ul>
-                              <li>
-                                 <a href="#about">Shop</a>
-                                 <ul>
-                                    <li>
-                                       <a href="mens.html">Man</a>
-                                       <ul>
-                                          <li><a href="category.html">Shoes</a></li>
-                                          <li><a href="#about/team/sales">Bags</a></li>
-                                          <li><a href="#about/team/development">Accesories</a></li>
-                                       </ul>
-                                    </li>
-                                    <li><a href="woman.html">Woman</a></li>
-                                    <li><a href="#about/team">Kids</a></li>
-                                 </ul>
-                              </li>
-                              <li><a href="size-finder.html">Sizing</a></li>
-                              <li><a href="#contact">Customer Dairoes(Testimonials)</a></li>
-                              <li><a href="foot-health-children.html">Foot Health</a></li>
-                              <li><a href="#contact">Bespoke Shoes</a></li>
-                           </ul>
+                           <?= HomeMenuMain::widget() ?>
                         </nav>
+
+
                      </div>
                      <!--end col-lg-4-->   
                      <div class="desktop-nav pull-right">

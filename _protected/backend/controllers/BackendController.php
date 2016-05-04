@@ -68,7 +68,7 @@ class BackendController extends Controller
                     ],
                     [
                         'controllers' => ['attributes','entity','category','type','menu','slider-images'],
-                        'actions' => ['home-slider','index', 'view', 'create', 'update','viewmenus','c-menu','values','status','url','browse','inactive','active','manage-attributes','add-attributes','sort-general-attrs','sort-slider-attrs'],
+                        'actions' => ['home-slider','index', 'term-value','view', 'create', 'update','viewmenus','c-menu','values','status','url','browse','inactive','active','manage-attributes','add-attributes','sort-general-attrs','sort-slider-attrs'],
                         'allow' => true,
                         'roles' => ['admin','theCreator'],
                     ],

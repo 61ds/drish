@@ -48,7 +48,7 @@ class Menu extends \kartik\tree\models\Tree
     {
         return [
             [['link', 'name','menu_type'], 'required'],
-            [['menu_type', 'root', 'lft', 'rgt', 'lvl', 'status','icon_type',  'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'integer'],
+            [['menu_type', 'root', 'lft','term_id', 'rgt', 'lvl', 'status','icon_type',  'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'integer'],
             [['link', 'icon'], 'string', 'max' => 255],
             [['name'], 'string', 'max' => 60]
         ];
@@ -74,6 +74,7 @@ class Menu extends \kartik\tree\models\Tree
             'selected' => 'Selected',
             'disabled' => 'Disabled',
             'readonly' => 'Readonly',
+            'term_id' => 'Reference id',
             'visible' => 'Visible',
             'collapsed' => 'Collapsed',
             'movable_u' => 'Movable U',
