@@ -144,6 +144,10 @@ class CategoryController extends BackendController
         $image = UploadedFile::getInstance($node, 'image');
 
         $banner = UploadedFile::getInstance($node, 'banner');
+
+        $video = UploadedFile::getInstance($node, 'video');
+        print_r($video);
+        die;
         $node->load($post);
 
         if ($treeNodeModify) {
@@ -176,6 +180,18 @@ class CategoryController extends BackendController
                 $main_folder = "category/".$catInfoModel->cat_id."/image";
                 $image_name= $this->uploadImage($image,$name,$main_folder,$size);
                 $catInfoModel->image =  $image_name;
+
+            }
+
+            if($video)
+            {
+
+                $name = time();
+                $main_folder = "category/".$catInfoModel->cat_id."/video";
+                $image_name= $this->uploadFile($video,$name,$main_folder);
+                $catInfoModel->video =  $image_name;
+                echo $catInfoModel->video;
+                die;
 
             }
             if($banner)
@@ -260,6 +276,7 @@ class CategoryController extends BackendController
                 $node->meta_key = $catInfoModel->meta_key;
                 $node->descr = $catInfoModel->descr;
                 $node->banner = $catInfoModel->banner;
+                $node->video = $catInfoModel->video;
                 $node->image = $catInfoModel->image;
             }
         }

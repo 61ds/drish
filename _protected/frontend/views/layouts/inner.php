@@ -41,31 +41,7 @@ InnerAsset::register($this);
 	</div>
 </div><!--end full page-->
 <?php $this->endBody() ?>
-      <script type="text/javascript">
-         $(function() {
-         	$('nav#menu').mmenu({
-         		extensions	: [ 'effect-slide-menu', 'pageshadow' ],
-         		searchfield	: true,
-         		counters	: true,
-         		navbar 		: {
-         			title		: 'Menu'
-         		},
-         		navbars		: [
-         			{
-         				position	: 'top',
-         				content		: [ 'searchfield' ]
-         			}, {
-         				position	: 'top',
-         				content		: [
-         					'prev',
-         					'title',
-         					'close'
-         				]
-         			} 
-         		]
-         	});
-         });
-      </script>
+
 </body>
 </html>
 <?php $this->endPage() ?>

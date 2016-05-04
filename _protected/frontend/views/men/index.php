@@ -252,7 +252,7 @@
                <div data-ride="carousel" class="carousel slide" id="myCarousel-arrow">
                   <!-- Wrapper for slides -->
                   <div class="frnt-video" style="width: 100%; overflow: hidden; height: 350px;">
-                     <video class="home_video" width="100%" loop autoplay controls muted>
+                     <video class="home_video" width="100%" loop autoplay="" controls muted>
                         <source src="videos/drish-video.mp4" type="video/mp4">
                      </video>
                   </div>
