@@ -59,8 +59,8 @@ class Product extends \yii\db\ActiveRecord
             ],
             [['optional_attrs'], 'safe'],
             [['slug'], 'unique'],
-            [['name','sku','article_id'], 'string', 'max' => 110],
-            [['meta_title', 'meta_keyword','article_id','slug','sku'], 'string', 'max' => 255],
+            [['name','article_id'], 'string', 'max' => 110],
+            [['meta_title', 'meta_keyword','article_id','slug'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -96,7 +96,6 @@ class Product extends \yii\db\ActiveRecord
             'short_descr' => 'Short Descr',
             'article_id' => 'Article id',
             'slug' => 'Slug',
-            'sku' => 'SKU',
             'status' => 'Status',
             'is_variant' => 'Is Variant',
             'soldout' => 'Soldout',

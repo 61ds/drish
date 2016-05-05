@@ -36,27 +36,29 @@
                                  <input type="hidden" name="step" value="pbi">
                                  <div class="row">
 
-                                     <div class="col-md-6">
-                                         <?= $form->field($model, 'size_width_id')->dropDownList(
+                                    <div class="col-md-6">
+                                       <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                                       <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+                                       <?= $form->field($model, 'quantity')->textInput() ?>
+                                    </div>
+                                   
+                                    
+									<div class="col-md-6">
+									 <?= $form->field($model, 'price')->textInput() ?>
+										
+                                       <?= $form->field($model, 'article_id')->textInput(['maxlength' => true]) ?>
+									    <?= $form->field($model, 'market_price')->textInput() ?>
+                                    </div>
+                                   <div class="col-md-12">
+										<?= $form->field($model, 'size_width_id')->dropDownList(
                                              $model->sizeWidthGroup,
                                              [
                                                  'prompt'=>'- Select Size width group -',
                                                  'class'=>'form-control select2'
-
                                              ]
                                          );
                                          ?>
-                                     </div>
-                                    <div class="col-md-6">
-                                       <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                                       <?= $form->field($model, 'quantity')->textInput() ?>
-									   <?= $form->field($model, 'price')->textInput() ?>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <?= $form->field($model, 'article_id')->textInput(['maxlength' => true]) ?>
-									    <?= $form->field($model, 'market_price')->textInput() ?>
-                                    </div>
-                                   
+									</div>
                                        <?php
 									   if(count($general_attrs) > 0){
                                           $count = round(count($general_attrs)/2);

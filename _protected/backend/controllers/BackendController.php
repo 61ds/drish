@@ -80,7 +80,7 @@ class BackendController extends Controller
                     ],
                     [
                         'controllers' => ['product'],
-                        'actions' => ['index', 'create', 'update','subcategories','viewitems','generate'],
+                        'actions' => ['index','update-any-status', 'create', 'update','subcategories','viewitems','generate'],
                         'allow' => true,
                         'roles' => ['admin','theCreator'],
                     ],
