@@ -9,6 +9,12 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Product;
+use common\models\ProductImages;
+use common\models\ProductDropdownValues;
+use common\models\ProductTextValues;
+use common\models\ProductDescValues;
+use common\models\DropdownValues;
+use common\models\Attributes;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -17,7 +23,6 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use Yii;
-
 /**
  * Site controller.
  * It is responsible for displaying static pages, logging users in and out,
@@ -94,8 +99,21 @@ class MenController extends Controller
 
     public function actionProduct($id){
         $this->layout = "products";
+        $ProductDropdownValues = ProductDropdownValues::find()->where(['product_id' => $id])->all();
+        $ProductDescValues = ProductDescValues::find()->where(['product_id' => $id])->all();
+        $ProductTextValues = ProductTextValues::find()->where(['product_id' => $id])->all();
+        $ProductImages = ProductImages::find()->where(['product_id' => $id])->all();
+        $DropdownValues = new DropdownValues;
+
+
         if (($model = Product::findOne($id)) !== null) {
-            return $this->render('product',['model'=>$model]);
+            return $this->render('product',['model'=>$model,
+                'productDropdownValues'=>$ProductDropdownValues,
+                'productDescValues'=>$ProductDescValues,
+                'productTextValues'=>$ProductTextValues,
+                'productImages'=>$ProductImages,
+                'dropdownValues'=>$DropdownValues
+            ]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

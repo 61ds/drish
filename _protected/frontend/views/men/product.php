@@ -1,5 +1,6 @@
 <?php
 use frontend\widgets\RelatedProducts;
+//echo"<prE>";print_r($model);die;
 ?>
 
 <section class="product-area-outer">
@@ -24,67 +25,36 @@ use frontend\widgets\RelatedProducts;
 
                             <div id="example3" class="slider-pro">
                                 <div class="sp-slides">
-                                    <div class="sp-slide">
-                                        <img class="sp-image center-block" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-1.png"
-                                             data-src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-1.png"
-                                             data-small="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-1.png"
-                                             data-medium="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-1.png"
-                                             data-large="<?= Yii::$app->params['baseurl'] ?>/images/image1_large.jpg"
-                                             data-retina="<?= Yii::$app->params['baseurl'] ?>/images/image1_large.jpg"/>
+                                   <?php foreach($productImages as $otherimages){
+                                       $images = unserialize($otherimages->other_image);
+                                       foreach($images as $image){
+                                           $urllarge = Yii::$app->params['baseurl'].'/uploads/product/other/'.$model->id.'/main/'.$image;
+                                           $urlmed = Yii::$app->params['baseurl'].'/uploads/product/other/'.$model->id.'/large/'.$image;
+                                           echo '<div class="sp-slide">';?>
+                                           <img class="sp-image center-block" src="<?= $urlmed ?>
+                                                data-src="<?= $urlmed ?>"
+                                                data-small="<?= $urlmed ?>"
+                                                data-medium="<?= $urlmed?>"
+                                                data-large="<?=  $urllarge ?>"
+                                                data-retina="<?=  $urllarge ?>"/>
 
-                                    </div>
-                                    <div class="sp-slide">
-                                        <img class="sp-image center-block" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-2.png"
-                                             data-src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-2.png"
-                                             data-small="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-2.png"
-                                             data-medium="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-2.png"
-                                             data-large="<?= Yii::$app->params['baseurl'] ?>/images/image2_large.jpg"
-                                             data-retina="<?= Yii::$app->params['baseurl'] ?>/images/image2_large.jpg"/>
+                                           <?php echo"</div>";
+                                       }
 
-                                    </div>
-                                    <div class="sp-slide">
-                                        <img class="sp-image center-block" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-3.png"
-                                             data-src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-3.png"
-                                             data-small="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-3.png"
-                                             data-medium="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-3.png"
-                                             data-large="<?= Yii::$app->params['baseurl'] ?>/images/image3_large.jpg"
-                                             data-retina="<?= Yii::$app->params['baseurl'] ?>/images/image3_large.jpg"/>
-
-                                    </div>
-                                    <div class="sp-slide">
-                                        <img class="sp-image center-block" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-4.png"
-                                             data-src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-4.png"
-                                             data-small="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-4.png"
-                                             data-medium="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-4.png"
-                                             data-large="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-4.jpg"
-                                             data-retina="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-4.jpg"/>
-
-                                    </div>
-                                    <div class="sp-slide">
-                                        <img class="sp-image center-block" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-5.png"
-                                             data-src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-5.png"
-                                             data-small="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-5.png"
-                                             data-medium="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-5.png"
-                                             data-large="<?= Yii::$app->params['baseurl'] ?>/images/image5_large.jpg"
-                                             data-retina="<?= Yii::$app->params['baseurl'] ?>/images/image5_large.jpg"/>
-
-                                    </div>
+                                    } ?>
                                 </div>
 
                                 <div class="sp-thumbnails pro-thumb">
-                                    <img class="sp-thumbnail img-video" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-small-1.png" >
+                                    <?php foreach($productImages as $otherimages){
+                                        $images = unserialize($otherimages->other_image);
+                                        foreach($images as $image){
+                                            $urlthumb = Yii::$app->params['baseurl'].'/uploads/product/other/'.$model->id.'/thumbs/'.$image;
+                                            ?>
+                                            <img class="sp-thumbnail img-video" src="<?= $urlthumb ?>" >
+                                            <?php
+                                        }
 
-                                    <img class="sp-thumbnail img-video" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-small-2.png">
-
-
-                                    <img class="sp-thumbnail img-video" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-small-3.png">
-
-
-                                    <img class="sp-thumbnail img-video" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-small-4.png">
-
-
-                                    <img class="sp-thumbnail img-video" src="<?= Yii::$app->params['baseurl'] ?>/images/product-shoes-small-5.png">
-
+                                    } ?>
 
                                 </div>
                             </div>
@@ -96,13 +66,10 @@ use frontend\widgets\RelatedProducts;
 
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 bown-bg">
                     <div class="supper-soft">
-                        <h3>Super Soft Leather Loafers For Men</h3>
-                        <h4 class="red-color"><i class="fa fa-inr"></i>4,750</h4>
+                        <h3><?= $model->name ?></h3>
+                        <h4 class="red-color"><i class="fa fa-inr"></i><?= $model->price ?></h4>
                         <div class="border-gry">
-                            <p>These soft brown men loafers are molded to perfection using extremely soft California leather.
-                                With a stylish ribbon added to complete the look, they will serve the purpose of any occasion.
-                                Soft and breathable leather lining,internal cushioning for shock endurance and a flexible sole,
-                                all ensure absolute comfort.</p>
+                            <?= $model->descr ?>
                         </div>
 
                         <div class="rating-area">
@@ -221,14 +188,22 @@ use frontend\widgets\RelatedProducts;
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="home">
                             <div class="p-detail">
-                                <p>Colour:</p><p>Cuoio</p>
-                                <p>Upper: 	</p><p>Soft nappa calf leather</p>
-                                <p>Lining: 	</p><p>Calf leather</p>
-                                <p>Sole: </p><p>Rubber sole</p>
-                                <p>Flexibility: </p><p>Extremely flexible</p>
-                                <p>Fit: 		</p><p>Normal</p>
-                                <p>Breathability: 	</p><p>Fully leather lined inside environment.<br>Hence, fully breathable </p>
-                            </div>
+                            <?php
+                            foreach($productDescValues as $descvalue){
+
+                                echo'<p>'.$descvalue->attr->display_name.':</p><p>'.strip_tags($descvalue->value,"<b>").'</p>';
+                            }
+                            foreach($productTextValues as $textvalue){
+                                echo'<p>'.$textvalue->attr->display_name.':</p><p>'.strip_tags($textvalue->value,"<b>").'</p>';
+                            }
+                            foreach($productDropdownValues as $dropvalue){
+                                $getvalue = $dropdownValues->findOne($dropvalue->value_id);
+                                echo'<p>'.$getvalue->attr->display_name.':</p><p>'.strip_tags($getvalue->name,"<b>").'</p>';
+                            }
+                            ?>
+
+
+                                </div>
                         </div>
 
                         <div class="tab-pane fade" id="menu1">
@@ -313,47 +288,7 @@ use frontend\widgets\RelatedProducts;
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3>Related product</h3>
-
-
-
-                <div class="slider-product">
-                    <ul class="bxslider-pro">
-                        <li>
-                      <span class="related-product">
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/images/black-leather-1.jpg">
-                      <h4>Quilted Black Leather</h4>
-                    <h4><span><i class="fa fa-inr"></i></span>3,500.00</h4>
-                    </span>
-                                            </li>
-                                            <li><span class="related-product">
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/images/black-leather-2.jpg">
-                      <h4>Quilted Black Leather</h4>
-                    <h4><span><i class="fa fa-inr"></i></span>3,500.00</h4>
-                    </span></li>
-                                            <li><span class="related-product">
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/images/black-leather-1.jpg">
-                      <h4>Quilted Black Leather</h4>
-                    <h4><span><i class="fa fa-inr"></i></span>3,500.00</h4>
-                    </span></li>
-                                            <li><span class="related-product">
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/images/black-leather-3.jpg">
-                      <h4>Quilted Black Leather</h4>
-                    <h4><span><i class="fa fa-inr"></i></span>3,500.00</h4>
-                    </span></li>
-                                            <li><span class="related-product">
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/images/black-leather-1.jpg">
-                      <h4>Quilted Black Leather</h4>
-                    <h4><span><i class="fa fa-inr"></i></span>3,500.00</h4>
-                    </span></li>
-                                            <li><span class="related-product">
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/images/black-leather-2.jpg">
-                      <h4>Quilted Black Leather</h4>
-                    <h4><span><i class="fa fa-inr"></i></span>3,500.00</h4>
-                    </span></li>
-
-                    </ul>
-                </div>
-
+                <?= RelatedProducts::widget(['product_id' => $model->id]) ?>
             </div>
 
 
