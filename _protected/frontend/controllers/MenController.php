@@ -8,12 +8,14 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Product;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 use Yii;
 
 /**
@@ -90,4 +92,13 @@ class MenController extends Controller
         return $this->render('index');
     }
 
+    public function actionProduct($id){
+        $this->layout = "products";
+        if (($model = Product::findOne($id)) !== null) {
+            return $this->render('product',['model'=>$model]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+    }
 }
