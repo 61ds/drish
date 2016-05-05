@@ -1,5 +1,6 @@
 <?php
 use frontend\widgets\HomeMenuLeft;
+use frontend\widgets\SliderWid;
 ?>
 
 <div class="slide-content">
@@ -8,7 +9,7 @@ use frontend\widgets\HomeMenuLeft;
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-lg-6 col-md-4 col-sm-3">
-                              <a href="#"><img src="images/logo-2.png" alt="logo"></a>
+                              <a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/logo-2.png" alt="logo"></a>
                            </div>
                            <!--col-lg-7-->              
                            <div class="col-lg-2 col-md-3 col-sm-3 women-nav">
@@ -98,3 +99,4 @@ use frontend\widgets\HomeMenuLeft;
                   </div>
                   <!-- end of header-->
                </div>
+			    <?= SliderWid::widget([ 'position'=>"header" , 'slider_id' => 79 ]) ?> 

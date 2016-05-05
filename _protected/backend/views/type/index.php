@@ -37,7 +37,7 @@ if($category){
 						'dataProvider' => $dataProvider,
 						'columns' => [
 							['class' => 'yii\grid\SerialColumn','header'=>"Sr. No."],
-
+							//'id',
 							'name',
 							[
 								'attribute' => 'active',

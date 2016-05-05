@@ -146,8 +146,6 @@ class CategoryController extends BackendController
         $banner = UploadedFile::getInstance($node, 'banner');
 
         $video = UploadedFile::getInstance($node, 'video');
-        print_r($video);
-        die;
         $node->load($post);
 
         if ($treeNodeModify) {

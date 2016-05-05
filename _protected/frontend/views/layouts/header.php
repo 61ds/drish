@@ -6,7 +6,7 @@ use frontend\widgets\HomeMenuMain;
                   <div class="row">
                      <div class="col-lg-3 col-md-2 col-sm-2 col-xs-2 toggle-width">
                         <div class="header">
-                           <a href="index.html" class="header-logo"><img src="images/drish-logo.png" alt="Drish" title="Drish"></a> 
+                           <a href="index.html" class="header-logo"><img src="<?= Yii::$app->params['baseurl'] ?>/images/drish-logo.png" alt="Drish" title="Drish"></a> 
                            <a href="#menu" class="menu-bar"> <i class="fa fa-bars"></i></a>
                            <span class="menu-text">Menu</span>
                         </div>
@@ -34,9 +34,9 @@ use frontend\widgets\HomeMenuMain;
                            <div class="social-area">
                               <ul>
                                  <div class="f-desk">
-                                    <li><a href="#"><img src="images/Sign-in-with-Facebook.png" alt="facbook" title="facbook" class="img-responsive mob"></a></li>
-                                    <li><a href="#"><img src="images/Sign-in-with-Gmail.png" alt="" class="img-responsive mob"> </a></li>
-                                    <li><a href="#"><img src="images/signin-btn.png" alt="" class="img-responsive mob"></a></li>
+                                    <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/Sign-in-with-Facebook.png" alt="facbook" title="facbook" class="img-responsive mob"></a></li>
+                                    <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/Sign-in-with-Gmail.png" alt="" class="img-responsive mob"> </a></li>
+                                    <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/signin-btn.png" alt="" class="img-responsive mob"></a></li>
                                  </div>
                                  <div class="m-desk">
                                     <li><a href="#"><i class="fa fa-facebook-square g-icon"></i></a></li>
