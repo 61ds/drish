@@ -9,13 +9,14 @@ use Yii;
  *
  * @property integer $id
  * @property integer $product_id
+ * @property string $sku
  * @property integer $color
  * @property integer $size
  * @property integer $width
- * @property integer $price_type
  * @property integer $price
  * @property integer $status
  *
+ * @property Product[] $products
  * @property Product $product
  * @property DropdownValues $color0
  * @property DropdownValues $size0
@@ -23,6 +24,7 @@ use Yii;
  */
 class VarientProduct extends \yii\db\ActiveRecord
 {
+    public $colors;
     /**
      * @inheritdoc
      */
@@ -37,8 +39,10 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'color', 'size', 'width', 'price'], 'required'],
-            [['product_id', 'color', 'size', 'width', 'price_type', 'price', 'status'], 'integer'],
+            [['product_id', 'sku', 'color', 'size', 'width', 'price'], 'required'],
+            [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
+            [['sku'], 'string', 'max' => 255],
+            [['colors'], 'safe'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['color'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['color' => 'id']],
             [['size'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['size' => 'id']],
@@ -54,13 +58,21 @@ class VarientProduct extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'product_id' => 'Product ID',
+            'sku' => 'Sku',
             'color' => 'Color',
             'size' => 'Size',
             'width' => 'Width',
-            'price_type' => 'Price Type',
             'price' => 'Price',
             'status' => 'Status',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['varient_id' => 'id']);
     }
 
     /**
@@ -102,5 +114,14 @@ class VarientProduct extends \yii\db\ActiveRecord
     public static function find()
     {
         return new VarientProductQuery(get_called_class());
+    }
+    public function getAllcolor()
+    {
+        $attr = Attributes::find()->where(['name' => 'color'])->one();
+        $attrvalues = array();
+        if($attr){
+            $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
+        }
+        return ArrayHelper::map($attrvalues,'id','name');
     }
 }

@@ -35,6 +35,18 @@
                             <div class="tab-pane active" id="tab_1">
                                  <input type="hidden" name="step" value="pbi">
                                  <div class="row">
+
+                                     <div class="col-md-6">
+                                         <?= $form->field($model, 'size_width_id')->dropDownList(
+                                             $model->sizeWidthGroup,
+                                             [
+                                                 'prompt'=>'- Select Size width group -',
+                                                 'class'=>'form-control select2'
+
+                                             ]
+                                         );
+                                         ?>
+                                     </div>
                                     <div class="col-md-6">
                                        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                                        <?= $form->field($model, 'quantity')->textInput() ?>
@@ -42,7 +54,6 @@
                                     </div>
                                     <div class="col-md-6">
                                        <?= $form->field($model, 'article_id')->textInput(['maxlength' => true]) ?>
-                                       <?= $form->field($model, 'sku')->textInput() ?>
 									    <?= $form->field($model, 'market_price')->textInput() ?>
                                     </div>
                                    
@@ -130,9 +141,9 @@
                               </div>
                            <div class="tab-pane" id="tab_3">
                               <div class="row">
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <div class="img-box1">
-                                       <h4 class="head4-borderd">Please upload main image here:</h4>
+                                       <h4 class="head4-borderd">Main image:</h4>
                                        <?= $form->field($ProductImagesModel, 'main_image')->widget(FileInput::classname(),
                                           [
                                               'options' => ['accept' => 'image/*'],
@@ -144,13 +155,13 @@
                                                       Html::img($main_image, ['class'=>'file-preview-image', 'alt'=>'', 'title'=>'']),
                                                   ],
                                               ]
-                                          ]);
+                                          ])->label(false);
                                           ?>
                                     </div>
                                  </div>
-                                 <div class="col-md-6">
+                                 <div class="col-md-4">
                                     <div class="img-box1">
-                                       <h4 class="head4-borderd">Please upload Flip image here:</h4>
+                                       <h4 class="head4-borderd">Flip image:</h4>
                                        <?= $form->field($ProductImagesModel, 'flip_image')->widget(FileInput::classname(),
                                           [
                                               'options' => ['accept' => 'image/*'],
@@ -162,10 +173,47 @@
                                                       Html::img($main_image, ['class'=>'file-preview-image', 'alt'=>'', 'title'=>'']),
                                                   ],
                                               ]
-                                          ]);
+                                          ])->label(false);
                                           ?>
                                     </div>
                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="img-box1">
+                                          <h4 class="head4-borderd">Home image:</h4>
+                                          <?= $form->field($ProductImagesModel, 'home_image')->widget(FileInput::classname(),
+                                              [
+                                                  'options' => ['accept' => 'image/*'],
+                                                  'pluginOptions' => [
+                                                      'showCaption' => false,
+                                                      'showRemove' => true,
+                                                      'showUpload' => false,
+                                                      'initialPreview'=>[
+                                                          Html::img($main_image, ['class'=>'file-preview-image', 'alt'=>'', 'title'=>'']),
+                                                      ],
+                                                  ]
+                                              ])->label(false);
+                                          ?>
+                                      </div>
+                                  </div>
+                                  </div>
+                                  <div class="row">
+                                  <div class="col-md-12">
+                                      <h4 class="head4-borderd">Featured video:</h4>
+                                      <?php
+                                      // Usage with ActiveForm and model
+                                      echo $form->field($ProductImagesModel, 'video')->widget(FileInput::classname(),
+                                          [
+                                              'options' => ['accept' => 'video/*'],
+                                              'pluginOptions' => [
+                                                  'showCaption' => false,
+                                                  'showRemove' => true,
+                                                  'showUpload' => false,
+                                              ]
+                                          ])->label(false);
+                                      ?>
+                                  </div>
+                                  </div>
+                                <div class="row">
                                  <div class="col-md-12">
                                     <h4 class="head4-borderd">Please upload here all other images:</h4>
                                     <?php
@@ -181,7 +229,7 @@
                                                        Html::img($main_image, ['class'=>'file-preview-image', 'alt'=>'', 'title'=>'']),
                                                    ],
                                                ]
-                                           ]);
+                                           ])->label(false);
                                        ?>
                                  </div>
                               </div>

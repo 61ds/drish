@@ -8,6 +8,7 @@ use common\models\ProductSearch;
 use common\models\ProductForm;
 use common\models\Category;
 use common\models\Attributes;
+use common\models\VarientProduct;
 use common\models\ProductSliderValues;
 use common\models\ProductDropdownValues;
 use common\models\ProductImages;
@@ -68,13 +69,7 @@ class ProductController extends BackendController
     {
 
 		$session = Yii::$app->session;
-		if($start ==1){
-			$session->remove('category_id');
-			$session->remove('user_id');
-			$session->remove('last_selected_step');
-			$session->remove('selected_categories');
 
-		}
         if (!$session->isActive){
             // open a session
             $session->open();
@@ -83,6 +78,14 @@ class ProductController extends BackendController
         $model = new Product();
         $product_model = Product::find()->where(['status' => 1])->all();
         $ProductImagesModel = new ProductImages();
+        if($start ==1){
+            $session->remove('category_id');
+            $session->remove('user_id');
+            $session->remove('last_selected_step');
+            $session->remove('selected_categories');
+
+            return $this->redirect(['create']);
+        }
         if(Yii::$app->request->isPost){
 
             if(Yii::$app->request->post('step')=="sc"){
@@ -120,6 +123,9 @@ class ProductController extends BackendController
 
             }else if(Yii::$app->request->post('step')=="pbi"){
 
+                $main_image = UploadedFile::getInstance($ProductImagesModel, 'main_image');
+                $home_image = UploadedFile::getInstance($ProductImagesModel, 'home_image');
+                $video = UploadedFile::getInstance($ProductImagesModel, 'video');
                 $main_image = UploadedFile::getInstance($ProductImagesModel, 'main_image');
 
                 $flip_image = UploadedFile::getInstance($ProductImagesModel, 'flip_image');
@@ -186,6 +192,21 @@ class ProductController extends BackendController
                             $main_folder = "product/main/".$model->id;
                             $image_name= $this->uploadImage($main_image,$name,$main_folder,$size);
                             $ProductImagesModel->main_image = $image_name;
+                        }
+                        if($home_image)
+                        {
+                            $name = time().$model->id;
+                            $size = Yii::$app->params['folders']['size'];
+                            $main_folder = "product/home/".$model->id;
+                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size);
+                            $ProductImagesModel->home_image = $image_name;
+                        }
+                        if($video)
+                        {
+                            $name = time().$model->id;
+                            $main_folder = "product/video/".$model->id;
+                            $image_name= $this->uploadFile($video,$name,$main_folder);
+                            $ProductImagesModel->video = $image_name;
                         }
                         if($flip_image)
                         {
@@ -362,6 +383,24 @@ class ProductController extends BackendController
         ]);
 
     }
+
+    public function actionGenerate($id)
+    {
+        $model = new VarientProduct();
+        $model->product_id = $id;
+        if(Yii::$app->request->isPost) {
+            print_r($model->colors);
+            die;
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! your product is successfully created and sent to admin for approval."));
+
+        }else {
+            return $this->render('generate-items', [
+                'model' => $model,
+            ]);
+        }
+
+    }
+
     /**
      * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

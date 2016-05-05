@@ -31,10 +31,10 @@ class ProductImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'main_image', 'flip_image', 'other_image'], 'required'],
+            [['product_id', 'main_image', 'flip_image', 'other_image','home_image'], 'required'],
             [['product_id'], 'integer'],
             [['other_image'], 'string'],
-            [['main_image', 'flip_image'], 'string', 'max' => 100],
+            [['main_image', 'flip_image','home_image'], 'string', 'max' => 100],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
         ];
     }
@@ -50,6 +50,8 @@ class ProductImages extends \yii\db\ActiveRecord
             'main_image' => 'Main Image',
             'flip_image' => 'Flip Image',
             'other_image' => 'Other Image',
+            'home_image' => 'Home Image',
+            'video' => 'featured Video',
         ];
     }
 

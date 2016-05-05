@@ -16,63 +16,71 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box">
                 <div class="box-body table-responsive">
                     <p class="pull-right">
-                        <?= Html::a('Create Page', ['create'], ['class' => 'btn btn-success']) ?>
+                        <?= Html::a('Create Article', ['create'], ['class' => 'btn btn-success']) ?>
                     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn',"header"=>"Sr.No."],
+                    <?= GridView::widget([
+                        'dataProvider' => $dataProvider,
+                        'filterModel' => $searchModel,
+                        'columns' => [
+                            ['class' => 'yii\grid\SerialColumn',"header"=>"Sr.No."],
 
-            'name',
-            'category_id',
-           // 'quantity',
-            'price',
-            // 'market_price',
-            // 'descr:ntext',
-            // 'short_descr:ntext',
-            [
-                'attribute' => 'status',
-                'value' => function ($model) {
-                    if ($model->status) {
-                        return Html::a(Yii::t('app', 'Active'), null, [
-                            'class' => 'btn btn-success status',
-                            'data-id' => $model->id,
-                            'href' => 'javascript:void(0);',
-                        ]);
-                    } else {
-                        return Html::a(Yii::t('app', 'Inactive'), null, [
-                            'class' => 'btn btn-danger status',
-                            'data-id' => $model->id,
-                            'href' => 'javascript:void(0);',
-                        ]);
-                    }
-                },
-                'contentOptions' => ['style' => 'width:160px;text-align:center'],
-                'format' => 'raw',
-                'filter'=>array("1"=>"Active","0"=>"Inactive"),
-            ],
-            // 'soldout',
-            // 'created_at',
-             'updated_at:date',
-            // 'meta_title',
-            // 'meta_description:ntext',
-            // 'meta_keyword',
-            ['class' => 'yii\grid\ActionColumn','header'=>'Actions',
-                'buttons' => [
-                    'viewitems' =>function ($url, $model, $key) {
-                        $options = array_merge([
-                            'title' => Yii::t('yii', 'View Items'),
-                            'aria-label' => Yii::t('yii', 'View Items'),
-                            'data-pjax' => '0',
-                        ], []);
-                        return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['product/viewitems','id'=>$model->id], $options);
-                    },
-                ],
-                'template' => '{viewitems}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
-            ],
-        ],
-    ]); ?>
+                            'name',
+                            'category_id',
+                           // 'quantity',
+                            'price',
+                            // 'market_price',
+                            // 'descr:ntext',
+                            // 'short_descr:ntext',
+                            [
+                                'attribute' => 'status',
+                                'value' => function ($model) {
+                                    if ($model->status) {
+                                        return Html::a(Yii::t('app', 'Active'), null, [
+                                            'class' => 'btn btn-success status',
+                                            'data-id' => $model->id,
+                                            'href' => 'javascript:void(0);',
+                                        ]);
+                                    } else {
+                                        return Html::a(Yii::t('app', 'Inactive'), null, [
+                                            'class' => 'btn btn-danger status',
+                                            'data-id' => $model->id,
+                                            'href' => 'javascript:void(0);',
+                                        ]);
+                                    }
+                                },
+                                'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                'format' => 'raw',
+                                'filter'=>array("1"=>"Active","0"=>"Inactive"),
+                            ],
+                            // 'soldout',
+                            // 'created_at',
+                             'updated_at:date',
+                            // 'meta_title',
+                            // 'meta_description:ntext',
+                            // 'meta_keyword',
+                            ['class' => 'yii\grid\ActionColumn','header'=>'Actions',
+                                'buttons' => [
+                                    'viewitems' =>function ($url, $model, $key) {
+                                        $options = array_merge([
+                                            'title' => Yii::t('yii', 'View Items'),
+                                            'aria-label' => Yii::t('yii', 'View Items'),
+                                            'data-pjax' => '0',
+                                        ], []);
+                                        return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['product/viewitems','id'=>$model->id], $options);
+                                    },
+                                    'generate' =>function ($url, $model, $key) {
+                                        $options = array_merge([
+                                            'title' => Yii::t('yii', 'Generate Items'),
+                                            'aria-label' => Yii::t('yii', 'Generate Items'),
+                                            'data-pjax' => '0',
+                                        ], []);
+                                        return Html::a('<span class="glyphicon glyphicons-cogwheel"></span>', ['product/generate','id'=>$model->id], $options);
+                                    },
+                                ],
+                                'template' => '{generate}{viewitems}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
+                            ],
+                        ],
+                    ]); ?>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div><!-- /.col -->

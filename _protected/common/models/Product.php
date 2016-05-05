@@ -51,8 +51,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'slug', 'category_id', 'article_id','sku','quantity', 'price', 'market_price', 'descr', 'short_descr'], 'required'],
-            [['category_id','featured', 'quantity', 'price', 'market_price', 'status', 'soldout', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'slug', 'category_id', 'article_id','quantity', 'price', 'market_price', 'descr'], 'required'],
+            [['category_id','featured', 'quantity', 'price', 'market_price', 'status', 'soldout', 'created_at', 'updated_at','size_width_id'], 'integer'],
             [['descr', 'short_descr', 'meta_description'], 'string'],
             ['general_attrs', 'required',
                 'message' => 'Please select one option.'
@@ -106,7 +106,7 @@ class Product extends \yii\db\ActiveRecord
             'meta_description' => 'Meta Description',
             'meta_keyword' => 'Meta Keyword',
             'article_id' => 'Article ID',
-            'sku' => 'Sku',
+            'size_width_id' => 'Size width Code',
         ];
     }
 
@@ -126,6 +126,15 @@ class Product extends \yii\db\ActiveRecord
     public function getProductDescValues()
     {
         return $this->hasMany(ProductDescValues::className(), ['product_id' => 'id']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSizeWidth()
+    {
+        return $this->hasOne(Sizewidth::className(), ['id' => 'size_width_id']);
     }
 
     /**
@@ -176,13 +185,17 @@ class Product extends \yii\db\ActiveRecord
     {
         return new ProductQuery(get_called_class());
     }
-
-	public function getSpecialProducts()
+    public function getSpecialProducts()
     {
 
         $product = $this->find()->where(['status' => 1])->orderBy('name')->all();
-		
+
         return ArrayHelper::map($product,'id','name');
     }
 
+    public function getSizeWidthGroup()
+    {
+        $group = Sizewidth::find()->orderBy('name')->all();
+        return ArrayHelper::map($group,'id','name');
+    }
 }

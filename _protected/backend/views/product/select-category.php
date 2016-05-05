@@ -56,21 +56,33 @@ $this->params['breadcrumbs'][] = $this->title;
 						<?= $form->field($model, 'category[1]')->dropDownList(
 							[],
 							[
-								'prompt'=>'- Select main category -',
+								'prompt'=>'- Select Sub-category -',
 								'class'=>'form-control select1',
 								'onchange'=> '
 									if($(this).val()){
 										$.post( "'.Yii::$app->urlManager->createUrl('/product/subcategories?id=').'"+$(this).val(), function( data ) {
-											$( "select#productform-category-2" ).html("<option value=\"\">- Select Sub-category -</option>");
+										if($( ".field-productform-category-2").length){
+											$( "select#productform-category-2" ).html("");
+											element = $( ".field-productform-category-2");
+										} else {
+											$("#dd").html(element);
 											$("#dd").addClass("hidden");
-											
-											  for(var index in data.result){
-												  if(!data.result.hasOwnProperty(index)){
-													  continue;
-												  }
-												$( "select#productform-category-2" ).append("<option value="+index+">"+ data.result[index]+"</option>");  
+										}
+
+										if(data.count){
+										  $( "select#productform-category-2" ).append("<option value=\"\">- Select Child Category -</option>");
+										  for(var index in data.result){
+											  if(!data.result.hasOwnProperty(index)){
+												  continue;
 											  }
-											  
+											$( "select#productform-category-2" ).append("<option value="+index+">"+ data.result[index]+"</option>");
+										  }
+										  $("#dd").removeClass("hidden");
+										} else {
+											$( ".field-productform-category-2").remove();
+										}
+
+
 										});
 									} else {
 										if($( ".field-productform-category-2").length){
@@ -82,9 +94,18 @@ $this->params['breadcrumbs'][] = $this->title;
 										}
 									}'
 							]
-						)->label('Select Sub Category') 
+						)->label('Select Sub Category')
 						?>
-
+						<span id="dd" class="hidden">
+						<?= $form->field($model, 'category[2]')->dropDownList(
+							[],
+							[
+								'prompt'=>'- Select Child Category -',
+								'class'=>'form-control select2',
+							]
+						)->label('Select Child Category')
+						?>
+						</span>
 					</div>				
 				</div>	
 		</div>
