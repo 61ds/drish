@@ -72,7 +72,18 @@ class BackendController extends Controller
                         'allow' => true,
                         'roles' => ['admin','theCreator'],
                     ],
-
+                    [
+                        'controllers' => ['sizewidth'],
+                        'actions' => ['index', 'create', 'update'],
+                        'allow' => true,
+                        'roles' => ['admin','theCreator'],
+                    ],
+                    [
+                        'controllers' => ['product'],
+                        'actions' => ['index', 'create', 'update','subcategories','viewitems'],
+                        'allow' => true,
+                        'roles' => ['admin','theCreator'],
+                    ],
                 ], // rules
 				
 				'denyCallback' => function ($rule, $action) {

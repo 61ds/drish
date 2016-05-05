@@ -45,18 +45,3 @@ $pieces = explode(",", $model->pageid);
     <?php   ActiveForm::end(); ?>
 
 </div>
-<style>
-.dele_img {
-    width: 100%;
-    border: 1px solid #000;
-    font-weight: bold;
-    cursor: pointer;
-}
-.file-updat {
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    border: 1px solid #8C8C8C;
-    border-radius: 5px;
-}
-</style>
