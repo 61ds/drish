@@ -269,3 +269,16 @@ body .file-preview-frame.file-preview-initial img.file-preview-images {
     box-shadow: 1px 1px 5px 0 #a2958a;
     margin: 10px auto;
 }
+.dele_img {
+    width: 100%;
+    border: 1px solid #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+.file-updat {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border: 1px solid #8C8C8C;
+    border-radius: 5px;
+}

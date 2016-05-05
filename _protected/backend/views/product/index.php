@@ -58,8 +58,19 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'meta_title',
             // 'meta_description:ntext',
             // 'meta_keyword',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','header'=>'Actions',
+                'buttons' => [
+                    'viewitems' =>function ($url, $model, $key) {
+                        $options = array_merge([
+                            'title' => Yii::t('yii', 'View Items'),
+                            'aria-label' => Yii::t('yii', 'View Items'),
+                            'data-pjax' => '0',
+                        ], []);
+                        return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['product/viewitems','id'=>$model->id], $options);
+                    },
+                ],
+                'template' => '{viewitems}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
+            ],
         ],
     ]); ?>
                 </div><!-- /.box-body -->

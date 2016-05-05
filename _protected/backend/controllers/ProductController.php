@@ -28,17 +28,7 @@ use yii\web\UploadedFile;
 class ProductController extends BackendController
 {
     use ImageUploadTrait;
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Product models.
@@ -344,6 +334,7 @@ class ProductController extends BackendController
         }
 
     }
+
     /**
      * Updates an existing Product model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -363,6 +354,14 @@ class ProductController extends BackendController
         }
     }
 
+    public function actionViewitems($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('items', [
+            'model' => $model,
+        ]);
+
+    }
     /**
      * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

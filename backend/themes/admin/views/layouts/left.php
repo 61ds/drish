@@ -53,8 +53,9 @@
                         'icon' => 'fa fa-sitemap',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'All products', 'icon' => 'fa fa-angle-right', 'url' => ['/product'],'active' => ($this->context->route == 'product/index'),],
+                            ['label' => 'All products/Articles', 'icon' => 'fa fa-angle-right', 'url' => ['/product'],'active' => ($this->context->route == 'product/index'),],
                             ['label' => 'Add products', 'icon' => 'fa fa-angle-right', 'url' => ['/product/create'],'active' => ($this->context->route == 'product/create'),],
+                            ['label' => 'Size width category', 'icon' => 'fa fa-angle-right', 'url' => ['/sizewidth'],'active' => ($this->context->route == 'sizewidth/index' || $this->context->route == 'sizewidth/create' || $this->context->route == 'sizewidth/index'),],
                         ],
                     ],
                     [
