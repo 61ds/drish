@@ -1,9 +1,10 @@
 <?php
 
 namespace common\models;
-
+use yii\helpers\ArrayHelper;
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "varient_product".
  *
@@ -39,7 +40,7 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'sku', 'color', 'size', 'width', 'price'], 'required'],
+            [['product_id', 'sku', 'color', 'size', 'width'], 'required'],
             [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
             [['sku'], 'string', 'max' => 255],
             [['colors'], 'safe'],
@@ -49,7 +50,18 @@ class VarientProduct extends \yii\db\ActiveRecord
             [['width'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['width' => 'id']],
         ];
     }
-
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -64,6 +76,9 @@ class VarientProduct extends \yii\db\ActiveRecord
             'width' => 'Width',
             'price' => 'Price',
             'status' => 'Status',
+            'colors' => 'Color',
+            'created_at' => 'Color',
+            'updated_at' => 'Color',
         ];
     }
 

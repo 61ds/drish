@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\models\DropdownValues;
+use common\models\Sizewidth;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
@@ -388,11 +390,37 @@ class ProductController extends BackendController
     {
         $model = new VarientProduct();
         $model->product_id = $id;
-        if(Yii::$app->request->isPost) {
-            print_r($model->colors);
-            die;
-            Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! your product is successfully created and sent to admin for approval."));
+        if ($model->load(Yii::$app->request->post())) {
+            $product = Product::findOne($id);
 
+
+            $group = Sizewidth::findOne($product->size_width_id);
+
+            $sizes = unserialize($group->size);
+            $widths = unserialize($group->width);
+
+            foreach($model->colors as $color){
+                foreach($sizes as $size){
+                    foreach($widths as $width){
+                        $varmodel = new VarientProduct();
+
+                        $colormodel = DropdownValues::findOne($color);
+                        $widthmodel = DropdownValues::findOne($width);
+                        $sizemodel = DropdownValues::findOne($size);
+                        $varmodel->color = $color;
+                        $varmodel->width = $width;
+                        $varmodel->size = $size;
+                        $varmodel->product_id = $model->product_id;
+                        $varmodel->price = 0;
+                        $varmodel->sku = $product->article_id.'-'.$colormodel->name.'-'.$widthmodel->name.'-'.$sizemodel->name;
+                        $varmodel->save();
+
+                    }
+                }
+            }
+
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! items successfully created."));
+            return $this->redirect(['index']);
         }else {
             return $this->render('generate-items', [
                 'model' => $model,

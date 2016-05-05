@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$this->title = 'Generate Items for '. $model->name;
+$this->title = 'Generate Items';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,7 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
         $model->allcolor,
         [
             'prompt'=>'- Select color -',
-            'class'=>'form-control select2'
+            'class'=>'form-control select2',
+            'multiple' => 'multiple'
 
         ]
     );

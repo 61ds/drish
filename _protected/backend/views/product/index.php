@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'aria-label' => Yii::t('yii', 'Generate Items'),
                                             'data-pjax' => '0',
                                         ], []);
-                                        return Html::a('<span class="glyphicon glyphicons-cogwheel"></span>', ['product/generate','id'=>$model->id], $options);
+                                        return Html::a('<span class="glyphicon glyphicon-cog"></span>', ['product/generate','id'=>$model->id], $options);
                                     },
                                 ],
                                 'template' => '{generate}{viewitems}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
