@@ -51,15 +51,16 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'category_id', 'article_id','sku','quantity', 'price', 'market_price', 'descr', 'short_descr'], 'required'],
-            [['category_id', 'quantity', 'price', 'market_price', 'status', 'soldout', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'slug', 'category_id', 'article_id','sku','quantity', 'price', 'market_price', 'descr', 'short_descr'], 'required'],
+            [['category_id','featured', 'quantity', 'price', 'market_price', 'status', 'soldout', 'created_at', 'updated_at'], 'integer'],
             [['descr', 'short_descr', 'meta_description'], 'string'],
             ['general_attrs', 'required',
                 'message' => 'Please select one option.'
             ],
             [['optional_attrs'], 'safe'],
+            [['slug'], 'unique'],
             [['name','sku','article_id'], 'string', 'max' => 110],
-            [['meta_title', 'meta_keyword','article_id','sku'], 'string', 'max' => 255],
+            [['meta_title', 'meta_keyword','article_id','slug','sku'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -94,6 +95,7 @@ class Product extends \yii\db\ActiveRecord
             'descr' => 'Descr',
             'short_descr' => 'Short Descr',
             'article_id' => 'Article id',
+            'slug' => 'Slug',
             'sku' => 'SKU',
             'status' => 'Status',
             'is_variant' => 'Is Variant',
