@@ -6,7 +6,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-1.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-1.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -17,7 +17,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-2.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-2.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -28,7 +28,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-3.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-3.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -39,7 +39,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-4.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-4.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -50,7 +50,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-5.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-5.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -61,7 +61,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-6.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-6.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -72,7 +72,7 @@
                            <li>
                               <a href="category.html">
                                  <figure>
-                                    <img src="images/shoes-img-1.jpg" />
+                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-1.jpg" />
                                     <figcaption>
                                        <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
                                        <button type="button">Shop Now</button>
@@ -91,7 +91,7 @@
                      <ul class="grid cs-style-2">
                         <li>
                            <figure>
-                              <img class="img-responsive" alt="bag" src="images/bag-img-1.jpg">
+                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-1.jpg">
                               <figcaption>
                                  <h3>Smart Leather Oxford Shoe</h3>
                                  <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -100,7 +100,7 @@
                         </li>
                         <li>
                            <figure>
-                              <img class="img-responsive" alt="bag" src="images/bag-img-2.jpg">
+                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-2.jpg">
                               <figcaption>
                                  <h3>Smart Leather Oxford Shoe</h3>
                                  <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -109,7 +109,7 @@
                         </li>
                         <li>
                            <figure>
-                              <img class="img-responsive" alt="bag" src="images/bag-img-3.jpg">
+                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-3.jpg">
                               <figcaption>
                                  <h3>Smart Leather Oxford Shoe</h3>
                                  <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -118,7 +118,7 @@
                         </li>
                         <li>
                            <figure>
-                              <img class="img-responsive" alt="bag" src="images/bag-img-4.jpg">
+                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-4.jpg">
                               <figcaption>
                                  <h3>Smart Leather Oxford Shoe</h3>
                                  <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -127,7 +127,7 @@
                         </li>
                         <li>
                            <figure>
-                              <img class="img-responsive" alt="bag" src="images/bag-img-5.jpg">
+                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-5.jpg">
                               <figcaption>
                                  <h3>Smart Leather Oxford Shoe</h3>
                                  <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -136,7 +136,7 @@
                         </li>
                         <li>
                            <figure>
-                              <img class="img-responsive" alt="bag" src="images/bag-img-6.jpg">
+                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-6.jpg">
                               <figcaption>
                                  <h3>Smart Leather Oxford Shoe</h3>
                                  <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -178,7 +178,7 @@
                      <!-- Wrapper for slides -->
                      <div role="listbox" class="carousel-inner">
                         <div class="item">
-                           <img class="img-responsive" alt="slide-1" src="images/shoe-slide-1.jpg">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
                            <div class="carousel-caption">
                               <div class="price-frame">
                                  <h4>Making of<br>Leather Shoe<br>In India</h4>
@@ -189,7 +189,7 @@
                            </div>
                         </div>
                         <div class="item">
-                           <img class="img-responsive" alt="slide-1" src="images/shoe-slide-1.jpg">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
                            <div class="carousel-caption">
                               <div class="price-frame">
                                  <h4>Making of<br>Leather Shoe<br>In India</h4>
@@ -200,7 +200,7 @@
                            </div>
                         </div>
                         <div class="item">
-                           <img class="img-responsive" alt="slide-1" src="images/shoe-slide-1.jpg">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
                            <div class="carousel-caption">
                               <div class="price-frame">
                                  <h4>Making of<br>Leather Shoe<br>In India</h4>
@@ -211,7 +211,7 @@
                            </div>
                         </div>
                         <div class="item">
-                           <img class="img-responsive" alt="slide-1" src="images/shoe-slide-1.jpg">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
                            <div class="carousel-caption">
                               <div class="price-frame">
                                  <h4>Making of<br>Leather Shoe<br>In India</h4>
@@ -222,7 +222,7 @@
                            </div>
                         </div>
                         <div class="item active">
-                           <img class="img-responsive" alt="slide-1" src="images/shoe-slide-1.jpg">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
                            <div class="carousel-caption">
                               <div class="price-frame">
                                  <h4>Making of<br>Leather Shoe<br>In India</h4>
@@ -235,11 +235,11 @@
                      </div>
                      <!-- Left and right controls -->
                      <a data-slide="prev" role="button" href="#myCarousel-shoes" class="left carousel-control">
-                     <span aria-hidden="true" class="slide-arrow-left-2"><img alt="arrow" src="images/left-arrow.jpg"></span>
+                     <span aria-hidden="true" class="slide-arrow-left-2"><img alt="arrow" src="<?= Yii::$app->params['baseurl'] ?>/images/left-arrow.jpg"></span>
                      <span class="sr-only">Previous</span>
                      </a>
                      <a data-slide="next" role="button" href="#myCarousel-shoes" class="right carousel-control live">
-                     <span aria-hidden="true" class="slide-arrow-right-2"><img alt="arrow" src="images/right-arrow.jpg"></span>
+                     <span aria-hidden="true" class="slide-arrow-right-2"><img alt="arrow" src="<?= Yii::$app->params['baseurl'] ?>/images/right-arrow.jpg"></span>
                      <span class="sr-only">Next</span>
                      </a>
                   </div>
@@ -253,7 +253,7 @@
                   <!-- Wrapper for slides -->
                   <div class="frnt-video" style="width: 100%; overflow: hidden; height: 350px;">
                      <video class="home_video" width="100%" loop autoplay="" controls muted>
-                        <source src="videos/drish-video.mp4" type="video/mp4">
+                        <source src="<?= Yii::$app->params['baseurl'] ?>/videos/drish-video.mp4" type="video/mp4">
                      </video>
                   </div>
                </div>
@@ -281,7 +281,7 @@
                   </div>
                   <!--end col-lg-2-->
                   <div class="col-lg-3 col-sm-6 col-md-6 col-xs-12">
-                     <div class="winter-area">  <img class="img-responsive" alt="winter-area" src="images/winter-area-2.jpg"></div>
+                     <div class="winter-area">  <img class="img-responsive" alt="winter-area" src="<?= Yii::$app->params['baseurl'] ?>/images/winter-area-2.jpg"></div>
                   </div>
                   <!--end col-lg-3-->
                </div>
