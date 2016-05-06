@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\VarientProduct;
+use common\models\Product;
 use common\models\VarientProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -29,6 +30,7 @@ class VarientProductController extends BackendController
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
+            'id' => $id,
         ]);
     }
     /**
@@ -48,15 +50,18 @@ class VarientProductController extends BackendController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new VarientProduct();
-
+        $model->product_id = $id;
+        $product = Product::findOne($id);
+        $model->sku = $product->article_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'id' => $id,
             ]);
         }
     }
@@ -72,10 +77,12 @@ class VarientProductController extends BackendController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->product_id]);
         } else {
+
             return $this->render('update', [
                 'model' => $model,
+                'id' => $model->product_id,
             ]);
         }
     }

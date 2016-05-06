@@ -6,13 +6,10 @@ use yii\helpers\Html;
 /* @var $model common\models\VarientProduct */
 
 $this->title = 'Update Varient Product: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Varient Products', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Varient Products', 'url' => ['index','id'=>$id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="varient-product-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

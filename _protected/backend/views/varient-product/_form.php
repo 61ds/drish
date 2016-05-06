@@ -12,19 +12,36 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'product_id')->textInput() ?>
-
     <?= $form->field($model, 'sku')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'color')->textInput() ?>
+    <?= $form->field($model, 'color')->dropDownList(
+        $model->allcolor,
+        [
+            'prompt'=>'- Select Product -',
+            'class'=>'form-control select2'
 
-    <?= $form->field($model, 'size')->textInput() ?>
+        ]
+    ); ?>
 
-    <?= $form->field($model, 'width')->textInput() ?>
+    <?= $form->field($model, 'width')->dropDownList(
+        $model->allwidth,
+        [
+            'prompt'=>'- Select Product -',
+            'class'=>'form-control select2'
+
+        ]
+    ); ?>
+
+    <?= $form->field($model, 'size')->dropDownList(
+        $model->allsize,
+        [
+            'prompt'=>'- Select Product -',
+            'class'=>'form-control select2'
+
+        ]
+    ); ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

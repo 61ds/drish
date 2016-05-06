@@ -410,7 +410,9 @@ class ProductController extends BackendController
                 foreach($sizes as $size){
                     foreach($widths as $width){
                         $varmodel = new VarientProduct();
-
+                        $searchvarient = VarientProduct::find()->where(['color'=>$color,'width'=>$width,'size'=>$size,'product_id'=>$model->product_id])->one();
+                        if($searchvarient)
+                            continue;
                         $colormodel = DropdownValues::findOne($color);
                         $widthmodel = DropdownValues::findOne($width);
                         $sizemodel = DropdownValues::findOne($size);
