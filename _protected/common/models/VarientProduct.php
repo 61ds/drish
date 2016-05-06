@@ -40,7 +40,7 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'sku', 'color', 'size', 'width'], 'required'],
+            [['product_id', 'sku', 'color','colors', 'size', 'width'], 'required'],
             [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
             [['sku'], 'string', 'max' => 255],
             [['colors'], 'safe'],
@@ -156,5 +156,24 @@ class VarientProduct extends \yii\db\ActiveRecord
             $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
         }
         return ArrayHelper::map($attrvalues,'id','name');
+    }
+    public function getAvailcolor($id=0)
+    {
+        $attr = Attributes::find()->where(['name' => 'color'])->one();
+        $attrvalues = array();
+        if($attr){
+            $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
+            $color_id = $this->find()->where(['product_id' => $id])->distinct('color')->select('color')->all();
+            $array_color = ArrayHelper::map($attrvalues,'id','name');
+            if($color_id){
+                foreach($color_id as $col){
+                    unset($array_color[$col->color]);
+
+                }
+
+            }
+
+        }
+        return $array_color;
     }
 }

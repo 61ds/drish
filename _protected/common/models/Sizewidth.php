@@ -32,7 +32,7 @@ class Sizewidth extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name','size','width'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['name'], 'unique'],
             [['name'], 'string', 'max' => 100],

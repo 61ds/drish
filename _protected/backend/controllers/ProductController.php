@@ -394,6 +394,9 @@ class ProductController extends BackendController
     {
         $model = new VarientProduct();
         $model->product_id = $id;
+
+
+
         if ($model->load(Yii::$app->request->post())) {
             $product = Product::findOne($id);
 

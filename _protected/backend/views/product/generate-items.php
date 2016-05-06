@@ -5,29 +5,6 @@ use yii\widgets\ActiveForm;
 $this->title = 'Generate Items';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerJs('
-function validateSelect(){
-    var value = $("#varientproduct-colors").val();
-    if(value == null || value ==""){
-        $(".field-varientproduct-colors").addClass("has-error");
-         $(".help-block").show();
-        event.preventDefault();
-
-    }else{
-        $(".field-varientproduct-colors").removeClass("has-error");
-         $(".help-block").hide();
-    }
-}
-$("button.btn-success").click(function(){
-    validateSelect();
-});
-$(".btn-success").change(function(){
-    validateSelect();
-});
-$(".btn-success").select(function(){
-    validateSelect();
-});
-');
 ?>
 
 <div class="product-form">
@@ -35,9 +12,8 @@ $(".btn-success").select(function(){
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'colors')->dropDownList(
-        $model->allcolor,
+        $model->getAvailcolor($model->product_id),
         [
-            'prompt'=>'- Select color -',
             'class'=>'form-control select2 required',
             'multiple' => 'multiple'
 

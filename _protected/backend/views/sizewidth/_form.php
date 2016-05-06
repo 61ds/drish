@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Sizewidth */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="sizewidth-form">
@@ -16,8 +17,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'size')->dropDownList(
         $model->allsize,
         [
-            'prompt'=>'- Select Size -',
-            'class'=>'form-control select2',
+            'class'=>'form-control select2 required',
             'multiple' => 'multiple'
         ]
     );
@@ -25,8 +25,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'width')->dropDownList(
         $model->allwidth,
         [
-            'prompt'=>'- Select width -',
-            'class'=>'form-control select2',
+            'class'=>'form-control select2 required',
             'multiple' => 'multiple'
         ]
     );
