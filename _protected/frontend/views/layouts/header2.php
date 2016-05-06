@@ -99,4 +99,4 @@ use frontend\widgets\SliderWid;
                   </div>
                   <!-- end of header-->
                </div>
-			    <?= SliderWid::widget([ 'position'=>"header" , 'slider_id' => 79 ]) ?> 
+			    <?= SliderWid::widget([ 'position'=>"header" , 'controller' => Yii::$app->controller->id ]) ?> 
