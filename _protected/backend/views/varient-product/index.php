@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Varient Products';
-$this->params['breadcrumbs'][] = ['label' => 'All Articles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'All Articles', 'url' => ['product/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="varient-product-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-body table-responsive">
 
                     <p class="pull-right">
-                        <?= Html::a('Add New items', ['create'], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Add New items', ['varient-product/create','id'=>$id ], ['class' => 'btn btn-primary']) ?>
                     </p>
                     <?php Pjax::begin(); ?>
                     <?= GridView::widget([

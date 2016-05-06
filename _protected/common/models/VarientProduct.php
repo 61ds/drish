@@ -40,10 +40,11 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'sku', 'color','colors', 'size', 'width'], 'required'],
+            [['product_id', 'sku', 'color', 'size', 'width'], 'required'],
             [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
             [['sku'], 'string', 'max' => 255],
             [['colors'], 'safe'],
+            [['color', 'width','size'], 'unique', 'targetAttribute' => ['color', 'width','size']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['color'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['color' => 'id']],
             [['size'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['size' => 'id']],
@@ -167,7 +168,7 @@ class VarientProduct extends \yii\db\ActiveRecord
             $array_color = ArrayHelper::map($attrvalues,'id','name');
             if($color_id){
                 foreach($color_id as $col){
-                    unset($array_color[$col->color]);
+                    //unset($array_color[$col->color]);
 
                 }
 

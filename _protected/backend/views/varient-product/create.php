@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\VarientProduct */
 
 $this->title = 'Create Varient Product';
-$this->params['breadcrumbs'][] = ['label' => 'Varient Products', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Varient Products', 'url' => ['index','id'=>$id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="varient-product-create">
