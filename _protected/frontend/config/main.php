@@ -26,8 +26,8 @@ return [
             'showScriptName' => false,
             'rules' => array(
                 '/' => 'site/index',
-                'mens.html' => 'men/index',
-                'womens.html' => 'women/index',
+                'men.html' => 'men/index',
+                'women.html' => 'women/index',
                 'children.html' => 'children/index',
                 '/<slug:.*?>.html'=>'/site/page',
 
