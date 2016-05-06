@@ -54,11 +54,14 @@ class VarientProductController extends BackendController
     {
         $model = new VarientProduct();
         $model->product_id = $id;
+        $model->colors = 'red';
         $product = Product::findOne($id);
         $model->sku = $product->article_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', "Item successfully created."));
             return $this->redirect(['index', 'id' => $id]);
         } else {
+
             return $this->render('create', [
                 'model' => $model,
                 'id' => $id,
@@ -75,8 +78,9 @@ class VarientProductController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->colors = 'red';
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', "Item successfully updated."));
             return $this->redirect(['index', 'id' => $model->product_id]);
         } else {
 

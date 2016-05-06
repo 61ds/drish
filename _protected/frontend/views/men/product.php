@@ -1,6 +1,12 @@
 <?php
 use frontend\widgets\RelatedProducts;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\web\View;
+
 //echo"<prE>";print_r($model);die;
+$this->registerJs("var product_price = ".json_encode($model->price)."; var varients = ".json_encode($varients).";", View::POS_END);
+
 ?>
 
 <section class="product-area-outer">
@@ -69,7 +75,7 @@ use frontend\widgets\RelatedProducts;
                         <h3><?= $model->name ?></h3>
                         <h4 class="red-color"><i class="fa fa-inr"></i><?= $model->price ?></h4>
                         <div class="border-gry">
-                            <?= $model->descr ?>
+                            <?= html_entity_decode($model->descr) ?>
                         </div>
 
                         <div class="rating-area">
@@ -88,46 +94,59 @@ use frontend\widgets\RelatedProducts;
                             </div>
 
                             <div class="quantity">
+
+
+
+                                <?php $form = ActiveForm::begin(); ?>
+
                                 <div class="select-size">
                                     <div class="color">
-                                        <select id="selectmenu-7" style="display: none;">
-                                            <option>Width</option>
-                                            <option>Slow</option>
-                                            <option selected="selected">Select Size</option>
-                                            <option>Fast</option>
-                                            <option>Faster</option>
-                                        </select>
+                                        <?= $form->field($cart, 'size')->dropDownList(
+                                            $varientModel->getAvailattr($model->id,'size'),
+                                            [
+                                                'prompt'=>'Select Size',
+                                                'class'=>'form-control select2 required updateprice',
+                                            ]
+                                        )->label(false);
+                                        ?>
                                     </div>
-
                                     <div class="color">
-                                        <select id="selectmenu-9" style="display: none;">
-                                            <option selected="selected">Width</option>
-                                            <option>Normal</option>
-                                            <option>Wide</option>
-
-                                        </select>
+                                        <?= $form->field($cart, 'width')->dropDownList(
+                                            $varientModel->getAvailattr($model->id,'width'),
+                                            [
+                                                'prompt'=>'Select Width',
+                                                'class'=>'form-control select2 required updateprice',
+                                            ]
+                                        )->label(false);
+                                        ?>
                                     </div>
                                 </div>
+
                                 <div class="select-size">
-                                    <div class="color">
-                                        <select id="selectmenu-8" style="display: none;">
-                                            <option>Width</option>
-                                            <option>Slow</option>
-                                            <option selected="selected">Select Quantity</option>
-                                            <option>Fast</option>
-                                            <option>Faster</option>
-                                        </select>
-                                    </div>
 
                                     <div class="color">
-                                        <select id="selectmenu-10" style="display: none;">
-                                            <option>Color</option>
-                                            <option selected="selected">Black</option>
-                                            <option>White</option>
-                                        </select>
+                                        <?= $form->field($cart, 'color')->dropDownList(
+                                            $varientModel->getAvailattr($model->id,'color'),
+                                            [
+                                                'prompt'=>'Select Color',
+                                                'class'=>'form-control select2 required updateprice',
+                                            ]
+                                        )->label(false);
+                                        ?>
+                                    </div>
+                                    <div class="color">
+                                    <?= $form->field($cart, 'quantity')->dropDownList(
+                                        $varientModel->getQuantity($model->id),
+                                        [
+                                            'prompt'=>'Select Quantity',
+                                            'class'=>'form-control select2 required',
+                                        ]
+                                    )->label(false);
+                                    ?>
                                     </div>
 
                                 </div>
+
                                 <div class="select-size">
                                     <div class="color">
                                         <p>Size and Width guide <span class="foot-scale"> <img title="foot-scale" alt="foot-scale" src="<?= Yii::$app->params['baseurl'] ?>/images/foot-scale.png"></span></p>
@@ -137,6 +156,8 @@ use frontend\widgets\RelatedProducts;
                                         <input type="text" placeholder="Enter Zip Code">
                                     </div>
                                 </div>
+
+                                <?php ActiveForm::end(); ?>
                             </div>
 
                             <div class="add-to-cart">
@@ -287,7 +308,6 @@ use frontend\widgets\RelatedProducts;
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h3>Related product</h3>
                 <?= RelatedProducts::widget(['product_id' => $model->id]) ?>
             </div>
 

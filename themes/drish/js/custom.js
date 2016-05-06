@@ -2,6 +2,27 @@
 
 		$(document).ready(function(){
 
+            $( ".updateprice" ).change(function() {
+                color = $('#cart-color').val();
+                width = $('#cart-width').val();
+                size = $('#cart-size').val();
+                changed = 0;
+                $.each( varients, function( key, value ) {
+                   if(value.color == color && value.size==size && value.width==width){
+                       $('.red-color').html('<i class="fa fa-inr"></i>'+value.price);
+                      //alert(value.price);
+                       changed = 1;
+                   }
+                });
+                if(changed == 0){
+                    $('.red-color').html('<i class="fa fa-inr"></i>'+product_price);
+                }
+            });
+
+
+
+
+
 			$('nav#menu').mmenu({
 				extensions	: [ 'effect-slide-menu', 'pageshadow' ],
 				searchfield	: true,
