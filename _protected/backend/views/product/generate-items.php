@@ -5,6 +5,29 @@ use yii\widgets\ActiveForm;
 $this->title = 'Generate Items';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerJs('
+function validateSelect(){
+    var value = $("#varientproduct-colors").val();
+    if(value == null || value ==""){
+        $(".field-varientproduct-colors").addClass("has-error");
+         $(".help-block").show();
+        event.preventDefault();
+
+    }else{
+        $(".field-varientproduct-colors").removeClass("has-error");
+         $(".help-block").hide();
+    }
+}
+$("button.btn-success").click(function(){
+    validateSelect();
+});
+$(".btn-success").change(function(){
+    validateSelect();
+});
+$(".btn-success").select(function(){
+    validateSelect();
+});
+');
 ?>
 
 <div class="product-form">
@@ -15,13 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
         $model->allcolor,
         [
             'prompt'=>'- Select color -',
-            'class'=>'form-control select2',
+            'class'=>'form-control select2 required',
             'multiple' => 'multiple'
 
         ]
     );
     ?>
-
+    <div class="help-block" style="display:none; color:red;">Please Select atleast One.</div>
 
     <div class="form-group">
         <?= Html::submitButton('Generate', ['class' => 'btn btn-success']) ?>
