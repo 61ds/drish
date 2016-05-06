@@ -40,7 +40,7 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'sku', 'color', 'size', 'width'], 'required'],
+            [['product_id', 'sku', 'color', 'colors','size', 'width'], 'required'],
             [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
             [['sku'], 'string', 'max' => 255],
             [['colors'], 'safe'],
@@ -158,23 +158,37 @@ class VarientProduct extends \yii\db\ActiveRecord
         }
         return ArrayHelper::map($attrvalues,'id','name');
     }
-    public function getAvailcolor($id=0)
+    public function getAvailattr($id=0,$name)
     {
-        $attr = Attributes::find()->where(['name' => 'color'])->one();
-        $attrvalues = array();
+        $attr = Attributes::find()->where(['name' => $name])->one();
+
         if($attr){
             $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
-            $color_id = $this->find()->where(['product_id' => $id])->distinct('color')->select('color')->all();
+            $color_id = $this->find()->where(['product_id' => $id])->distinct($name)->select($name)->all();
             $array_color = ArrayHelper::map($attrvalues,'id','name');
+            $array_attr = array();
             if($color_id){
                 foreach($color_id as $col){
-                    //unset($array_color[$col->color]);
-
+                    $array_attr[] = array('id'=>$col->$name , 'name'=>$array_color[$col->$name]);
                 }
 
             }
 
         }
-        return $array_color;
+
+        return ArrayHelper::map($array_attr,'id','name');
+    }
+
+    public function getQuantity($id=0)
+    {
+        $product = Product::findOne($id);
+
+        if($product){
+            for($i=1; $i<= $product->quantity; $i++){
+                $array_attr[] = array('id'=>$i , 'name'=>$i);
+            }
+        }
+
+        return ArrayHelper::map($array_attr,'id','name');
     }
 }

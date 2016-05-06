@@ -1,6 +1,7 @@
 <?php
 use common\models\Product;
 ?>
+<h3>Related product</h3>
 <div class="slider-product">
     <ul class="bxslider-pro">
 		<?php

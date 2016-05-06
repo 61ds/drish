@@ -22,9 +22,11 @@ class RelatedProducts extends Widget
     {
 		$model = Product::find()->where(['id' => $this->product_id])->one();
 		$arry = unserialize($model->related);
-        return $this->render('related-product', [
-            'product_ids' =>  $arry,
-        ]);
+        if($arry) {
+            return $this->render('related-product', [
+                'product_ids' => $arry,
+            ]);
+        }
     }
 
 }

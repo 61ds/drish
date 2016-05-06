@@ -3,12 +3,14 @@ namespace frontend\controllers;
 
 use common\models\User;
 use common\models\LoginForm;
+use common\models\VarientProduct;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Product;
+use common\models\Cart;
 use common\models\ProductImages;
 use common\models\ProductDropdownValues;
 use common\models\ProductTextValues;
@@ -104,15 +106,31 @@ class MenController extends Controller
         $ProductTextValues = ProductTextValues::find()->where(['product_id' => $id])->all();
         $ProductImages = ProductImages::find()->where(['product_id' => $id])->all();
         $DropdownValues = new DropdownValues;
+        $cart = new Cart();
+        $varientModel = new VarientProduct();
 
 
         if (($model = Product::findOne($id)) !== null) {
+            $searchvarient = VarientProduct::find()->where(['product_id'=>$id])->all();
+            $varients = array();
+            $i = 0;
+            foreach($searchvarient as $varient){
+                $varients[$i]['color'] = $varient->color;
+                $varients[$i]['size'] = $varient->size;
+                $varients[$i]['width'] = $varient->width;
+                $varients[$i]['price'] = $varient->price + $model->price;
+                $i++;
+            }
+
             return $this->render('product',['model'=>$model,
                 'productDropdownValues'=>$ProductDropdownValues,
                 'productDescValues'=>$ProductDescValues,
                 'productTextValues'=>$ProductTextValues,
                 'productImages'=>$ProductImages,
-                'dropdownValues'=>$DropdownValues
+                'dropdownValues'=>$DropdownValues,
+                'varientModel'=>$varientModel,
+                'cart'=>$cart,
+                'varients'=>$varients,
             ]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

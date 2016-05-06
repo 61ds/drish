@@ -571,8 +571,6 @@ class ProductController extends BackendController
 
         if ($model->load(Yii::$app->request->post())) {
             $product = Product::findOne($id);
-
-
             $group = Sizewidth::findOne($product->size_width_id);
 
             $sizes = unserialize($group->size);
@@ -601,7 +599,7 @@ class ProductController extends BackendController
             }
 
             Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! items successfully created."));
-            return $this->redirect(['index']);
+            return $this->redirect(['varient-product/index','id'=>$model->product_id]);
         }else {
             return $this->render('generate-items', [
                 'model' => $model,
