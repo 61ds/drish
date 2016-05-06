@@ -81,7 +81,7 @@ $model = new SettingAttributes();
 							$image3 = Yii::$app->params['baseurl'] . '/uploads/settings/'.$asdvalue['value'];
 							$img_url = '<div class="vid"><video  autoplay="" loop="" controls style="max-width:300px;max-height:200px;"><source src="'.$image3.'" type="video/mp4">Your browser does not support the video tag.</video></div>';
 						}else{
-							$img_url = Yii::$app->params['baseurl']."/uploads/no-video.jpg";
+							$img_url = '<img src="'.Yii::$app->params['baseurl'].'/uploads/no-video.jpg" style="width:200px;height:150px;">';
 						}
 						?>
 

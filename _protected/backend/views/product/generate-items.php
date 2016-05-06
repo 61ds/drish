@@ -11,11 +11,13 @@ function validateSelect(){
     if(value == null || value ==""){
         $(".field-varientproduct-colors").addClass("has-error");
          $(".help-block").show();
-        event.preventDefault();
+          $("#w0").attr("disable", "disabled");
+        return event.preventDefault();
 
     }else{
+        $("#w0").removeAttr( "disable" )
         $(".field-varientproduct-colors").removeClass("has-error");
-         $(".help-block").hide();
+        $(".help-block").hide();
     }
 }
 $("button.btn-success").click(function(){

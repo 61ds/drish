@@ -256,8 +256,7 @@ class ProductController extends BackendController
             }
 
         } else {
-
-            if ($session->has('last_selected_step')){
+				if ($session->has('last_selected_step')){
 
                 $selected_categories = json_decode($session->get('selected_categories'));
 
@@ -368,13 +367,186 @@ class ProductController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+		$categoryModel = Category::findOne($model->category_id);
+		$product_model = Product::find()->where(['status' => 1])->all();
+        if (($attrsModel = $categoryModel->categoryAttributes) === null) {
+            $attrsModel = $categoryModel->createAttrsModel;
+        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $general_added = unserialize($attrsModel->general_attributes);
+
+        $general_attrs = array();
+        foreach($general_added as $attr){
+            $general_attrs[] = Attributes::findOne(['id'=>$attr]);
+        }
+		
+        $ProductImagesModel =ProductImages::find()->where(['product_id' => $model->id])->one();
+        if(Yii::$app->request->isPost){
+			if(Yii::$app->request->post('step')=="sc"){
+                $selected_categories = Yii::$app->request->post('ProductForm')['category'];
+
+                //store sc data to session
+                $session->set('category_id', $model->category_id);
+                $session->set('last_selected_step', "sc");
+                $session->set('user_id', Yii::$app->user->identity->id);
+                $session->set('selected_categories', json_encode($selected_categories));
+
+                $categoryModel = Category::findOne($model->category_id);
+
+                if (($attrsModel = $categoryModel->categoryAttributes) === null) {
+                    $attrsModel = $categoryModel->createAttrsModel;
+                }
+
+                $general_added = unserialize($attrsModel->general_attributes);
+
+                $general_attrs = array();
+                foreach($general_added as $attr){
+                    $general_attrs[] = Attributes::findOne(['id'=>$attr]);
+                }
+                $ProductImagesModel = new ProductImages();
+                return $this->render('addproduct', [
+                    'model' => $model,
+                    'general_attrs' => $general_attrs,
+                    'dropdownmodel' => new DropdownValuesSearch(),
+                    'category' => $categoryModel,
+                    'ProductImagesModel' => $ProductImagesModel,
+                    'product_model' => $product_model,
+
+                ]);
+
+            }else if(Yii::$app->request->post('step')=="pbi"){
+
+                $main_image = UploadedFile::getInstance($ProductImagesModel, 'main_image');
+                $home_image = UploadedFile::getInstance($ProductImagesModel, 'home_image');
+                $video = UploadedFile::getInstance($ProductImagesModel, 'video');
+                $main_image = UploadedFile::getInstance($ProductImagesModel, 'main_image');
+
+                $flip_image = UploadedFile::getInstance($ProductImagesModel, 'flip_image');
+                $other_images = UploadedFile::getInstances($ProductImagesModel, 'other_image');
+
+                //product save
+                if($model->load(Yii::$app->request->post())){
+                    $model->category_id = $model->category_id;
+					$model->related = serialize(Yii::$app->request->post('related'));
+					$special =Yii::$app->request->post('Product');
+					$model->special = $special['special'];
+                    if($model->save()){
+						
+                        //save dropdown values
+                        foreach($model->general_attrs as $key=>$gen_attrs){
+							
+							$check_type =  Attributes::find()->where(['id'=>$key])->one();
+							if($check_type->entity_id == 2){
+								$ProductDropdownValues = new ProductDropdownValues;
+								$ProductDropdownValues->value_id = $gen_attrs;
+							}elseif($check_type->entity_id == 4){
+								$ProductDropdownValues = new ProductDescValues;
+								$ProductDropdownValues->value = $gen_attrs;
+								$ProductDropdownValues->attr_id = $key;
+								$ProductDropdownValues->status = 1;
+							}elseif($check_type->entity_id == 1){
+								$ProductDropdownValues = new ProductTextValues;
+								$ProductDropdownValues->value = $gen_attrs;
+								$ProductDropdownValues->attr_id = $key;
+								$ProductDropdownValues->status = 1;
+							}
+                            $ProductDropdownValues->product_id = $model->id;
+                            $ProductDropdownValues->save();
+                        }
+						 foreach($model->optional_attrs as $key=>$optional_attrs){
+							$check_type =  Attributes::find()->where(['id'=>$key])->one();
+							if($check_type->entity_id == 2){
+								$ProductDropdownValues = new ProductDropdownValues;
+								$ProductDropdownValues->value_id = $optional_attrs;
+							}elseif($check_type->entity_id == 4){
+								$ProductDropdownValues = new ProductDescValues;
+								$ProductDropdownValues->value = $optional_attrs;
+								$ProductDropdownValues->status = 1;
+								$ProductDropdownValues->attr_id = $key;
+							}elseif($check_type->entity_id == 1){
+								$ProductDropdownValues = new ProductTextValues;
+								$ProductDropdownValues->value = $optional_attrs;
+								$ProductDropdownValues->status = 1;
+								$ProductDropdownValues->attr_id = $key;
+							}
+                            
+                            $ProductDropdownValues->product_id = $model->id;
+                             $ProductDropdownValues->save();
+							
+                        }
+
+
+                        $ProductImagesModel->product_id = $model->id;
+                        //save main image
+                        if($main_image)
+                        {
+                            $name = time().$model->id;
+                            $size = Yii::$app->params['folders']['size'];
+                            $main_folder = "product/main/".$model->id;
+                            $image_name= $this->uploadImage($main_image,$name,$main_folder,$size);
+                            $ProductImagesModel->main_image = $image_name;
+                        }
+                        if($home_image)
+                        {
+                            $name = time().$model->id;
+                            $size = Yii::$app->params['folders']['size'];
+                            $main_folder = "product/home/".$model->id;
+                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size);
+                            $ProductImagesModel->home_image = $image_name;
+                        }
+                        if($video)
+                        {
+                            $name = time().$model->id;
+                            $main_folder = "product/video/".$model->id;
+                            $image_name= $this->uploadFile($video,$name,$main_folder);
+                            $ProductImagesModel->video = $image_name;
+                        }
+                        if($flip_image)
+                        {
+                            $name = time().$model->id;
+                            $size = Yii::$app->params['folders']['size'];
+                            $main_folder = "product/flip/".$model->id;
+                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size);
+                            $ProductImagesModel->flip_image = $image_name;
+                        }
+                        //save all other images
+                        if($other_images)
+                        {
+
+                            $prod_otherimages = array();
+                            foreach($other_images as $other_image){
+
+                                $name = time().$model->id;
+                                $size = Yii::$app->params['folders']['size'];
+                                $main_folder = "product/other/".$model->id;
+                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size);
+                                $prod_otherimages[] = $image_name;
+                            }
+                            $ProductImagesModel->other_image = serialize($prod_otherimages);
+                        }
+                        $ProductImagesModel->save();
+
+                    }else{
+                        print_r($model->getErrors());
+                        die;
+                    }
+                }else{
+                    print_r($model->getErrors());
+                    die;
+                }
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! your product is successfully updated."));
+            }
             return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+           return $this->render('updateproduct', [
+                    'model' => $model,
+                    'general_attrs' => $general_attrs,
+                    'dropdownmodel' => new DropdownValuesSearch(),
+                    'category' => $categoryModel,
+                    'ProductImagesModel' => $ProductImagesModel,
+                    'product_model' => $product_model,
+
+                ]);
         }
     }
 
