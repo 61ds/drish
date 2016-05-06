@@ -79,7 +79,7 @@ class BackendController extends Controller
                         'roles' => ['admin','theCreator'],
                     ],
                     [
-                        'controllers' => ['product','varient-product'],
+                        'controllers' => ['product','varient-product','sizewidth'],
                         'actions' => ['index','update-any-status', 'create', 'update','subcategories','viewitems','generate'],
                         'allow' => true,
                         'roles' => ['admin','theCreator'],
