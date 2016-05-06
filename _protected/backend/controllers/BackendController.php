@@ -79,7 +79,7 @@ class BackendController extends Controller
                         'roles' => ['admin','theCreator'],
                     ],
                     [
-                        'controllers' => ['product'],
+                        'controllers' => ['product','varient-product'],
                         'actions' => ['index','update-any-status', 'create', 'update','subcategories','viewitems','generate'],
                         'allow' => true,
                         'roles' => ['admin','theCreator'],
@@ -126,7 +126,7 @@ class BackendController extends Controller
             $model = Yii::$app->request->post('model');
 			
 			if($model){
-				$model = 'app\modules\admin\models\\'.$model;
+				$model = 'common\models\\'.$model;
 				$model = $model::findOne($id);
 			}else{
 				$model = $this->findModel($id);

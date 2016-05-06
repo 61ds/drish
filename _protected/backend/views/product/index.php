@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'aria-label' => Yii::t('yii', 'View Items'),
                                             'data-pjax' => '0',
                                         ], []);
-                                        return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['product/viewitems','id'=>$model->id], $options);
+                                        return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['varient-product/index','id'=>$model->id], $options);
                                     },
                                     'generate' =>function ($url, $model, $key) {
                                         $options = array_merge([

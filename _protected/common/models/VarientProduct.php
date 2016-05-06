@@ -139,4 +139,22 @@ class VarientProduct extends \yii\db\ActiveRecord
         }
         return ArrayHelper::map($attrvalues,'id','name');
     }
+    public function getAllsize()
+    {
+        $attr = Attributes::find()->where(['name' => 'size'])->one();
+        $attrvalues = array();
+        if($attr){
+            $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
+        }
+        return ArrayHelper::map($attrvalues,'id','name');
+    }
+    public function getAllwidth()
+    {
+        $attr = Attributes::find()->where(['name' => 'width'])->one();
+        $attrvalues = array();
+        if($attr){
+            $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
+        }
+        return ArrayHelper::map($attrvalues,'id','name');
+    }
 }

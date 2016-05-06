@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'filter'=>array("1"=>"Active","0"=>"Inactive"),
                             ],
                             // 'created_at',
-                             'updated_at:Date',
+                            'updated_at:Date',
 
                             [
                                 'class' => 'yii\grid\ActionColumn','header'=>'Actions',

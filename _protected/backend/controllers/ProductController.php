@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\DropdownValues;
 use common\models\Sizewidth;
+use common\models\VarientProductSearch;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
@@ -379,11 +380,14 @@ class ProductController extends BackendController
 
     public function actionViewitems($id)
     {
-        $model = $this->findModel($id);
+        $searchModel = new VarientProductSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
+        $model = new VarientProduct();
         return $this->render('items', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'model' => $model,
         ]);
-
     }
 
     public function actionGenerate($id)
