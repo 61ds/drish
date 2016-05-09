@@ -165,7 +165,7 @@ class VarientProduct extends \yii\db\ActiveRecord
 
         if($attr){
             $attrvalues = DropdownValues::find()->where(['attribute_id' => $attr->id])->orderBy('name')->all();
-            $color_id = $this->find()->where(['product_id' => $id])->distinct($name)->select($name)->all();
+            $color_id = $this->find()->where(['product_id' => $id])->andWhere(['<>','quantity', 0])->distinct($name)->select($name)->all();
             $array_color = ArrayHelper::map($attrvalues,'id','name');
             $array_attr = array();
             if($color_id){

@@ -115,11 +115,15 @@ class MenController extends Controller
             $varients = array();
             $i = 0;
             foreach($searchvarient as $varient){
+                $qnt = $varient->quantity + $model->quantity;
+                if($qnt < 1)
+                    continue;
+
                 $varients[$i]['color'] = $varient->color;
                 $varients[$i]['size'] = $varient->size;
                 $varients[$i]['width'] = $varient->width;
                 $varients[$i]['price'] = $varient->price + $model->price;
-                $varients[$i]['quantity'] = $varient->quantity + $model->quantity;
+                $varients[$i]['quantity'] = $qnt;
                 $i++;
             }
 
