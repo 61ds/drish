@@ -590,13 +590,13 @@ class ProductController extends BackendController
                         $varmodel->color = $color;
                         $varmodel->colors = 'red';
                         $varmodel->width = $width;
-                        $varmodel->quantity = $model->quantity;
+                        $varmodel->quantity = $product->quantity;
                         $varmodel->size = $size;
                         $varmodel->product_id = $model->product_id;
                         $varmodel->price = 0;
                         $varmodel->sku = $product->article_id.'-'.$colormodel->name.'-'.$widthmodel->name.'-'.$sizemodel->name;
                         $varmodel->save();
-
+						
 
                     }
                 }

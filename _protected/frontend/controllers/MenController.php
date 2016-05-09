@@ -115,7 +115,7 @@ class MenController extends Controller
             $varients = array();
             $i = 0;
             foreach($searchvarient as $varient){
-                $qnt = $varient->quantity + $model->quantity;
+                $qnt = $varient->quantity;
                 if($qnt < 1)
                     continue;
 
