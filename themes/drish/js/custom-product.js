@@ -52,9 +52,12 @@ jQuery( document ).ready(function( $ ) {
     $( "#selectmenu-9").selectmenu();
     $( "#selectmenu-10").selectmenu();
     $('.bxslider-pro').bxSlider({
-        minSlides: 3,
+        minSlides: 1,
+		infiniteLoop: false,
         maxSlides: 4,
-        slideWidth: 170,
+		speed: 500,
+		useCSS: true,
+		responsive: true,
         slideMargin: 10,
         nextText: ' ',
         prevText: ' '
