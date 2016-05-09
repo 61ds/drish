@@ -39,21 +39,7 @@
                             <div class="tab-pane active" id="tab_1">
                                  <input type="hidden" name="step" value="pbi">
                                  <div class="row">
-
-                                    <div class="col-md-6">
-                                       <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                                       <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
-                                       <?= $form->field($model, 'quantity')->textInput() ?>
-                                    </div>
-                                   
-                                    
-									<div class="col-md-6">
-									 <?= $form->field($model, 'price')->textInput() ?>
-										
-                                       <?= $form->field($model, 'article_id')->textInput(['maxlength' => true]) ?>
-									    <?= $form->field($model, 'market_price')->textInput() ?>
-                                    </div>
-                                   <div class="col-md-12">
+									<div class="col-md-12">
 										<?= $form->field($model, 'size_width_id')->dropDownList(
                                              $model->sizeWidthGroup,
                                              [
@@ -63,11 +49,23 @@
                                          );
                                          ?>
 									</div>
+									<div class="col-md-6">
+										<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+										<?= $form->field($model, 'price')->textInput() ?>
+										<?= $form->field($model, 'article_id')->textInput(['maxlength' => true]) ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+									    <?= $form->field($model, 'market_price')->textInput() ?>
+                                        <?= $form->field($model, 'quantity')->textInput() ?>
+                                    </div>
+                                   
                                        <?php
 									   if(count($general_attrs) > 0){
                                           $count = round(count($general_attrs)/2);
                                           $i = 0;
                                           foreach($general_attrs as $attr){
+											  if($attr->id != 1 && $attr->id != 2  && $attr->id != 3 ){
 											  if($attr->entity_id == 2 || $attr->entity_id == 1 ){
 												    echo "<div class='col-md-6'>";
 											  }else{
@@ -87,13 +85,13 @@
 													)->label($attr->name);
 													}elseif($attr->entity_id == 4){
 														echo $form->field($model,  $attr_name)->widget(CKEditor::className(), [
-														  'options' => ['rows' => 6],
+														  'options' => ['rows' => 1],
 														  'preset' => 'full',
 														  'clientOptions' => [
 															  'filebrowserBrowseUrl' => Url::to(['uploadfile/browse']),
 															  'filebrowserUploadUrl' => Url::to(['uploadfile/url'])
 														  ]
-														  ]);
+														  ])->label($attr->name);
 													}elseif($attr->entity_id == 1){
 														echo $form->field($model, $attr_name)->textInput()->label($attr->name);
 													}
@@ -111,14 +109,7 @@
                                                       ]
 													)->label($attr->name);
 													}elseif($attr->entity_id == 4){
-														echo $form->field($model,  $attr_name)->widget(CKEditor::className(), [
-														  'options' => ['rows' => 6],
-														  'preset' => 'full',
-														  'clientOptions' => [
-															  'filebrowserBrowseUrl' => Url::to(['uploadfile/browse']),
-															  'filebrowserUploadUrl' => Url::to(['uploadfile/url'])
-														  ]
-														  ]);
+														echo $form->field($model, $attr_name)->textarea(['rows' => 4])->label($attr->name);
 													}elseif($attr->entity_id == 1){
 														echo $form->field($model, $attr_name)->textInput()->label($attr->name);
 													}
@@ -128,20 +119,21 @@
 
                                               echo"</div>";
                                               }
-
+										  }
 									   }
+									   
                                           ?>
                                   
                                     <div class="col-md-12">
-                                       <?= $form->field($model, 'short_descr')->textarea(['rows' => 4]) ?>
+                                       <?= $form->field($model, 'short_descr')->textarea(['rows' => 4])->label("Short Description") ?>
                                        <?= $form->field($model, 'descr')->widget(CKEditor::className(), [
-                                          'options' => ['rows' => 6],
+                                          'options' => ['rows' => 1],
                                           'preset' => 'full',
                                           'clientOptions' => [
                                               'filebrowserBrowseUrl' => Url::to(['uploadfile/browse']),
                                               'filebrowserUploadUrl' => Url::to(['uploadfile/url'])
                                           ]
-                                          ]) ?>
+                                          ])->label("Description") ?>
                                     </div>
                                  </div>
                               </div>
@@ -252,8 +244,9 @@
 							   if($product_model){ ?>
 							   <div class="form-group field-product-meta_title">
 									<label class="control-label" for="product-meta_title">Related Products</label>
+									<br>
 								<?php	foreach($product_model as $product){ ?>
-									<input type="checkbox" name="related[]" value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  
+									<input type="checkbox" name="related[]" value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  <br>
 									<?php  } ?>
 								</div>
 							<?php   }
@@ -262,7 +255,19 @@
                            </div>
 						   
                            <div class="tab-pane" id="tab_6">
-						    <?= $form->field($model, 'special')->dropDownList(
+						   <?php
+							   if($product_model){ ?>
+							   <div class="form-group field-product-meta_title">
+									<label class="control-label" for="product-meta_title">Related Products</label>
+									<br>
+								<?php	foreach($product_model as $product){ ?>
+									<input type="checkbox" name="special[]" value="<?= $product->id ?>" id="special[]" >&nbsp; <?= $product->name ?>  <br>
+									<?php  } ?>
+								</div>
+							<?php   }
+							   ?>
+							   
+						    <!--?= $form->field($model, 'special')->dropDownList(
 								$model->specialProducts,
 								[
 									'prompt'=>'- Select Product -',
@@ -270,7 +275,7 @@
 
 								]
 							);
-							?>
+							?-->
                            </div>
                         </div>
                      </div>

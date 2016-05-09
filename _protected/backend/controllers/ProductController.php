@@ -138,8 +138,7 @@ class ProductController extends BackendController
                 if($model->load(Yii::$app->request->post())){
                     $model->category_id = $session->get('category_id');
 					$model->related = serialize(Yii::$app->request->post('related'));
-					$special =Yii::$app->request->post('Product');
-					$model->special = $special['special'];
+					$model->special = serialize(Yii::$app->request->post('special'));
                     if($model->save()){
 						
                         //save dropdown values
@@ -429,8 +428,8 @@ class ProductController extends BackendController
                 if($model->load(Yii::$app->request->post())){
                     $model->category_id = $model->category_id;
 					$model->related = serialize(Yii::$app->request->post('related'));
-					$special =Yii::$app->request->post('Product');
-					$model->special = $special['special'];
+					$model->special = serialize(Yii::$app->request->post('special'));
+					
                     if($model->save()){
 						
                         //save dropdown values
