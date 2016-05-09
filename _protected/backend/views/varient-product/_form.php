@@ -42,6 +42,7 @@ use yii\widgets\ActiveForm;
     ); ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
+    <?= $form->field($model, 'quantity')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

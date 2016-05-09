@@ -52,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'enableSorting' => false,
                             ],
                             'price',
+                            'quantity',
                             [
                                 'attribute' => 'status',
                                 'value' => function ($model) {

@@ -138,7 +138,6 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
                                     <?= $form->field($cart, 'quantity')->dropDownList(
                                         $varientModel->getQuantity($model->id),
                                         [
-                                            'prompt'=>'Select Quantity',
                                             'class'=>'form-control select2 required',
                                         ]
                                     )->label(false);

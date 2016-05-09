@@ -18,7 +18,7 @@ class VarientProductSearch extends VarientProduct
     public function rules()
     {
         return [
-            [['id', 'product_id', 'color', 'size', 'width', 'price', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'product_id', 'color', 'size', 'width', 'price', 'quantity','status', 'created_at', 'updated_at'], 'integer'],
             [['sku'], 'safe'],
         ];
     }
@@ -67,6 +67,7 @@ class VarientProductSearch extends VarientProduct
             'product_id' => $this->product_id,
             'color' => $this->color,
             'size' => $this->size,
+            'quantity' => $this->quantity,
             'width' => $this->width,
             'price' => $this->price,
             'status' => $this->status,

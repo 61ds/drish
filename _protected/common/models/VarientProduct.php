@@ -40,7 +40,7 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'sku', 'color', 'colors','size', 'width'], 'required'],
+            [['product_id', 'sku', 'color', 'colors','size','quantity', 'width'], 'required'],
             [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
             [['sku'], 'string', 'max' => 255],
             [['colors'], 'safe'],
@@ -77,6 +77,7 @@ class VarientProduct extends \yii\db\ActiveRecord
             'width' => 'Width',
             'price' => 'Price',
             'status' => 'Status',
+            'quantity' => 'Quantity',
             'colors' => 'Color',
             'created_at' => 'Color',
             'updated_at' => 'Color',
@@ -182,8 +183,8 @@ class VarientProduct extends \yii\db\ActiveRecord
     public function getQuantity($id=0)
     {
         $product = Product::findOne($id);
-
-        if($product){
+        $array_attr[] = array('id'=>'' , 'name'=>'Select Quantity');
+        if($product->quantity > 0){
             for($i=1; $i<= $product->quantity; $i++){
                 $array_attr[] = array('id'=>$i , 'name'=>$i);
             }

@@ -119,6 +119,7 @@ class MenController extends Controller
                 $varients[$i]['size'] = $varient->size;
                 $varients[$i]['width'] = $varient->width;
                 $varients[$i]['price'] = $varient->price + $model->price;
+                $varients[$i]['quantity'] = $varient->quantity + $model->quantity;
                 $i++;
             }
 

@@ -10,6 +10,18 @@
                 $.each( varients, function( key, value ) {
                    if(value.color == color && value.size==size && value.width==width){
                        $('.red-color').html('<i class="fa fa-inr"></i>'+value.price);
+					   $('#cart-quantity').empty();
+					   $('#cart-quantity').append($("<option/>", {
+						   value: '',
+						   text: 'Select Quantity'
+					   }));
+					   for(i=1;i<= value.quantity; i++){
+						   $('#cart-quantity').append($("<option/>", {
+							   value: i,
+							   text: i
+						   }));
+					   }
+
                       //alert(value.price);
                        changed = 1;
                    }
