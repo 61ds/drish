@@ -250,9 +250,10 @@ class ProductController extends BackendController
                 $session->remove('selected_categories');
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! your product is successfully created and sent to admin for approval."));
                 $model = new ProductForm();
-                return $this->render('select-category', [
+				return $this->redirect(['index']);
+               /*  return $this->render('select-category', [
                     'model' => $model,
-                ]);
+                ]); */
             }
 
         } else {
@@ -581,18 +582,21 @@ class ProductController extends BackendController
                     foreach($widths as $width){
                         $varmodel = new VarientProduct();
                         $searchvarient = VarientProduct::find()->where(['color'=>$color,'width'=>$width,'size'=>$size,'product_id'=>$model->product_id])->one();
-                        if($searchvarient)
+                         if ($searchvarient !== null)
                             continue;
+						
                         $colormodel = DropdownValues::findOne($color);
                         $widthmodel = DropdownValues::findOne($width);
                         $sizemodel = DropdownValues::findOne($size);
                         $varmodel->color = $color;
+                        $varmodel->colors = 'red';
                         $varmodel->width = $width;
                         $varmodel->size = $size;
                         $varmodel->product_id = $model->product_id;
                         $varmodel->price = 0;
                         $varmodel->sku = $product->article_id.'-'.$colormodel->name.'-'.$widthmodel->name.'-'.$sizemodel->name;
                         $varmodel->save();
+
 
                     }
                 }

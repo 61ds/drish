@@ -15,7 +15,11 @@
    <div class="row">
       <div class="col-md-12">
          <div class="box">
+		
             <div class="box-body table-responsive">
+					 <p class="pull-right">
+                        <?= Html::a('Change Category', ['create','start'=>1], ['class' => 'btn btn-primary']) ?>
+                    </p>
                <div class="basic-info">
                   <div class="admin-display-header">
                      <h4>Step 1: Add Product Info</h4>
