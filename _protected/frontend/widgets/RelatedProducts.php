@@ -21,7 +21,7 @@ class RelatedProducts extends Widget
     public function run()
     {
 		$model = Product::find()->where(['id' => $this->product_id])->one();
-		$arry = unserialize($model->related);
+		$arry = unserialize($model->related); 
         if($arry) {
             return $this->render('related-product', [
                 'product_ids' => $arry,
