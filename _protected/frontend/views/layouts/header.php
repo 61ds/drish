@@ -23,11 +23,11 @@ use yii\helpers\Url;
                         <div class="col-lg-2 col-md-3 col-sm-3 list-icon">
                            <div class="list_type">
                               <ul>
-                                 <li><a href="mens.html">MEN</a></li>
+                                 <li><a href="<?= Url::to(['site/men']) ?>">MEN</a></li>
                                  <li>|</li>
-                                 <li><a href="woman.html">WOMEN</a></li>
+                                 <li><a href="<?= Url::to(['site/women']) ?>">WOMEN</a></li>
                                  <li>|</li>
-                                 <li><a href="#">CHILDREN</a></li>
+                                 <li><a href="<?= Url::to(['site/children']) ?>">CHILDREN</a></li>
                               </ul>
                            </div>
                            <!--end product type-->
