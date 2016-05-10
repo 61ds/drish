@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use frontend\widgets\Login;
+use frontend\widgets\Registration;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -9,37 +11,22 @@ use yii\bootstrap\ActiveForm;
 $this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="col-lg-5 well bs-component">
-
-        <p><?= Yii::t('app', 'Please fill out the following fields to login:') ?></p>
-
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-        <?php //-- use email or username field depending on model scenario --// ?>
-        <?php if ($model->scenario === 'lwe'): ?>
-            <?= $form->field($model, 'email') ?>
-        <?php else: ?>
-            <?= $form->field($model, 'username') ?>
-        <?php endif ?>
-
-        <?= $form->field($model, 'password')->passwordInput() ?>
-        <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-        <div style="color:#999;margin:1em 0">
-            <?= Yii::t('app', 'If you forgot your password you can') ?>
-            <?= Html::a(Yii::t('app', 'reset it'), ['site/request-password-reset']) ?>.
-        </div>
-
-        <div class="form-group">
-            <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
-    </div>
-
-</div>
+<div class="signin-regi" >
+	<div class="container">
+		<h3>Login or Create an Account</h3>
+		  <?= Login::widget() ?> 
+		  <?= Registration::widget() ?> 
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="sign-in-social">
+					<ul>
+						<li><img src="<?= Yii::$app->params['baseurl'] ?>/images/sign-f.png" alt="f-icon" title="f-icon"></li>
+						<li><img src="<?= Yii::$app->params['baseurl'] ?>/images/sign-in-g.png" alt="g-icon" title="g-icon"></li>
+						<li><img src="<?= Yii::$app->params['baseurl'] ?>/images/sign-in-insta.png" alt="instagran-icon" title="instagram-icon"></li>
+					
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>		

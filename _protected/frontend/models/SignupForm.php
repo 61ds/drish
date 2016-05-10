@@ -26,7 +26,6 @@ class SignupForm extends Model
     {
         return [
             ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['username', 'unique', 'targetClass' => '\common\models\User', 
                 'message' => 'This username has already been taken.'],
@@ -97,7 +96,7 @@ class SignupForm extends Model
     {
         $user = new User();
 
-        $user->username = $this->username;
+        $user->username = $this->email;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();

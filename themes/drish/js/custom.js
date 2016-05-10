@@ -58,7 +58,14 @@
                     $('.red-color').html('<i class="fa fa-inr"></i>'+product_price);
                 }
             });
-
+			$("#register_btn").click(function(){
+				$("#logindiv").show();
+				$("#registerdiv").hide();
+			});
+			$("#login_btn").click(function(){
+				$("#logindiv").hide();
+				$("#registerdiv").show();
+			});
 
 
 
