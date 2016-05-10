@@ -1,5 +1,7 @@
 <?php
 use frontend\widgets\HomeMenuMain;
+use frontend\widgets\CartProductCounter;
+use yii\helpers\Url;
 ?>
  <div class="free-shipping">
                <div class="container-fluid">
@@ -66,8 +68,8 @@ use frontend\widgets\HomeMenuMain;
                                  <li><a href="#"><i class="fa fa-heart-o"></i></a></li>
                                  <li class="cart-icon">
                                     <div class="cart-box">
-                                       <a href="#">
-                                          <span class="cart-count">2</span>
+                                       <a href="<?= Url::to(['cart/cart']) ?>">
+                                          <span class="cart-count"><?= CartProductCounter::widget() ?></span>
                                           <svg enable-background="new 0 0 64 64" id="Layer_1" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                              <g>
                                                 <line fill="none" stroke="#4D4D4D" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="19.8" x2="6.6" y1="48.8" y2="10.2"/>

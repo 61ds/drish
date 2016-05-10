@@ -286,6 +286,7 @@ class SiteController extends Controller
             // try to save user data in database
             if ($user = $model->signup()) 
             {
+
                 // if user is active he will be logged in automatically ( this will be first user )
                 if ($user->status === User::STATUS_ACTIVE)
                 {

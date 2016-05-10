@@ -25,25 +25,47 @@ class CartController extends FrontendController
 			}else{
 				$cart = array();
 			}
+			if($model->varient_id == ''){
+				$varient = VarientProduct::find()->where(['product_id'=>$model->product_id,'color'=>$model->color,'width'=>$model->width,'size'=>$model->size])->one();
+				$model->varient_id = $varient->id;
+			}
 			if(Yii::$app->user->isGuest) {
-				if($model->varient_id == ''){
-					$varient = VarientProduct::find()->where(['product_id'=>$model->product_id,'color'=>$model->color,'width'=>$model->width,'size'=>$model->size])->one();
-					$model->varient_id = $varient->id;
-				}
+
 				$cart[$model->varient_id]['product_id'] = $model->product_id;
 				$cart[$model->varient_id]['color'] = $model->color;
 				$cart[$model->varient_id]['size'] = $model->size;
 				$cart[$model->varient_id]['width'] = $model->width;
 				$cart[$model->varient_id]['quantity'] = $model->quantity;
-				$session->set('cart', $cart);
+				if($model->quantity > 0)
+					$session->set('cart', $cart);
 			}else{
-				$model->user_id = Yii::$app->user->identity->id;
-				$model->save();
+				if (($cartmodel = Cart::find()->where(['varient_id'=>$model->varient_id,'product_id'=>$model->product_id,'user_id'=>$model->user_id])->one()) !== null) {
+					$cartmodel->color = $model->color;
+					$cartmodel->size = $model->size;
+					$cartmodel->width = $model->width;
+					$cartmodel->quantity = $model->quantity;
+					if($model->quantity > 0)
+						$cartmodel->save();
+				}else{
+					$model->user_id = Yii::$app->user->identity->id;
+					if($model->quantity > 0)
+						$model->save();
+				}
+
+			}
+			if(!Yii::$app->user->isGuest) {
+				$query = Cart::find();
+				$query->where(['user_id' => Yii::$app->user->identity->id]);
+				$countitems = $query->count();
+			}else{
+				$session = Yii::$app->session;
+				$countitems = count($session->get('cart'));
 			}
 			$product = Product::findOne($model->product_id);
 			$message = $product->name." has beed added to cart!";
 			$result['type'] = 'success';
 			$result['message'] = $message;
+			$result['count'] = $countitems;
 			Yii::$app->response->format = trim(Response::FORMAT_JSON);
 				return $result;
 		}else{
@@ -55,4 +77,92 @@ class CartController extends FrontendController
 
     }
 
+	public function actionCart()
+	{
+		$this->layout = 'page';
+		$session = Yii::$app->session;
+
+		if (!$session->isActive){
+			// open a session
+			$session->open();
+		}
+		if ($session->has('cart')) {
+			$carts = $session->get('cart');
+		}else{
+			$carts = array();
+			if(!Yii::$app->user->isGuest) {
+				$model = new Cart();
+				$cartitems = $model->find()->where(['user_id'=>Yii::$app->user->identity->id])->all();
+				foreach($cartitems as $cartitem){
+					$carts[$cartitem->varient_id]['product_id'] = $cartitem->product_id;
+					$carts[$cartitem->varient_id]['color'] = $cartitem->color;
+					$carts[$cartitem->varient_id]['size'] = $cartitem->size;
+					$carts[$cartitem->varient_id]['width'] = $cartitem->width;
+					$carts[$cartitem->varient_id]['quantity'] = $cartitem->quantity;
+				}
+			}
+
+		}
+		$cart = array();
+		$cart['total'] = 0;
+
+		foreach($carts as $key => $cartitem ){
+			if (($product = Product::findOne($cartitem['product_id'])) !== null) {
+				if (($varient = VarientProduct::findOne($key)) !== null) {
+					if($varient->quantity < 1)
+						continue;
+
+				}else{
+					continue;
+				}
+
+				$cart['items'][$key]['name'] = $product->name;
+				$cart['items'][$key]['sku'] = $varient->sku;
+				$cart['items'][$key]['color'] = $varient->color0->name;
+				$cart['items'][$key]['size'] = $varient->size0->name;
+				$cart['items'][$key]['product_id'] = $product->id;
+				$cart['items'][$key]['quantity'] = $cartitem['quantity'];
+				$cart['items'][$key]['img'] = Yii::$app->params['baseurl'].'/uploads/product/main/'.$product->id.'/thumbs/'.$product->productImages[0]->main_image;
+				$cart['items'][$key]['width'] = $varient->width0->name;
+				$cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
+				$cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
+			}else{
+				continue;
+			}
+
+
+		}
+		return $this->render('cart',['items'=>$cart
+		]);
+
+	}
+	public function actionRemove($id)
+	{
+		$session = Yii::$app->session;
+
+		if(Yii::$app->user->isGuest) {
+			if ($session->has('cart')) {
+				$cart = $session->get('cart');
+				$product_id = $cart[$id]['product_id'];
+				unset($cart[$id]);
+				$session->set('cart', $cart);
+			}
+		}else{
+			if (($cartmodel = Cart::find()->where(['varient_id'=>$id,'user_id'=>Yii::$app->user->identity->id])->one()) !== null) {
+				$product_id = $cartmodel->product_id;
+				$cartmodel->delete();
+			}
+		}
+		$product = Product::findOne($product_id);
+
+		$message = $product->name." has beed removed from cart!";
+
+		Yii::$app->getSession()->setFlash('success', Yii::t('app', $message));
+		return $this->redirect(['cart/cart']);
+	}
+
+	public function actionCheckout()
+	{
+
+	}
 }

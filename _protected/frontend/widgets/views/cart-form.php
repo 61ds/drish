@@ -3,6 +3,7 @@ use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+
 $js = <<<JS
 // get the form id and set the event
 $('form#{$cart->formName()}').on('beforeSubmit', function(e) {
@@ -26,6 +27,7 @@ $('form#{$cart->formName()}').on('beforeSubmit', function(e) {
 					$(".flash span").html("");
 				},4000);
 
+				$('.cart-count').html(response.count);
 				$('form#{$cart->formName()}').trigger('reset');
 				$('.form-success').html(response.message);
 			}else{
