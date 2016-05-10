@@ -1,5 +1,6 @@
 <?php
 use frontend\widgets\RelatedProducts;
+use frontend\widgets\SpecialProducts;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\View;
@@ -276,21 +277,7 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="complete-look">
                         <h4>Complete Your Look</h4>
-                        <div class="sreen-gallery">
-                            <a href="#">BARON DUFFLE</a>
-                            <img src="<?= Yii::$app->params['baseurl'] ?>/images/complete-view.jpg" alt="complete-view" title="coplete-view">
-
-                            <span class="price"><i class="fa fa-inr"></i> 395.00</span>
-                            <ul class="product-view">
-
-                                <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/icon_list_view_detail_normal_state.png" alt="View" title="Viewt"></a></li>
-                                <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/icon_list_view_cart_normal_state.png" alt="cart" title="Cart"></a></li>
-                                <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/icon_list_view_wishlist_normal_state.png" alt="pinterest" title="pinterest"></a></li>
-
-                            </ul>
-
-                        </div>
-
+                         <?= SpecialProducts::widget(['product_id' => $model->id]) ?>
                     </div>
 
                 </div>
@@ -308,6 +295,7 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <?= RelatedProducts::widget(['product_id' => $model->id]) ?>
+              
             </div>
 
 

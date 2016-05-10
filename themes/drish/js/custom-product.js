@@ -62,5 +62,14 @@ jQuery( document ).ready(function( $ ) {
         nextText: ' ',
         prevText: ' '
     });
+	$('.bxslider-pros').bxSlider({
+		infiniteLoop: false,
+		speed: 500,
+		useCSS: true,
+		responsive: true,
+        slideMargin: 10,
+        nextText: ' ',
+        prevText: ' '
+    });
 
 });

@@ -3,28 +3,52 @@
 		$(document).ready(function(){
 
             $( ".updateprice" ).change(function() {
+				attrs =  $(this).attr("id");
                 color = $('#cart-color').val();
                 width = $('#cart-width').val();
                 size = $('#cart-size').val();
                 changed = 0;
                 $.each( varients, function( key, value ) {
-                   if(value.color == color && value.size==size && value.width==width){
-                       $('.red-color').html('<i class="fa fa-inr"></i>'+value.price);
-					   $('#cart-quantity').empty();
-					   $('#cart-quantity').append($("<option/>", {
-						   value: '',
-						   text: 'Select Quantity'
-					   }));
-					   for(i=1;i<= value.quantity; i++){
+					//alert(value.color+'......'+value.size+"....."+value.width);
+					if(attrs == "cart-size"){
+						$('#cart-width').prop('selectedIndex',0);
+						$('#cart-color').prop('selectedIndex',0);
+						$("#cart-width option").empty()
+						$("#cart-color option").empty();
+						if(value.size == size){
+						 $('#cart-width').append("<option value='"+value.width +"'>"+value.width_val +"</option> ");
+						}
+						
+						
+					}else if(attrs == "cart-width"){
+						$('#cart-width').prop('selectedIndex',0);
+						$('#cart-color').prop('selectedIndex',0);
+						$("#cart-color option").empty();
+						if(value.size == size){
+						 $('#cart-color').append("<option value='"+value.color +"'>"+value.color_val +"</option> ");
+						}
+					}
+					if(color != "" && size !="" && width != ""){
+						 if(value.color == color && value.size==size && value.width==width){
+						   $('.red-color').html('<i class="fa fa-inr"></i>'+value.price);
+						   $('#cart-quantity').empty();
 						   $('#cart-quantity').append($("<option/>", {
-							   value: i,
-							   text: i
+							   value: '',
+							   text: 'Select Quantity'
 						   }));
-					   }
+						   for(i=1;i<= value.quantity; i++){
+							   $('#cart-quantity').append($("<option/>", {
+								   value: i,
+								   text: i
+							   }));
+						   }
 
-                      //alert(value.price);
-                       changed = 1;
-                   }
+						  //alert(value.price);
+						   changed = 1;
+					   } 
+					}
+					
+                   
                 });
                 if(changed == 0){
                     $('.red-color').html('<i class="fa fa-inr"></i>'+product_price);

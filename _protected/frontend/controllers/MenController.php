@@ -120,8 +120,11 @@ class MenController extends Controller
                     continue;
 
                 $varients[$i]['color'] = $varient->color;
+                $varients[$i]['color_val'] = $varient->color0->displayname;
                 $varients[$i]['size'] = $varient->size;
+                $varients[$i]['size_val'] = $varient->size0->displayname;
                 $varients[$i]['width'] = $varient->width;
+                $varients[$i]['width_val'] = $varient->width0->displayname;
                 $varients[$i]['price'] = $varient->price + $model->price;
                 $varients[$i]['quantity'] = $qnt;
                 $i++;
