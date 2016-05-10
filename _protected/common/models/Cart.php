@@ -39,7 +39,7 @@ class Cart extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'user_id', 'color', 'width', 'size', 'quantity', 'created_at', 'updated_at'], 'required'],
+            [['product_id','color', 'width', 'size', 'quantity'], 'required'],
             [['product_id', 'user_id', 'color', 'width', 'size', 'created_at', 'updated_at'], 'integer'],
             [['quantity'], 'number'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
@@ -115,5 +115,16 @@ class Cart extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CartQuery(get_called_class());
+    }
+
+    public static function getCartItemsCount($userid=0){
+        if($userid) {
+            $query = Cart::find();
+            $query->where(['user_id' => $userid]);
+            return $query->count();
+        }else{
+            $session = Yii::$app->session;
+            return count($session->get('cart'));
+        }
     }
 }

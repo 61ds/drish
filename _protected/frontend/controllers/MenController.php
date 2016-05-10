@@ -126,7 +126,10 @@ class MenController extends Controller
                 $varients[$i]['quantity'] = $qnt;
                 $i++;
             }
-
+            $cart->product_id = $model->id;
+            if(!Yii::$app->user->isGuest) {
+                $cart->user_id = Yii::$app->user->identity->id;
+            }
             return $this->render('product',['model'=>$model,
                 'productDropdownValues'=>$ProductDropdownValues,
                 'productDescValues'=>$ProductDescValues,

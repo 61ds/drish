@@ -28,6 +28,8 @@ ProductsAsset::register($this);
 <div id="wrapper">
     <div class="page-content">
         <?= $this->render('product-header.php')?>
+		<?= Alert::widget() ?>
+		<div class="flash"><span></span></div>
         <?= $content ?>
     </div>
     <div class="footer">
