@@ -1,6 +1,7 @@
 <?php
 use frontend\widgets\RelatedProducts;
 use frontend\widgets\SpecialProducts;
+use frontend\widgets\CartForm;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\View;
@@ -94,82 +95,7 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
 
                             </div>
 
-                            <div class="quantity">
-
-
-
-                                <?php $form = ActiveForm::begin(); ?>
-
-                                <div class="select-size">
-                                    <div class="color">
-                                        <?= $form->field($cart, 'size')->dropDownList(
-                                            $varientModel->getAvailattr($model->id,'size'),
-                                            [
-                                                'prompt'=>'Select Size',
-                                                'class'=>'form-control select2 required updateprice',
-                                            ]
-                                        )->label(false);
-                                        ?>
-                                    </div>
-                                    <div class="color">
-                                        <?= $form->field($cart, 'width')->dropDownList(
-                                            $varientModel->getAvailattr($model->id,'width'),
-                                            [
-                                                'prompt'=>'Select Width',
-                                                'class'=>'form-control select2 required updateprice',
-                                            ]
-                                        )->label(false);
-                                        ?>
-                                    </div>
-                                </div>
-
-                                <div class="select-size">
-
-                                    <div class="color">
-                                        <?= $form->field($cart, 'color')->dropDownList(
-                                            $varientModel->getAvailattr($model->id,'color'),
-                                            [
-                                                'prompt'=>'Select Color',
-                                                'class'=>'form-control select2 required updateprice',
-                                            ]
-                                        )->label(false);
-                                        ?>
-                                    </div>
-                                    <div class="color">
-                                    <?= $form->field($cart, 'quantity')->dropDownList(
-                                        $varientModel->getQuantity($model->id),
-                                        [
-                                            'class'=>'form-control select2 required',
-                                        ]
-                                    )->label(false);
-                                    ?>
-                                    </div>
-
-                                </div>
-
-                                <div class="select-size">
-                                    <div class="color">
-                                        <p>Size and Width guide <span class="foot-scale"> <img title="foot-scale" alt="foot-scale" src="<?= Yii::$app->params['baseurl'] ?>/images/foot-scale.png"></span></p>
-                                    </div>
-
-                                    <div class="color">
-                                        <input type="text" placeholder="Enter Zip Code">
-                                    </div>
-                                </div>
-
-                                <?php ActiveForm::end(); ?>
-                            </div>
-
-                            <div class="add-to-cart">
-                                <a href="checkout.html"><button><span><img title="cart-add" alt="cart-add" src="<?= Yii::$app->params['baseurl'] ?>/images/cart-add.png"></span> Add to Cart</button></a>
-
-                            </div>
-
-                            <div class="wish-list">
-                                <p><span class="wish-img"><img title="wish-list" alt="wish-list" src="<?= Yii::$app->params['baseurl'] ?>/images/add-wishlist.png"></span>Add to Wishlist</p>
-                                <p class="avail">Availability:<span class="green-color">In stock</span></p>
-
-                            </div>
+                            <?= CartForm::widget(['model'=>$model,'varientModel'=>$varientModel,'cart'=>$cart]) ?>
                             <div class="share-with">
 
                                 <p> Share with:</p>

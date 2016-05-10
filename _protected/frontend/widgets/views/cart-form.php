@@ -1,4 +1,4 @@
-<?php 
+<?php
 use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -28,12 +28,12 @@ $('form#{$cart->formName()}').on('beforeSubmit', function(e) {
 
 				$('form#{$cart->formName()}').trigger('reset');
 				$('.form-success').html(response.message);
-			}else{						
+			}else{
 				$.each( response, function( key, value ) {
 					$('#'+key).parent().removeClass('has-success').addClass('has-error');
 					$('#'+key).parent().find('.help-block').html(value);
-				});												
-			}					
+				});
+			}
 		}
 	});
 	return false;
@@ -41,7 +41,7 @@ $('form#{$cart->formName()}').on('beforeSubmit', function(e) {
     e.preventDefault();
 });
 JS;
- 
+
 $this->registerJs($js);
 $baseurl = Yii::$app->params['baseurl'];
 ?>
@@ -51,12 +51,12 @@ $baseurl = Yii::$app->params['baseurl'];
 	'id'     => $cart->formName(),
 	'enableAjaxValidation'   => false,
 ]); ?>
-
+<?= $form->field($cart, 'varient_id')->hiddenInput()->label(false) ?>
+<?= $form->field($cart, 'product_id')->hiddenInput()->label(false) ?>
 	<div class="quantity">
 		<div class="select-size">
 			<div class="color">
-				<?= $form->field($cart, 'varient_id')->hiddenInput()->label(false) ?>
-				<?= $form->field($cart, 'product_id')->hiddenInput()->label(false) ?>
+
 				<?= $form->field($cart, 'size')->dropDownList(
 					$varientModel->getAvailattr($model->id,'size'),
 					[
