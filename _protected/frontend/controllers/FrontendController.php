@@ -38,8 +38,8 @@ class FrontendController extends Controller
                         'roles' => ['editor'],
                     ],
                     [
-                        'controllers' => ['article'],
-                        'actions' => ['index', 'view'],
+                        'controllers' => ['article','cart'],
+                        'actions' => ['index', 'view','add'],
                         'allow' => true
                     ],
                     [
