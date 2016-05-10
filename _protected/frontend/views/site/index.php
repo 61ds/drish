@@ -17,11 +17,11 @@ use yii\helpers\Url;
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <nav>
                 <ul class="navigation">
-                    <li><a href="<?= Url::to(['site/men']) ?>">MENS</a></li>
+                    <li><a href="<?= Url::to(['men/index']) ?>">MENS</a></li>
                     <li>|</li>
-                    <li><a href="<?= Url::to(['site/women']) ?>">WOMENS</a></li>
+                    <li><a href="<?= Url::to(['women/index']) ?>">WOMENS</a></li>
                     <li>|</li>
-                    <li><a href="<?= Url::to(['site/children']) ?>">CHILDREN</a></li>
+                    <li><a href="<?= Url::to(['children/index']) ?>">CHILDREN</a></li>
                 </ul>
             </nav>
         </div><!--ebd col-lg-12-->
