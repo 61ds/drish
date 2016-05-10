@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 $this->title = Yii::$app->params['settings']['site_meta_title'];
+use yii\helpers\Url;
 ?>
 <video class="home_video" width="100%" loop autoplay>
     <source src="<?= Yii::$app->homeUrl ?>uploads/settings/<?= Yii::$app->params['settings']['feature_banner'] ?>" type="video/mp4">
@@ -16,11 +17,11 @@ $this->title = Yii::$app->params['settings']['site_meta_title'];
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <nav>
                 <ul class="navigation">
-                    <li><a href="mens.html">MENS</a></li>
+                    <li><a href="<?= Url::to(['site/men']) ?>">MENS</a></li>
                     <li>|</li>
-                    <li><a href="womens.html">WOMENS</a></li>
+                    <li><a href="<?= Url::to(['site/women']) ?>">WOMENS</a></li>
                     <li>|</li>
-                    <li><a href="children.html">CHILDREN</a></li>
+                    <li><a href="<?= Url::to(['site/children']) ?>">CHILDREN</a></li>
                 </ul>
             </nav>
         </div><!--ebd col-lg-12-->

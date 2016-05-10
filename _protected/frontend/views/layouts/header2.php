@@ -17,9 +17,9 @@ use yii\helpers\Url;
                            <div class="col-lg-2 col-md-3 col-sm-3 women-nav">
                               <div class="product_type">
                                  <ul>
-                                    <li><a href="mens.html">Men</a></li>
+                                    <li><a href="<?= Url::to(['site/men']) ?>">Men</a></li>
                                     <li>|</li>
-                                    <li><a href="#">CHILDREN</a></li>
+                                    <li><a href="<?= Url::to(['site/women']) ?>">Women</a></li>
                                  </ul>
                               </div>
                               <!--end product type-->
