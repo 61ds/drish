@@ -2,7 +2,9 @@
 namespace frontend\controllers;
 
 use common\models\User;
+use common\models\Profile;
 use common\models\LoginForm;
+use common\models\RegistrationForm;
 use common\models\Pages;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
@@ -15,6 +17,8 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 use Yii;
 
 /**
@@ -141,31 +145,39 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) 
-        {
-            return $this->goHome();
+		$this->layout="page";
+        if (!\Yii::$app->user->isGuest) {
+            $this->goHome();
         }
 
-        // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
         // if 'lwe' value is 'true' we instantiate LoginForm in 'lwe' scenario
         $model = $lwe ? new LoginForm(['scenario' => 'lwe']) : new LoginForm();
+		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				if( $model->login()){
+					
+					return $this->redirect(Yii::$app->request->referrer);
+					//return $this->redirect(Url::to(['/account/index']));	
 
-        // now we can try to log in the user
-        if ($model->load(Yii::$app->request->post()) && $model->login()) 
-        {
-            return $this->goBack();
-        }
-        // user couldn't be logged in, because he has not activated his account
-        elseif($model->notActivated())
-        {
-            // if his account is not activated, he will have to activate it first
-            Yii::$app->session->setFlash('error', 
-                'You have to activate your account first. Please check your email.');
+				}else{
+					
+					Yii::$app->response->format = Response::FORMAT_JSON;
+					echo json_encode($model->getErrors());
+					Yii::$app->end();
 
-            return $this->refresh();
-        }    
+				}
+			}else{
+				$result['type'] = 'error';
+				$result['error'] = json_encode(ActiveForm::validate($model));
+				Yii::$app->response->format = trim(Response::FORMAT_JSON);
+				return $result;
+
+				Yii::$app->end();
+
+			}	
+        } 
         // account is activated, but some other errors have happened
         else
         {
@@ -278,28 +290,35 @@ class SiteController extends Controller
         $rna = Yii::$app->params['rna'];
 
         // if 'rna' value is 'true', we instantiate SignupForm in 'rna' scenario
-        $model = $rna ? new SignupForm(['scenario' => 'rna']) : new SignupForm();
-
+        $model = new SignupForm();
+		$pro_model = new Profile();
         // collect and validate user data
-        if ($model->load(Yii::$app->request->post()) && $model->validate())
-        {
+        if ($model->load(Yii::$app->request->post()) && $pro_model->load(Yii::$app->request->post()) )
+        {	
+			if($model->validate() && $pro_model->validate()){
             // try to save user data in database
             if ($user = $model->signup()) 
             {
+				$pro_model->user_id = $user->id;
+				$pro_model->save();
                 // if user is active he will be logged in automatically ( this will be first user )
                 if ($user->status === User::STATUS_ACTIVE)
                 {
                     if (Yii::$app->getUser()->login($user)) 
                     {
-                        return $this->goHome();
+                        $result['type'] = 'success';
+						$result['message'] = 'Your account has been created and a confirmation email has been sent to your email.';
+						Yii::$app->response->format = trim(Response::FORMAT_JSON);
+						return $result;
                     }
                 }
                 // activation is needed, use signupWithActivation()
                 else 
                 {
                     $this->signupWithActivation($model, $user);
-
-                    return $this->refresh();
+					$error = \yii\widgets\ActiveForm::validate($model);
+					Yii::$app->response->format = trim(Response::FORMAT_JSON);
+					return $error; 
                 }            
             }
             // user could not be saved in database
@@ -316,11 +335,17 @@ class SiteController extends Controller
 
                 return $this->refresh();
             }
-        }
+			}else{
+					$error = \yii\widgets\ActiveForm::validate($model);
+					Yii::$app->response->format = trim(Response::FORMAT_JSON);
+					return $error; 
+			}
+        }else{
                 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);     
+			return $this->render('signup', [
+				'model' => $model,
+			]); 
+		}
     }
 
     /**
