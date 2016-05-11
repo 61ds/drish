@@ -30,6 +30,15 @@
                             ['label' => 'Add New User', 'icon' => 'fa fa-dashboard', 'url' => ['/user/create'],'active' => ($this->context->route == 'user/create')],
                         ],
                     ],
+					 [
+                        'label' => 'Location Management',
+                        'icon' => 'fa fa-map-marker',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Active Countries', 'icon' => 'fa fa-angle-right', 'url' => ['countries/index'],'active' => ($this->context->route == 'countries/index' || $this->context->route == 'countries/viewstates' || $this->context->route == 'countries/inactive-states' || $this->context->route == 'countries/viewcities' || $this->context->route == 'countries/inactive-cities')],
+                            ['label' => 'All Countries', 'icon' => 'fa fa-angle-right', 'url' => ['/countries/all'],'active' => ($this->context->route == 'countries/all')],
+                        ],
+                    ],
 
                     ['label' => 'Menu Management', 'icon' => 'fa fa-bars', 'url' => ['/menu'],'active' => ($this->context->route == 'menu/index'),],
 

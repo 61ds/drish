@@ -8,12 +8,17 @@ use common\models\NewsletterSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use common\traits\ImageUploadTrait;
+use common\traits\StatusChangeTrait;
+use yii\web\UploadedFile;
+use common\traits\AjaxStatusTrait;
 /**
  * NewsletterController implements the CRUD actions for Newsletter model.
  */
-class NewsletterController extends Controller
+class NewsletterController extends BackendController
 {
+	use ImageUploadTrait;
+	use StatusChangeTrait;
     /**
      * @inheritdoc
      */
@@ -51,6 +56,7 @@ class NewsletterController extends Controller
      */
     public function actionView($id)
     {
+		  return $this->redirect(['index']);
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
