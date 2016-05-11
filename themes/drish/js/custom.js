@@ -58,6 +58,12 @@
                     $('.red-color').html('<i class="fa fa-inr"></i>'+product_price);
                 }
             });
+
+			$(".enable-checkout-login").click(function(){
+				$(".checkout-guest").fadeIn('slow');
+			});
+
+
 			$("#register_btn").click(function(){
 				$("#logindiv").show();
 				$("#registerdiv").hide();

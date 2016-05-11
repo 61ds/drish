@@ -98,8 +98,13 @@ if(isset($items['items']))
                                     <div class="total-price"> <span class="red-color"><i aria-hidden="true" class="fa fa-inr"></i><?= $items['total'] ?></span><br>
                                         All Prices are in INR</div>
                                 </div>
-
-                                <div class="proceed-btn"><a href="cart-detail-shipping.html"><button type="button">Proceed to Checkout</button></a></div>
+                                <?php if(Yii::$app->user->isGuest) {
+                                    ?>
+                                    <div class="proceed-btn"><a class="enable-checkout-login"><button type="button">Proceed to Checkout</button></a></div>
+                                <?php
+                                }else{ ?>
+                                    <div class="proceed-btn"><a href="<?= Url::to(['cart/checkout']) ?>"><button type="button">Proceed to Checkout</button></a></div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -107,49 +112,51 @@ if(isset($items['items']))
             <?php } ?>
 
         </div>
-        <!-- end of shoping cart-->
-        <div class="shopping-bags border-cart">
-            <div class="row">
-                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 br-botm">
-                    <div class="shoping-text"> <h3>Check Out</h3></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="register-area">
-                    <div class="col-lg-6 col-sm-7 col-md-7 col-xs-12">
-                        <div class="register-save">
-                            <h4>Register and save time!</h4>
-                            <p>Register with us for future convenience:</p>
-                            <div class="fast-check">
-
-                                <p><span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>Fast and easy check out</p>
-                                <p><span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>Easy access to your order history and status</p>
-                            </div>
-
-                            <div class="sign-in btn">
-                                <ul>
-                                    <li>
-                                        <img src="images/sign-in-checkout.png" alt="f-sign-in" title="f-sign-in" class="img-responsive sign-in-checkout"></li>
-                                    <li>  <img src="images/sign-in-g-checkout.png" alt="f-sign-in" title="f-sign-in" class="img-responsive"></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-sm-5 col-md-5 col-xs-12">
-                        <div class="sign-in-chek-out">
-                            <button type="button" class="sign-chk"> Sign In</button></br>
-                            <button type="button" class="check-btn"> Check out as a guest</button>
-
-                        </div>
-
-
+        <?php if(Yii::$app->user->isGuest) { ?>
+            <!-- end of shoping cart-->
+            <div class="shopping-bags border-cart checkout-guest">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 br-botm">
+                        <div class="shoping-text"> <h3>Check Out</h3></div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <div class="row">
+                    <div class="register-area">
+                        <div class="col-lg-6 col-sm-7 col-md-7 col-xs-12">
+                            <div class="register-save">
+                                <h4>Register and save time!</h4>
+                                <p>Register with us for future convenience:</p>
+                                <div class="fast-check">
+
+                                    <p><span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>Fast and easy check out</p>
+                                    <p><span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>Easy access to your order history and status</p>
+                                </div>
+
+                                <div class="sign-in btn">
+                                    <ul>
+                                        <li>
+                                            <img src="<?= Yii::$app->view->theme->baseUrl ?>/images/sign-in-checkout.png" alt="f-sign-in" title="f-sign-in" class="img-responsive sign-in-checkout"></li>
+                                        <li>  <img src="<?= Yii::$app->view->theme->baseUrl ?>/images/sign-in-g-checkout.png" alt="f-sign-in" title="f-sign-in" class="img-responsive"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-5 col-md-5 col-xs-12">
+                            <div class="sign-in-chek-out">
+                                <button type="button" class="sign-chk"> Sign In</button></br>
+                                <a href="<?= Url::to(['cart/checkout']) ?>"><button type="button" class="check-btn"> Check out as a guest</button></a>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        <?php } ?>
 
 
 

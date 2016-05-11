@@ -163,6 +163,8 @@ class CartController extends FrontendController
 
 	public function actionCheckout()
 	{
+		$this->layout = 'page';
+		return $this->render('checkout');
 
 	}
 }
