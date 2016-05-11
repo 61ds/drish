@@ -28,13 +28,12 @@ return [
                 '/' => 'site/index',
 				'/account.html' => 'account/index',
 				'/account/information.html' => 'account/information',
-				'/user-login' => '/site/login',		
-				'/user-register' => '/site/register',
+				'/account/login' => '/site/login',		
 				
 				
                 '/men.html' => 'men/index',
                 '/women.html' => 'women/index',
-                '/children.html' => 'children/index',
+                '/kids.html' => 'children/index',
                 '/<slug:.*?>.html'=>'/site/page',
 
 

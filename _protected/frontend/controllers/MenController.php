@@ -97,6 +97,7 @@ class MenController extends Controller
     {
 		$this->layout = "inner";
         return $this->render('index');
+		
     }
 
     public function actionProduct($id){
