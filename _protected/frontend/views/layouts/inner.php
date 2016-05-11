@@ -37,6 +37,7 @@ InnerAsset::register($this);
 		<?= $this->render('header.php')?>
 		<?= Alert::widget() ?>
 		<?= $content ?>
+		<?= $this->render('footer-up.php')?>
 		<?= $this->render('footer.php')?>
 	</div>
 </div><!--end full page-->

@@ -19,7 +19,7 @@ if($product_ids){
             </li>
 			<li>
                 <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>">
+                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/large/<?= $product->productImages[0]->flip_image ?>">
                    <figcaption>
                       <h3><?= $product->name ?></h3>
                       <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -28,7 +28,7 @@ if($product_ids){
             </li>
 			<li>
                 <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>">
+                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/home/<?= $product->id ?>/large/<?= $product->productImages[0]->home_image ?>">
                    <figcaption>
                       <h3><?= $product->name ?></h3>
                       <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -44,7 +44,7 @@ if($product_ids){
                 </figure>
             </li><li>
                 <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>">
+                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/home/<?= $product->id ?>/large/<?= $product->productImages[0]->home_image ?>">
                    <figcaption>
                       <h3><?= $product->name ?></h3>
                       <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
@@ -53,7 +53,7 @@ if($product_ids){
             </li>
 			<li>
                 <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>">
+                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/large/<?= $product->productImages[0]->flip_image ?>">
                    <figcaption>
                       <h3><?= $product->name ?></h3>
                       <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
