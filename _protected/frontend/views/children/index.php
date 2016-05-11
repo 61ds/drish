@@ -1,86 +1,12 @@
+<?php
+use frontend\widgets\ProductsSlider;
+use frontend\widgets\ProductsFeatured;
+?>
 <div class="container-fluid">
                <div class="row">
                   <div class="col-lg-12 col-padding">
                      <div class="full-slide">
-                        <ul class="bxslider-1 grid cs-style-2">
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-1.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-2.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-3.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-4.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-5.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-6.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                           <li>
-                              <a href="category.html">
-                                 <figure>
-                                    <img src="<?= Yii::$app->params['baseurl'] ?>/images/shoes-img-1.jpg" />
-                                    <figcaption>
-                                       <span>Smart Leather Oxford Shoe<br><i class="fa fa-inr"></i> 6999</span>
-                                       <button type="button">Shop Now</button>
-                                    </figcaption>
-                                 </figure>
-                              </a>
-                           </li>
-                        </ul>
+                        <?= ProductsSlider::widget(['type'=>"kids"]); ?>
                      </div>
                   </div>
                   <!--end col-lg-12-->
@@ -88,62 +14,7 @@
                <!--end row--->
                <div class="row">
                   <div class="col-lg-12 bag col-padding">
-                     <ul class="grid cs-style-2">
-                        <li>
-                           <figure>
-                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-1.jpg">
-                              <figcaption>
-                                 <h3>Smart Leather Oxford Shoe</h3>
-                                 <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-                              </figcaption>
-                           </figure>
-                        </li>
-                        <li>
-                           <figure>
-                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-2.jpg">
-                              <figcaption>
-                                 <h3>Smart Leather Oxford Shoe</h3>
-                                 <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-                              </figcaption>
-                           </figure>
-                        </li>
-                        <li>
-                           <figure>
-                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-3.jpg">
-                              <figcaption>
-                                 <h3>Smart Leather Oxford Shoe</h3>
-                                 <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-                              </figcaption>
-                           </figure>
-                        </li>
-                        <li>
-                           <figure>
-                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-4.jpg">
-                              <figcaption>
-                                 <h3>Smart Leather Oxford Shoe</h3>
-                                 <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-                              </figcaption>
-                           </figure>
-                        </li>
-                        <li>
-                           <figure>
-                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-5.jpg">
-                              <figcaption>
-                                 <h3>Smart Leather Oxford Shoe</h3>
-                                 <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-                              </figcaption>
-                           </figure>
-                        </li>
-                        <li>
-                           <figure>
-                              <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/images/bag-img-6.jpg">
-                              <figcaption>
-                                 <h3>Smart Leather Oxford Shoe</h3>
-                                 <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-                              </figcaption>
-                           </figure>
-                        </li>
-                     </ul>
+                      <?= ProductsFeatured::widget(['type'=>"kids"]); ?>
                   </div>
                </div>
                <!--end row-->     
@@ -252,8 +123,8 @@
                <div data-ride="carousel" class="carousel slide" id="myCarousel-arrow">
                   <!-- Wrapper for slides -->
                   <div class="frnt-video" style="width: 100%; overflow: hidden; height: 350px;">
-                     <video class="home_video" width="100%" loop autoplay controls muted>
-                        <source src="videos/drish-video.mp4" type="video/mp4">
+                     <video class="home_video" width="100%" loop autoplay="" controls muted>
+                        <source src="<?= Yii::$app->params['baseurl'] ?>/videos/drish-video.mp4" type="video/mp4">
                      </video>
                   </div>
                </div>

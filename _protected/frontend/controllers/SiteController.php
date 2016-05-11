@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\User;
 use common\models\LoginForm;
 use common\models\Pages;
+use common\models\Newsletter;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -16,7 +17,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use Yii;
-
+use yii\web\Response;
 /**
  * Site controller.
  * It is responsible for displaying static pages, logging users in and out,
@@ -141,11 +142,13 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+		
         if (!Yii::$app->user->isGuest) 
         {
             return $this->goHome();
         }
 
+		$this->layout = "products";
         // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
@@ -400,5 +403,22 @@ class SiteController extends Controller
 		return $this->render('page', [
                 'model' => $page,
             ]);
+	}
+	public function actionNewsletter()
+	{	
+		$model = new Newsletter;
+		if($model->load(Yii::$app->request->post()))
+		{
+			$model->status = 0;
+			$model->save();
+			$result = 'success';
+			Yii::$app->response->format = trim(Response::FORMAT_JSON);
+			return $result;
+		}else{
+			$error = \yii\widgets\ActiveForm::validate($model);
+			Yii::$app->response->format = trim(Response::FORMAT_JSON);
+			return $error; 
+		}		
+ 
 	}
 }

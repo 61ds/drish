@@ -31,10 +31,10 @@ ProductsAsset::register($this);
 		<?= Alert::widget() ?>
 		<div class="flash"><span></span></div>
         <?= $content ?>
+		<?= $this->render('footer-up.php')?>
     </div>
-    <div class="footer">
-        <?= $this->render('product-footer.php')?>
-    </div>
+        <?= $this->render('footer.php')?>
+
 </div><!--end full page-->
 <?php $this->endBody() ?>
 

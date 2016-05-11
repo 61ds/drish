@@ -38,6 +38,7 @@
                         'url' => ['/setting-attributes/globalsetting'],
 
                     ],
+					
                     [
                         'label' => 'Pages Management',
                         'icon' => 'fa fa-product-hunt',
@@ -93,6 +94,15 @@
                             ['label' => 'All Testimonials', 'icon' => 'fa fa-angle-right', 'url' => ['/testimonial'],'active' => ($this->context->route == 'testimonial/index'),],
                             ['label' => 'Add testimonial', 'icon' => 'fa fa-angle-right', 'url' => ['/testimonial/create'],'active' => ($this->context->route == 'testimonial/create'),],
 
+                        ],
+                    ],
+					[
+                        'label' => 'Newsletter Subscriber',
+                        'icon' => 'fa fa-newspaper-o',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'All Subscribers', 'icon' => 'fa fa-newspaper-o ', 'url' => ['/newsletter'],],
+                            ['label' => 'Add New Subscriber', 'icon' => 'fa fa-plus', 'url' => ['/newsletter/create'],],
                         ],
                     ],
                 ],
