@@ -3785,6 +3785,6 @@ border: 1px solid #000;
 .bg-select li:first-child {
   padding: 6px 0 0;
 }
-.checkout-guest{
+.checkout-guest,#shipping-address-form{
   display:none;
 }

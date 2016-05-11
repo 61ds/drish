@@ -73,8 +73,19 @@
 				$("#registerdiv").show();
 			});
 
+			var shipping_form = $('#shipping-address-form').html();
+			$('#shipping-address-form').empty();
+			$('#shipaddbtn').change(function(){
+				if(this.checked){
+					$('#shipping-address-form').html(shipping_form);
+					$('#shipping-address-form').fadeIn('slow');
+				}
+				else {
+					$('#shipping-address-form').empty();
+					$('#shipping-address-form').fadeOut('slow');
+				}
 
-
+			});
 
 			$('nav#menu').mmenu({
 				extensions	: [ 'effect-slide-menu', 'pageshadow' ],
@@ -103,20 +114,23 @@
 			$("body").show();
 
 			if($(".address li span").length){
-				$(".address li span").click(function(event){
+				$(".address li span.open").click(function(event){
 	
 					  var target = $(event.target).next().is(':visible');
 					  if(target)
 					  {
 					   $(this).next().slideUp();
 					   $("i",this).removeClass("fa-minus").addClass("fa-plus");
-					   
+					   $("i",this).removeClass("close").addClass("open");
+
 					   $(this).removeClass("active");
 					   return;
 					  }
 					  else {
+						  $(".address li span").next().slideUp();
 					   $(".address li span").next().slideUp();
 					   $(".address li span i").removeClass("fa-minus").addClass("fa-plus");
+					   $(".address li span i").removeClass("close").addClass("open");
 					   $(this).next().slideDown();
 					   $("i",this).addClass("fa-minus").removeClass("fa-plus");
 					   $(".address li span").removeClass("active");

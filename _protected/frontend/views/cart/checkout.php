@@ -1,4 +1,7 @@
-   <section class="cart-detail-outer">  
+<?php
+use frontend\widgets\AddressForm;
+?>
+   <section class="cart-detail-outer">
     
    		<div class="container">
         
@@ -26,111 +29,8 @@
                 
                 <div class="address-tab">
  <h5>Billing Address</h5>
-  <form class="form-fill">
-		<div class="user-form">
- 			 <div class="input-first-half">
-    			<fieldset class="form-group">
-    				<label for="firstname">First Name*</label>
-    						<input type="firstname" class="form-control" Name="fname" placeholder="">
-  				</fieldset>
- 			 </div>
-       		 <div class="input-first-half">
-    			<fieldset class="form-group">
-    				<label for="firstname">Last Name*</label>
-    					<input type="firstname" class="form-control" Name="lname" placeholder="">
-  				</fieldset>
-  			</div>
-            <!-- end of first& last name-->
-  			<div class="input-first-half">
-    			<fieldset class="form-group">
-    				<label for="firstname">Street address 1*</label>
-    					<input type="firstname" class="form-control" Name="streetaddress 1" placeholder="">
-  				</fieldset>
- 			 </div>
-    		<div class="input-first-half">
-    			<fieldset class="form-group">
-    				<label for="firstname">Street address 2</label>
-    					<input type="firstname" class="form-control" Name="streetaddress 2" placeholder="">
-  				</fieldset>
-  			</div>
-             <!-- end of agrress street-->
-             
-             
-             <div class="input-first-half">
-    			<fieldset class="form-group">
-    				<label for="firstname">Phone*</label>
-    				<input type="firstname" class="form-control" id="firstname" placeholder="">
-  				</fieldset>
- 			 </div>
-    		<div class="input-first-half">
-            	<fieldset class="form-group">
-    				<label for="firstname">Email Address*</label>
-			  		<input type="email" class="form-control" id="firstname" placeholder="">
-				 </fieldset>
-  			</div>
-             <!-- end of agrress street-->
-    		<div class="input-first-half">
-   								 <fieldset class="form-group">
-    										<label for="firstname">Confirm Email*</label>
-    										<input type="firstname" class="form-control" id="firstname" placeholder="">
-  								</fieldset>
- 			 </div>
-             <!-- end of email and phone-->
-    		<div class="input-first-half">
-   				<fieldset class="form-group">
-    				<label for="firstname">Company</label>
-   						 <input type="firstname" class="form-control" Name="Company" placeholder="">
-  				</fieldset>
- 			 </div>
+	<?= AddressForm::widget() ?>
 
-             <!-- end of company-->
-    		<div class="input-first-half">
-    					<fieldset class="form-group">
-    								<label for="firstname">City*</label>
-    									<input type="firstname" class="form-control" Name="City" placeholder="">
-  						</fieldset>
-  				 </div>
-    		<div class="input-first-half">
-   				 <fieldset class="form-group">
-    					<label for="firstname">Province/Territory</label>
-    						<input type="firstname" class="form-control" id="firstname" placeholder="">
-  				</fieldset>
- 			 </div>
-             
-             <!-- end of city-->
-    		<div class="input-first-half">
-   				 <fieldset class="form-group">
-    					<label for="firstname">Postal Code</label>
-    					<input type="firstname" class="form-control" id="firstname" placeholder="">
-  				</fieldset>
-  			</div>
-            <div class="input-first-half">
-                                <fieldset class="form-group country">
-                                      <label for="countrySelect1">Country*</label> 
-                                      <select class="form-control dropfieldtxt" id="exampleSelect1">
-                                            <option>India</option>
-                                            <option>Chandigargh</option>
-                                            <option>Goa</option>
-                                            <option>Rajasthan</option>
-                                            <option>Punjab</option>
-                                     </select>
-                                </fieldset>
-  							</div>
-  <!-- end of country select-->
-  			</div>
-      <!-- end of form fill-first half-->
-      <h5>Shipping  Address</h5>
-      	<div class="checkbox enter-pwd chek-label">
-        	<label>
-          		<input type="checkbox"> <div class="text-enter ship-chk">Ship to a Different Address</div>
-        	</label>
-            <label>
-          		<input type="checkbox"> <div class="text-enter ship-chk">Enter a password to create an account</div>
-        	</label>
-      </div>	
-		</form>
-             <hr>  
-             <div class="red-btn"> <button type="button">CONTINUE</button></div>
 </div>
                 
       			</div>
