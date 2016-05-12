@@ -596,8 +596,6 @@ class ProductController extends BackendController
                         $varmodel->price = 0;
                         $varmodel->sku = $product->article_id.'-'.$colormodel->name.'-'.$widthmodel->name.'-'.$sizemodel->name;
                         $varmodel->save();
-						
-
                     }
                 }
             }
