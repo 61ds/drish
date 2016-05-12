@@ -5,6 +5,16 @@ use common\models\User;
 use common\models\LoginForm;
 use common\models\Pages;
 use common\models\Newsletter;
+use common\models\Product;
+use common\models\Cart;
+use common\models\ProductImages;
+use common\models\ProductPageSetting;
+use common\models\ProductDropdownValues;
+use common\models\Category;
+use common\models\ProductTextValues;
+use common\models\ProductDescValues;
+use common\models\DropdownValues;
+use common\models\Attributes;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -403,6 +413,48 @@ class SiteController extends Controller
 		return $this->render('page', [
                 'model' => $page,
             ]);
+	}
+	public function actionCategory($slug){
+		$this->layout="page";
+		$cat = Category::find()->where(['slug' =>$slug ])->one();
+		$products = array();
+		$productimage = new ProductImages;
+		$cat_child = Category::find()->where(['root' => $cat->id ])->all();
+		$products1 = Product::find()->where(['category_id' => $cat->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
+		if($products1){
+			$products[] = $products1;
+		}
+		if($cat_child){
+			foreach($cat_child as $cat_sub_child){
+				$cat_subchild = Category::find()->where(['root' => $cat_sub_child->id ])->all();
+				$products2 = Product::find()->where(['category_id' => $cat_sub_child->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
+				if($products2){
+					$products[] = $products2;
+				}
+				if($cat_subchild){
+					foreach($cat_subchild as $cat_subchild1){
+						$cat_subchilds = Category::find()->where(['root' => $cat_subchild1->id ])->all();
+						$products3 = Product::find()->where(['category_id' => $cat_subchild1->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
+						if($products3){
+							$products[] = $products3;
+						}
+						if($cat_subchilds){
+							foreach($cat_subchilds as $cat_subchilds1){
+							$products4 = Product::find()->where(['category_id' => $cat_subchilds1->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
+							if($products4){
+									$products[] = $products4;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return $this->render('category', [
+           'products' => $products,
+           'productimage' => $productimage,
+           'category' => $cat,
+        ]);
 	}
 	public function actionNewsletter()
 	{	

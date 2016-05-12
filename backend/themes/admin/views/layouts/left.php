@@ -66,6 +66,7 @@
                             ['label' => 'All products/Articles', 'icon' => 'fa fa-angle-right', 'url' => ['/product'],'active' => ($this->context->route == 'product/index'|| $this->context->route == 'varient-product/create'|| $this->context->route == 'varient-product/index'|| $this->context->route == 'varient-product/update'),],
                             ['label' => 'Add products', 'icon' => 'fa fa-angle-right', 'url' => ['/product/create'],'active' => ($this->context->route == 'product/create'),],
                             ['label' => 'Size width category', 'icon' => 'fa fa-angle-right', 'url' => ['/sizewidth'],'active' => ($this->context->route == 'sizewidth/index' || $this->context->route == 'sizewidth/create' || $this->context->route == 'sizewidth/index'),],
+                            ['label' => 'Product Page Setting', 'icon' => 'fa fa-angle-right', 'url' => ['/product-page-setting'],'active' => ($this->context->route == 'product-page-setting/index' || $this->context->route == 'product-page-setting/create' || $this->context->route == 'product-page-setting/index'),],
                         ],
                     ],
                     [

@@ -8,6 +8,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\ProductPageSetting;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -86,8 +87,11 @@ class ChildrenController extends Controller
      */
 	public function actionIndex()
     {
+		$product_setting = ProductPageSetting::find()->where(['category_id' => 1])->one();
+		
 		$this->layout = "inner";
-        return $this->render('index');
+        return $this->render('index', ['product_setting' => $product_setting,]);
+		
     }
 
 }
