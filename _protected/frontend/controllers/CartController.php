@@ -3,6 +3,8 @@ namespace frontend\controllers;
 use yii\web\Response;
 use common\models\Cart;
 use common\models\Product;
+use common\models\BillingAddress;
+use common\models\ShippingAddress;
 use common\models\VarientProduct;
 use Yii;
 
@@ -160,11 +162,28 @@ class CartController extends FrontendController
 		Yii::$app->getSession()->setFlash('success', Yii::t('app', $message));
 		return $this->redirect(['cart/cart']);
 	}
-
 	public function actionCheckout()
 	{
 		$this->layout = 'page';
 		return $this->render('checkout');
+
+	}
+	public function actionAddress()
+	{
+		$billingModel = new BillingAddress();
+		$shippingModel = new ShippingAddress();
+		if (Yii::$app->request->isAjax && $billingModel->load(Yii::$app->request->post())) {
+			if($billingModel->save()){
+
+			}else{
+				Yii::$app->response->format = Response::FORMAT_JSON;
+				echo json_encode(ActiveForm::validate($billingModel));
+				Yii::$app->end();
+			}
+
+		}
+
+
 
 	}
 }
