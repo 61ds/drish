@@ -184,23 +184,27 @@ class ProductController extends BackendController
 							
                         }
 
+                        $size = Yii::$app->params['folders']['size'];
+                        $folder = array('uploadMain','uploadLarge','uploadThumbs','uploadMedium','custom1','custom2','custom3','custom4');
 
+                        $size['custom1'] = '99x111';
+                        $size['custom2'] = '270x405';
+                        $size['custom3'] = '220x330';
+                        $size['custom4'] = '562x525';
                         $ProductImagesModel->product_id = $model->id;
                         //save main image
                         if($main_image)
                         {
                             $name = time().$model->id;
-                            $size = Yii::$app->params['folders']['size'];
                             $main_folder = "product/main/".$model->id;
-                            $image_name= $this->uploadImage($main_image,$name,$main_folder,$size);
+                            $image_name= $this->uploadImage($main_image,$name,$main_folder,$size,$folder);
                             $ProductImagesModel->main_image = $image_name;
                         }
                         if($home_image)
                         {
                             $name = time().$model->id;
-                            $size = Yii::$app->params['folders']['size'];
                             $main_folder = "product/home/".$model->id;
-                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size);
+                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size,$folder);
                             $ProductImagesModel->home_image = $image_name;
                         }
                         if($video)
@@ -213,9 +217,8 @@ class ProductController extends BackendController
                         if($flip_image)
                         {
                             $name = time().$model->id;
-                            $size = Yii::$app->params['folders']['size'];
                             $main_folder = "product/flip/".$model->id;
-                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size);
+                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size,$folder);
                             $ProductImagesModel->flip_image = $image_name;
                         }
                         //save all other images
@@ -226,9 +229,8 @@ class ProductController extends BackendController
                             foreach($other_images as $other_image){
 
                                 $name = time().$model->id;
-                                $size = Yii::$app->params['folders']['size'];
                                 $main_folder = "product/other/".$model->id;
-                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size);
+                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size,$folder);
                                 $prod_otherimages[] = $image_name;
                             }
                             $ProductImagesModel->other_image = serialize($prod_otherimages);
@@ -474,24 +476,27 @@ class ProductController extends BackendController
                              $ProductDropdownValues->save();
 							
                         }
+                        $size = Yii::$app->params['folders']['size'];
+                        $folder = array('uploadMain','uploadLarge','uploadThumbs','uploadMedium','custom1','custom2','custom3','custom4');
 
-
+                        $size['custom1'] = '99x111';
+                        $size['custom2'] = '270x405';
+                        $size['custom3'] = '220x330';
+                        $size['custom4'] = '562x525';
                         $ProductImagesModel->product_id = $model->id;
                         //save main image
                         if($main_image)
                         {
                             $name = time().$model->id;
-                            $size = Yii::$app->params['folders']['size'];
                             $main_folder = "product/main/".$model->id;
-                            $image_name= $this->uploadImage($main_image,$name,$main_folder,$size);
+                            $image_name= $this->uploadImage($main_image,$name,$main_folder,$size,$folder);
                             $ProductImagesModel->main_image = $image_name;
                         }
                         if($home_image)
                         {
                             $name = time().$model->id;
-                            $size = Yii::$app->params['folders']['size'];
                             $main_folder = "product/home/".$model->id;
-                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size);
+                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size,$folder);
                             $ProductImagesModel->home_image = $image_name;
                         }
                         if($video)
@@ -504,9 +509,8 @@ class ProductController extends BackendController
                         if($flip_image)
                         {
                             $name = time().$model->id;
-                            $size = Yii::$app->params['folders']['size'];
                             $main_folder = "product/flip/".$model->id;
-                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size);
+                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size,$folder);
                             $ProductImagesModel->flip_image = $image_name;
                         }
                         //save all other images
@@ -517,9 +521,8 @@ class ProductController extends BackendController
                             foreach($other_images as $other_image){
 
                                 $name = time().$model->id;
-                                $size = Yii::$app->params['folders']['size'];
                                 $main_folder = "product/other/".$model->id;
-                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size);
+                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size,$folder);
                                 $prod_otherimages[] = $image_name;
                             }
                             $ProductImagesModel->other_image = serialize($prod_otherimages);

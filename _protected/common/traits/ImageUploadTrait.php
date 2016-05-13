@@ -14,12 +14,16 @@ use Tinify;
 trait ImageUploadTrait
 {
 	
- 	public function uploadImage($image,$name,$main_folder,$size)
+ 	public function uploadImage($image,$name,$main_folder,$size,$folder=0)
     {
 
 		Tinify\setKey('o4wsFZIT3uOpeoHzkMt4VWG7HL6GAZ9b');
-		$imagine = new Image();		
-		$folders = Yii::$app->params['folders']['name'];
+		$imagine = new Image();
+		if($folder==0)
+			$folders = Yii::$app->params['folders']['name'];
+		else
+			$folders = $folder;
+
 		$image_name = $name.'.'. $image->extension;
 		foreach($folders as $folder){
 
@@ -70,7 +74,9 @@ trait ImageUploadTrait
 
 			   
 			$i = 0;
+
 			foreach($folders as $folder){
+
 				$imaginename = 'imgobj'.$i;
 				if($folder == 'uploadThumbs' && $size[$folder] != ''){		
 					$$imaginename = $imagineObj->open($uploadMain);					
@@ -78,10 +84,25 @@ trait ImageUploadTrait
 				
 					//Image::thumbnail($uploadMain, $size[$folder], $size[$folder])
 						//->save(Yii::$app->params[$folder] . $main_folder .'/'. $image_name, $compress);	   
-				}else if($folder != 'uploadMain' && $size[$folder] != ''){
-					$$imaginename = $imagineObj->open($uploadMain);	
-					
-					$$imaginename->resize($$imaginename->getSize()->widen($size[$folder]))->save(Yii::getAlias('@upload') .'/'. $main_folder .'/'. Yii::$app->params[$folder] .'/'. $image_name);	
+				}
+				else if($folder != 'uploadMain' && $size[$folder] != ''){
+					$findme   = 'x';
+					$pos = strpos($size[$folder], $findme);
+
+					if ($pos === false) {
+						$$imaginename = $imagineObj->open($uploadMain);
+
+						$$imaginename->resize($$imaginename->getSize()->widen($size[$folder]))->save(Yii::getAlias('@upload') .'/'. $main_folder .'/'. Yii::$app->params[$folder] .'/'. $image_name);
+					} else {
+
+						list($newWidth, $newHeight) = explode('x',$size[$folder]);
+
+						//$imageObj->thumbnail(new Box($newWidth, $newHeight))->save($uploadMain , $compress);
+						$$imaginename = $imagineObj->open($uploadMain);
+
+						$$imaginename->thumbnail(new Box($newWidth, $newHeight))->save(Yii::getAlias('@upload') .'/'. $main_folder .'/'. Yii::$app->params[$folder] .'/'. $image_name);
+					}
+
 				}
 				
 				$i++;

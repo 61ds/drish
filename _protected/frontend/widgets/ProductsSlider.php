@@ -45,6 +45,7 @@ class ProductsSlider extends Widget
 				}
 			}
 		}
+
         if($prod_model) {
             return $this->render('product-slider', [
                 'product_ids' => $prod_model,
