@@ -49,7 +49,7 @@ $baseurl = Yii::$app->params['baseurl'];
 ?>
 
 <?php $form = ActiveForm::begin([
-	'action'=> $baseurl.'/cart/address',
+	'action'=> $baseurl.'/cart/add',
 	'id'     => $cart->formName(),
 	'enableAjaxValidation'   => false,
 ]); ?>
