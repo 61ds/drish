@@ -34,6 +34,7 @@ return [
                 '/men.html' => 'men/index',
                 '/women.html' => 'women/index',
                 '/kids.html' => 'children/index',
+                '/category/<slug:.*?>.html'=>'/site/category',
                 '/<slug:.*?>.html'=>'/site/page',
 
 

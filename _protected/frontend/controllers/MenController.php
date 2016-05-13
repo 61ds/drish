@@ -12,6 +12,7 @@ use frontend\models\ContactForm;
 use common\models\Product;
 use common\models\Cart;
 use common\models\ProductImages;
+use common\models\ProductPageSetting;
 use common\models\ProductDropdownValues;
 use common\models\ProductTextValues;
 use common\models\ProductDescValues;
@@ -95,8 +96,10 @@ class MenController extends Controller
      */
     public function actionIndex()
     {
+		$product_setting = ProductPageSetting::find()->where(['category_id' => 2])->one();
+		
 		$this->layout = "inner";
-        return $this->render('index');
+        return $this->render('index', ['product_setting' => $product_setting,]);
 		
     }
 
