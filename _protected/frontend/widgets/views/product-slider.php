@@ -9,7 +9,7 @@ if($product_ids){
 			<li>
                 <a href="category.html">
                    <figure>
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>" />
+                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>" />
                       <figcaption>
                          <span><?= $product->name ?><br><i class="fa fa-inr"></i> <?= $product->price ?></span>
                          <button type="button">Shop Now</button>
@@ -20,7 +20,7 @@ if($product_ids){
 			<li>
                 <a href="category.html">
                    <figure>
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>" />
+                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>" />
                       <figcaption>
                          <span><?= $product->name ?><br><i class="fa fa-inr"></i> <?= $product->price ?></span>
                          <button type="button">Shop Now</button>
@@ -31,7 +31,7 @@ if($product_ids){
 			<li>
                 <a href="category.html">
                    <figure>
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>" />
+                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>" />
                       <figcaption>
                          <span><?= $product->name ?><br><i class="fa fa-inr"></i> <?= $product->price ?></span>
                          <button type="button">Shop Now</button>
@@ -42,7 +42,7 @@ if($product_ids){
 			<li>
                 <a href="category.html">
                    <figure>
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>" />
+                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>" />
                       <figcaption>
                          <span><?= $product->name ?><br><i class="fa fa-inr"></i> <?= $product->price ?></span>
                          <button type="button">Shop Now</button>
@@ -53,7 +53,7 @@ if($product_ids){
 			<li>
                 <a href="category.html">
                    <figure>
-                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>" />
+                      <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>" />
                       <figcaption>
                          <span><?= $product->name ?><br><i class="fa fa-inr"></i> <?= $product->price ?></span>
                          <button type="button">Shop Now</button>

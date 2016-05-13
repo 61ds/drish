@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-
+use common\models\CategoryInfo;
 /**
  * This is the model class for table "category".
  *
@@ -117,5 +117,9 @@ class Category extends \kartik\tree\models\Tree
     public static function find()
     {
         return new CategoryQuery(get_called_class());
+    }
+	public function getCatBanner()
+    {
+        return $this->hasOne(CategoryInfo::className(), ['cat_id' => 'id']);
     }
 }

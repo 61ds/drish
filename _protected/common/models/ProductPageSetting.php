@@ -46,7 +46,7 @@ class ProductPageSetting extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
+            'category_id' => 'Category',
             'video' => 'Video',
             'product_slides' => 'Product Slides',
             'name' => 'Name',

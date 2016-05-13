@@ -10,7 +10,7 @@ if($product_ids){
 			 <li>
 				 <div class="sreen-gallery">
                             <a href="#"><?= $product->name ?></a>
-                            <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/medium/<?= $product->productImages[0]->main_image ?>" alt="complete-view" title="coplete-view" style="width:250px;height:250px;">
+                            <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/medium/<?= $product->productImages->main_image ?>" alt="complete-view" title="coplete-view" style="width:250px;height:250px;">
 
                             <span class="price"><i class="fa fa-inr"></i> <?= $product->price ?></span>
                             <ul class="product-view">

@@ -18,7 +18,7 @@ if($product_ids){
 		 foreach($product_ids as $product){  
 		 ?>
             <div class="item <?php if($j==1){ echo 'active'; }?>">
-               <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/large/<?= $product->productImages[0]->flip_image ?>">
+               <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/large/<?= $product->productImages->flip_image ?>">
                <div class="carousel-caption">
                   <div class="price-frame">
                      <h4><?= $product->name ?></h4>

@@ -3,31 +3,51 @@ use yii\helpers\Url;
 ?>
 <section class="caterogy-area-outer">
    <div class="container-fluid cate-pad">
+	<?php  if($category){ 
+		$categorys = $category->find()->where(['id'=>$category->id, 'active' =>1])->one();
+			$parents = $categorys->parents()->all();
+				$sub_children = $categorys->children(1)->all();
+					if($sub_children){
+					?>
       <div class="row">
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="cate-nav">
                <ul>
 			   <?php 
-				$categorys = $category->find()->where(['root'=>$category->root, 'active' =>1])->andWhere(['!=', 'lvl', 0])->all();
-				if($categorys){
-					foreach($categorys as $category){?>
-					<li> <a href="<?= Url::to(['site/category','slug'=>$category->slug]) ?>"><?= $category->name ?></a></li>
-				<?php
-					}
-				}
+				    
+						if($parents){ 
+						foreach($sub_children as $category){
+							if(count($parents) == 2){ 
+								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[1]->slug ]) ?>"><?= $category->name ?></a></li><?php
+							}else if(count($parents) == 1){ 
+								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[0]->slug ]) ?>"><?= $category->name ?></a></li><?php
+							}else{  
+								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li><?php
+							}
+							?>
+						
+						<?php
+						}
+						} else{
+							foreach($sub_children as $category){?>
+							<li> <a href="<?= Url::to(['site/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li>
+							<?php
+							}
+						}
 				?>
                </ul>
             </div>
          </div>
       </div>
+		<?php }
+		} ?>
       <div class="row">
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1>Loafers</h1>
+            <h1><?= $categorys->name ?></h1>
             <div class="bredcrumb-nav">
                <ul>
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="#">Adults</a></li>
-                  <li  class="active"><a href="#">Men's Shoes</a></li>
+                  <li><a href="<?= Yii::$app->homeUrl ?>">Home</a></li>
+                  <li><a href="<?= Url::to(['site/category','slug'=>$slug]) ?>"><?= $categorys->name ?></a></li>
                </ul>
             </div>
          </div>
@@ -125,7 +145,6 @@ use yii\helpers\Url;
 			if($products){
 			foreach($products as $product1){
 				foreach($product1 as $product){
-					$image = $productimage->find()->where(['product_id' => $product->id])->one();
 					if($i==6){ ?>
 						<div class="col-lg-6 col-sm-8 col-md-8 col-xs-12 braided-flip cat-img">
 							<a href="product.html">
@@ -144,14 +163,13 @@ use yii\helpers\Url;
 										</li>
 										<li><i class="fa fa-heart-o"></i></li>
 									 </ul>
-									 <img src="<?= Yii::$app->params['baseurl'] ?>/images/cat-shoes-full.png" class="img-responsive cat-product" alt="category shoes" title="category shoes">
+									 <img src="<?= Yii::$app->params['baseurl'] ?>/uploads/category/<?= $category->id ?>/banner/large/<?= $categorys->catBanner->banner ?>" class="img-responsive cat-product" alt="category shoes" title="category shoes">
 								  </div>
 							   </div>
 							</a>
 						</div>
-			<?php	}else{
-			?>
-				 <div class="col-lg-3 col-sm-4 col-md-4 col-xs-12 braided-flip">
+			<?php	}else{ ?>
+			<div class="col-lg-3 col-sm-4 col-md-4 col-xs-12 braided-flip">
             <a href="product.html">
                <div class="braided-main">
                   <div class="braided-img">
@@ -170,18 +188,17 @@ use yii\helpers\Url;
                      </ul>
                      <div class="card effect__hover">
                         <div class="card__front">
-                           <span class="card__text"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/medium/<?= $image->main_image ?>" class="img-responsive" alt="shoes" title="shoes"></span>
+                           <span class="card__text"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/custom2/<?= $product->productImages->main_image; ?>" class="img-responsive" alt="shoes" title="shoes"></span>
                         </div>
                         <div class="card__back">
-                           <span class="card__text"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/medium/<?= $image->flip_image ?>" class="img-responsive" alt="shoes-1" title="shoes"></span>
+                           <span class="card__text"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/custom2/<?= $product->productImages->flip_image; ?>" class="img-responsive" alt="shoes-1" title="shoes"></span>
                         </div>
-                     </div>
+                     </div>  
                      <!-- /card -->	
                   </div>
                   <div class="braided-text">
                      <p><?= $product->name ?></p>
                      <p class="red-color"> <i class="fa fa-inr"></i><?= $product->price ?></p>
-                     <p>5 Colors</p>
                   </div>
                </div>
             </a>

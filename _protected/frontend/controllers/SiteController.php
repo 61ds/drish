@@ -414,26 +414,45 @@ class SiteController extends Controller
                 'model' => $page,
             ]);
 	}
-	public function actionCategory($slug){
-		$this->layout="page";
-		$cat = Category::find()->where(['slug' =>$slug ])->one();
+	public function actionCategory($slug,$main=0,$submain = 0){
+		$this->layout="category";
+		
+		if($main){
+			$parent_main = Category::find()->where(['slug' =>$main ])->one();
+			$cat = Category::find()->where(['slug' =>$slug,'root' => $parent_main->id])->one();
+			/* $cat_childs = $parent_main->children(1)->all();
+			foreach($cat_childs as $cat_child){
+				if( $cat_child->id == $cat->id ){
+					
+				}
+			} */
+			if($submain){
+				$parent_submain = Category::find()->where(['slug' =>$submain ])->one();
+			}
+		}else{
+			$cat = Category::find()->where(['slug' =>$slug])->one();	
+		} 
+		
 		$products = array();
 		$productimage = new ProductImages;
-		$cat_child = Category::find()->where(['root' => $cat->id ])->all();
+		if($cat){
+		$cat_child = $cat->children(1)->all();
+		
 		$products1 = Product::find()->where(['category_id' => $cat->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
+		
 		if($products1){
 			$products[] = $products1;
 		}
 		if($cat_child){
 			foreach($cat_child as $cat_sub_child){
-				$cat_subchild = Category::find()->where(['root' => $cat_sub_child->id ])->all();
+				$cat_subchild = $cat_sub_child->children(1)->all();
 				$products2 = Product::find()->where(['category_id' => $cat_sub_child->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
 				if($products2){
 					$products[] = $products2;
 				}
 				if($cat_subchild){
 					foreach($cat_subchild as $cat_subchild1){
-						$cat_subchilds = Category::find()->where(['root' => $cat_subchild1->id ])->all();
+						$cat_subchilds = $cat_subchild1->children(1)->all();
 						$products3 = Product::find()->where(['category_id' => $cat_subchild1->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
 						if($products3){
 							$products[] = $products3;
@@ -450,10 +469,14 @@ class SiteController extends Controller
 				}
 			}
 		}
+		}
 		return $this->render('category', [
            'products' => $products,
            'productimage' => $productimage,
            'category' => $cat,
+           'main' => $main,
+           'submain' => $submain,
+           'slug' => $slug,
         ]);
 	}
 	public function actionNewsletter()

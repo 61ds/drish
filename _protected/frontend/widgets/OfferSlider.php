@@ -21,34 +21,41 @@ class OfferSlider extends Widget
 	public $type;
     public function run()
     {
+		$prod_model = array();
 		if($this->type == "men"){
 			$prod_ids =ProductPageSetting::find()->where(['category_id' => 2])->one();
-			$prods = unserialize($prod_ids->product_slides);
-			foreach($prods as $prod_id){
-				$id = $prod_id;
-				$prod = Product::find()->where(['id'=>$id])->one();
-				if($prod){
-					$prod_model[] = $prod;
+			if($prod_ids){
+				$prods = unserialize($prod_ids->product_slides);
+				foreach($prods as $prod_id){
+					$id = $prod_id;
+					$prod = Product::find()->where(['id'=>$id])->one();
+					if($prod){
+						$prod_model[] = $prod;
+					}
 				}
 			}
 		}else if($this->type == "women"){
-			$prod_id =ProductPageSetting::find()->where(['category_id' => 3])->one();
-			$prods = unserialize($prod_ids->product_slides);
-			foreach($prods as $prod_id){
-				$id = $prod_id;
-				$prod = Product::find()->where(['id'=>$id])->one();
-				if($prod){
-					$prod_model[] = $prod;
+			$prod_ids =ProductPageSetting::find()->where(['category_id' => 3])->one();
+			if($prod_ids){
+				$prods = unserialize($prod_ids->product_slides);
+				foreach($prods as $prod_id){
+					$id = $prod_id;
+					$prod = Product::find()->where(['id'=>$id])->one();
+					if($prod){
+						$prod_model[] = $prod;
+					}
 				}
 			}
 		}else if($this->type == "kids"){
-			$prod_id =ProductPageSetting::find()->where(['category_id' => 1])->one();
-			$prods = unserialize($prod_ids->product_slides);
-			foreach($prods as $prod_id){
-				$id = $prod_id;
-				$prod = Product::find()->where(['id'=>$id])->one();
-				if($prod){
-					$prod_model[] = $prod;
+			$prod_ids =ProductPageSetting::find()->where(['category_id' => 1])->one();
+			if($prod_ids){
+				$prods = unserialize($prod_ids->product_slides);
+				foreach($prods as $prod_id){
+					$id = $prod_id;
+					$prod = Product::find()->where(['id'=>$id])->one();
+					if($prod){
+						$prod_model[] = $prod;
+					}
 				}
 			}
 		}
