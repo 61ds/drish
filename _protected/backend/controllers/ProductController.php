@@ -188,7 +188,7 @@ class ProductController extends BackendController
                         $folder = array('uploadMain','uploadLarge','uploadThumbs','uploadMedium','custom1','custom2','custom3','custom4');
 
                         $size['custom1'] = '99x111';
-                        $size['custom2'] = '270x405';
+                        $size['custom2'] = '300x450';
                         $size['custom3'] = '220x330';
                         $size['custom4'] = '562x525';
                         $ProductImagesModel->product_id = $model->id;
@@ -480,9 +480,9 @@ class ProductController extends BackendController
                         $folder = array('uploadMain','uploadLarge','uploadThumbs','uploadMedium','custom1','custom2','custom3','custom4');
 
                         $size['custom1'] = '99x111';
-                        $size['custom2'] = '270x405';
-                        $size['custom3'] = '220x330';
-                        $size['custom4'] = '562x525';
+                        $size['custom2'] = '300x450';
+                        $size['custom3'] = '400x296';
+                        $size['custom4'] = '789x737';
                         $ProductImagesModel->product_id = $model->id;
                         //save main image
                         if($main_image)

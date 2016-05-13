@@ -1,7 +1,8 @@
 <?php
 
 namespace common\models;
-
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use Yii;
 
 /**
@@ -44,7 +45,7 @@ class BillingAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'fname', 'lname', 'address', 'email', 'phone', 'company', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping', 'created_at', 'updated_at'], 'required'],
+            [['user_id', 'fname', 'lname', 'address', 'email', 'phone', 'company', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping'], 'required'],
             [['user_id', 'phone', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping', 'created_at', 'updated_at'], 'integer'],
             [['fname', 'lname'], 'string', 'max' => 50],
             [['address'], 'string', 'max' => 250],
@@ -55,7 +56,18 @@ class BillingAddress extends \yii\db\ActiveRecord
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Countries::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
-
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
