@@ -1,7 +1,6 @@
 <?php
 use frontend\widgets\ProductsSlider;
 use frontend\widgets\ProductsFeatured;
-use frontend\widgets\OfferSlider;
 ?>
 <div class="container-fluid">
                <div class="row">
@@ -38,20 +37,95 @@ use frontend\widgets\OfferSlider;
                </div>
                <!--end col-lg-7-->
                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 col-padding">
-                   <?= OfferSlider::widget(['type'=>"men"]); ?>
+                  <div data-ride="carousel" class="carousel slide" id="myCarousel-shoes">
+                     <!-- Indicators -->
+                     <ol class="carousel-indicators carousel-indicators-2">
+                        <li class="" data-slide-to="0" data-target="#myCarousel-shoes"></li>
+                        <li data-slide-to="1" data-target="#myCarousel-shoes" class=""></li>
+                        <li data-slide-to="2" data-target="#myCarousel-shoes" class=""></li>
+                        <li data-slide-to="3" data-target="#myCarousel-shoes" class=""></li>
+                        <li data-slide-to="4" data-target="#myCarousel-shoes" class="active"></li>
+                     </ol>
+                     <!-- Wrapper for slides -->
+                     <div role="listbox" class="carousel-inner">
+                        <div class="item">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
+                           <div class="carousel-caption">
+                              <div class="price-frame">
+                                 <h4>Making of<br>Leather Shoe<br>In India</h4>
+                                 <p class="price-txt"><span class="price-doller">$</span>500<span class="price-zero">.00</span></p>
+                                 <input type="button" class="shop-now-btn" value="Shop Now &gt;">
+                              </div>
+                              <!--end price-frame-->
+                           </div>
+                        </div>
+                        <div class="item">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
+                           <div class="carousel-caption">
+                              <div class="price-frame">
+                                 <h4>Making of<br>Leather Shoe<br>In India</h4>
+                                 <p class="price-txt"><span class="price-doller">$</span>500<span class="price-zero">.00</span></p>
+                                 <input type="button" class="shop-now-btn" value="Shop Now &gt;">
+                              </div>
+                              <!--end price-frame-->
+                           </div>
+                        </div>
+                        <div class="item">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
+                           <div class="carousel-caption">
+                              <div class="price-frame">
+                                 <h4>Making of<br>Leather Shoe<br>In India</h4>
+                                 <p class="price-txt"><span class="price-doller">$</span>500<span class="price-zero">.00</span></p>
+                                 <input type="button" class="shop-now-btn" value="Shop Now &gt;">
+                              </div>
+                              <!--end price-frame-->
+                           </div>
+                        </div>
+                        <div class="item">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
+                           <div class="carousel-caption">
+                              <div class="price-frame">
+                                 <h4>Making of<br>Leather Shoe<br>In India</h4>
+                                 <p class="price-txt"><span class="price-doller">$</span>500<span class="price-zero">.00</span></p>
+                                 <input type="button" class="shop-now-btn" value="Shop Now &gt;">
+                              </div>
+                              <!--end price-frame-->
+                           </div>
+                        </div>
+                        <div class="item active">
+                           <img class="img-responsive" alt="slide-1" src="<?= Yii::$app->params['baseurl'] ?>/images/shoe-slide-1.jpg">
+                           <div class="carousel-caption">
+                              <div class="price-frame">
+                                 <h4>Making of<br>Leather Shoe<br>In India</h4>
+                                 <p class="price-txt"><span class="price-doller">$</span>500<span class="price-zero">.00</span></p>
+                                 <input type="button" class="shop-now-btn" value="Shop Now &gt;">
+                              </div>
+                              <!--end price-frame-->
+                           </div>
+                        </div>
+                     </div>
+                     <!-- Left and right controls -->
+                     <a data-slide="prev" role="button" href="#myCarousel-shoes" class="left carousel-control">
+                     <span aria-hidden="true" class="slide-arrow-left-2"><img alt="arrow" src="<?= Yii::$app->params['baseurl'] ?>/images/left-arrow.jpg"></span>
+                     <span class="sr-only">Previous</span>
+                     </a>
+                     <a data-slide="next" role="button" href="#myCarousel-shoes" class="right carousel-control live">
+                     <span aria-hidden="true" class="slide-arrow-right-2"><img alt="arrow" src="<?= Yii::$app->params['baseurl'] ?>/images/right-arrow.jpg"></span>
+                     <span class="sr-only">Next</span>
+                     </a>
+                  </div>
                </div>
                <!--end col-lg-5-->
             </div>
             <!-- gallery end-->
             <!-- design slider start-->
-			<div class="design-slider">
-               <div id="myCarousel-arrow" class="carousel slide" data-ride="carousel">
+            <div class="design-slider">
+               <div data-ride="carousel" class="carousel slide" id="myCarousel-arrow">
                   <!-- Wrapper for slides -->
-                  <div style="width: 100%; overflow: hidden; height: 350px;" class="frnt-video">
-                     <video width="100%" muted="" controls="" autoplay="" loop="" class="home_video">
-                        <source type="video/mp4" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/setting/<?= $product_setting->video ?>"></source>
+                  <div class="frnt-video" style="width: 100%; overflow: hidden; height: 350px;">
+                     <video class="home_video" width="100%" loop autoplay="" controls muted>
+                        <source src="<?= Yii::$app->params['baseurl'] ?>/videos/drish-video.mp4" type="video/mp4">
                      </video>
                   </div>
                </div>
             </div>
-          

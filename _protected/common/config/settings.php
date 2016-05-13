@@ -43,7 +43,11 @@ class settings implements BootstrapInterface {
 		Yii::$app->params['uploadLarge'] = 'large';
 		Yii::$app->params['uploadMedium'] = 'medium';
 		Yii::$app->params['uploadMain'] = 'main';
-		
+		Yii::$app->params['custom1'] = 'custom1';
+		Yii::$app->params['custom2'] = 'custom2';
+		Yii::$app->params['custom3'] = 'custom3';
+		Yii::$app->params['custom4'] = 'custom4';
+
 		
 		Yii::$app->params['baseurl'] = str_replace('/backend','',\Yii::$app->request->baseUrl);
 		Yii::$app->params['uploadurl'] = str_replace('/backend','',Yii::getAlias('@webroot'));

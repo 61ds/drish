@@ -1,5 +1,8 @@
 <?php
 use frontend\widgets\AddressForm;
+use frontend\widgets\ShippingForm;
+use frontend\widgets\PaymentForm;
+use frontend\widgets\ReviewOrder;
 ?>
    <section class="cart-detail-outer">
     
@@ -23,40 +26,29 @@ use frontend\widgets\AddressForm;
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           
             <ul class="address">
-              <li>
-                <span>1. Addresses<i class="fa fa-plus fa-minus"></i></span>
+              <li class="step1">
+                <span class="open">1. Addresses<i class="fa fa-plus fa-minus"></i></span>
                 <div style="display:block;" class="detail-shipping">
                 
                 <div class="address-tab">
- <h5>Billing Address</h5>
-	<?= AddressForm::widget() ?>
+                 <h5>Billing Address</h5>
+                    <?= AddressForm::widget() ?>
 
-</div>
+                </div>
                 
       			</div>
               </li> 
-              <li>
-                <span>2. Shipping Method<i class="fa fa-plus"></i></span>
-                 <div class="detail-shipping">
-                 <div class="shipping-main">
-           <div class="shipping-method">
-            <div class="free-s">Free Shipping</div>
-            <div class="rupe-s">Free <i class="fa fa-inr"></i>0.00</div>
-          </div> 
-            <!-- end of contact information fiels-->
-             	<hr class="border-line">
-            <div class="btn-cart red-btn">   <button type="button" class="blk-btn">BACK</button> <button type="button">CONTINUE</button> </div>
-			</div>
-                </div>
+              <li class="step2">
+                    <span>2. Shipping Method<i class="fa fa-plus"></i></span>
+                    <?= ShippingForm::widget() ?>
               </li>
-              <li>
+              <li class="step3">
                 <span>3. Payment Information<i class="fa fa-plus"></i></span>
-                 <div class="detail-shipping">asdfasdf
-                </div>
+                  <?= PaymentForm::widget() ?>
               </li>
-              <li>
+              <li class="step4">
                 <span>4. Order Review<i class="fa fa-plus"></i></span>
-                <div class="detail-shipping">Order Review  </div>
+                  <?= ReviewOrder::widget() ?>
               </li>
               
             </ul>

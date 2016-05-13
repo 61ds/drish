@@ -31,7 +31,7 @@ ProductsAsset::register($this);
 		<?= Alert::widget() ?>
 		<div class="flash"><span></span></div>
         <?= $content ?>
-		<?= $this->render('footer-up.php')?>
+
     </div>
         <?= $this->render('footer.php')?>
 

@@ -41,7 +41,9 @@ class CartController extends FrontendController
 				if($model->quantity > 0)
 					$session->set('cart', $cart);
 			}else{
-				if (($cartmodel = Cart::find()->where(['varient_id'=>$model->varient_id,'product_id'=>$model->product_id,'user_id'=>$model->user_id])->one()) !== null) {
+
+				if (($cartmodel = Cart::find()->where(['varient_id'=>$model->varient_id,'product_id'=>$model->product_id,'user_id'=>Yii::$app->user->identity->id])->one()) !== null) {
+
 					$cartmodel->color = $model->color;
 					$cartmodel->size = $model->size;
 					$cartmodel->width = $model->width;
@@ -84,27 +86,61 @@ class CartController extends FrontendController
 		$this->layout = 'page';
 		$session = Yii::$app->session;
 
-		if (!$session->isActive){
+		if (!$session->isActive) {
 			// open a session
 			$session->open();
 		}
-		if ($session->has('cart')) {
-			$carts = $session->get('cart');
-		}else{
-			$carts = array();
-			if(!Yii::$app->user->isGuest) {
-				$model = new Cart();
-				$cartitems = $model->find()->where(['user_id'=>Yii::$app->user->identity->id])->all();
-				foreach($cartitems as $cartitem){
-					$carts[$cartitem->varient_id]['product_id'] = $cartitem->product_id;
-					$carts[$cartitem->varient_id]['color'] = $cartitem->color;
-					$carts[$cartitem->varient_id]['size'] = $cartitem->size;
-					$carts[$cartitem->varient_id]['width'] = $cartitem->width;
-					$carts[$cartitem->varient_id]['quantity'] = $cartitem->quantity;
+		if (!Yii::$app->user->isGuest) {
+			if ($session->has('cart')) {
+				$carts = $session->get('cart');
+				foreach ($carts as $key => $cart) {
+
+					if (($cartmodel = Cart::find()->where(['varient_id' => $key, 'product_id' => $cart['product_id'], 'user_id' => Yii::$app->user->identity->id])->one()) !== null) {
+						$cartmodel->color = $cart['color'];
+						$cartmodel->size = $cart['size'];
+						$cartmodel->width = $cart['width'];
+						$cartmodel->quantity = $cart['quantity'];
+						if ($cart['quantity'] > 0)
+							$cartmodel->save();
+					} else {
+						$newmodel = new Cart();
+						$newmodel->user_id = Yii::$app->user->identity->id;
+						$newmodel->product_id = $cart['product_id'];
+						$newmodel->varient_id = $key;
+						$newmodel->color = $cart['color'];
+						$newmodel->size = $cart['size'];
+						$newmodel->width = $cart['width'];
+						$newmodel->quantity = $cart['quantity'];
+						if ($cart['quantity'] > 0)
+							$newmodel->save();
+					}
+					unset($carts[$key]);
+
 				}
+				$session->set('cart', $carts);
 			}
 
 		}
+
+
+		if (!Yii::$app->user->isGuest) {
+			$carts = array();
+			$model = new Cart();
+			$cartitems = $model->find()->where(['user_id' => Yii::$app->user->identity->id])->all();
+			foreach ($cartitems as $cartitem) {
+				$carts[$cartitem->varient_id]['product_id'] = $cartitem->product_id;
+				$carts[$cartitem->varient_id]['color'] = $cartitem->color;
+				$carts[$cartitem->varient_id]['size'] = $cartitem->size;
+				$carts[$cartitem->varient_id]['width'] = $cartitem->width;
+				$carts[$cartitem->varient_id]['quantity'] = $cartitem->quantity;
+			}
+		} else {
+			if ($session->has('cart')) {
+				$carts = $session->get('cart');
+			}
+
+		}
+
 		$cart = array();
 		$cart['total'] = 0;
 
@@ -124,8 +160,9 @@ class CartController extends FrontendController
 				$cart['items'][$key]['size'] = $varient->size0->name;
 				$cart['items'][$key]['product_id'] = $product->id;
 				$cart['items'][$key]['quantity'] = $cartitem['quantity'];
-				$cart['items'][$key]['img'] = Yii::$app->params['baseurl'].'/uploads/product/main/'.$product->id.'/thumbs/'.$product->productImages[0]->main_image;
+				$cart['items'][$key]['img'] = Yii::$app->params['baseurl'].'/uploads/product/main/'.$product->id.'/custom1/'.$product->productImages[0]->main_image;
 				$cart['items'][$key]['width'] = $varient->width0->name;
+				$cart['items'][$key]['singleprice'] = $product->price + $varient->price;
 				$cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
 				$cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
 			}else{
@@ -172,10 +209,19 @@ class CartController extends FrontendController
 	{
 		$billingModel = new BillingAddress();
 		$shippingModel = new ShippingAddress();
-		if (Yii::$app->request->isAjax && $billingModel->load(Yii::$app->request->post())) {
-			if($billingModel->save()){
 
+		if (Yii::$app->request->isAjax && $billingModel->load(Yii::$app->request->post())) {
+			$billingModel->is_shipping = 1;
+			$billingModel->city_id = 1;
+			$billingModel->state_id = 13;
+			$billingModel->country_id = 101;
+			$billingModel->user_id = Yii::$app->user->identity->id;
+			if($billingModel->save()){
+				$result['type'] = 'success';
+				Yii::$app->response->format = trim(Response::FORMAT_JSON);
+				return $result;
 			}else{
+				print_r($billingModel->getErrors());die;
 				Yii::$app->response->format = Response::FORMAT_JSON;
 				echo json_encode(ActiveForm::validate($billingModel));
 				Yii::$app->end();

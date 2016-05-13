@@ -44,7 +44,7 @@ class VarientProduct extends \yii\db\ActiveRecord
             [['product_id', 'color', 'size', 'width', 'price', 'status'], 'integer'],
             [['sku'], 'string', 'max' => 255],
             [['colors'], 'safe'],
-            [['color', 'width','size'], 'unique', 'targetAttribute' => ['color', 'width','size']],
+            [['color', 'width','size','product_id'], 'unique', 'targetAttribute' => ['color', 'width','size','product_id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['color'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['color' => 'id']],
             [['size'], 'exist', 'skipOnError' => true, 'targetClass' => DropdownValues::className(), 'targetAttribute' => ['size' => 'id']],

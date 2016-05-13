@@ -3,71 +3,57 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 $baseurl = Yii::$app->params['baseurl'];
 
+
+
 $js = <<<JS
-
 // get the form id and set the event
-
 $('form#{$billingModel->formName()}').on('beforeSubmit', function(e) {
-
 	var form = $(this);
-
 	if (form.find('.has-error').length) {
-
 	  return false;
-
 	}
-
 	// submit form
-
 	$.ajax({
-
 		url: form.attr('action'),
-
 		type: 'post',
-
 		data: form.serialize(),
-
 		success: function (response) {
+			if(response.type == 'success'){
 
-			if(response.type == 'error'){
+					   $(".address li.step1 span").removeClass("close").addClass("open");
+					   $(".address li.step2 span").removeClass("close").addClass("open");
+					   $(".address li.step1 span").next().slideUp();
+					   $(".address li.step1 span i").removeClass("fa-minus").addClass("fa-plus");
 
+					    $(".address li.step2 span").next().slideDown();
+                        $("i",".address li.step2 span").addClass("fa-minus").removeClass("fa-plus");
+					   $(".address li span").removeClass("active");
+					   $(".address li.step2 span").addClass("active");
 
-				response=JSON.parse(response.error);
-
+			}else{
 				$.each( response, function( key, value ) {
-
-					console.log(value);
-
 					$('#'+key).parent().removeClass('has-success').addClass('has-error');
-
 					$('#'+key).parent().find('.help-block').html(value);
-
 				});
-
 			}
-
 		}
-
 	});
-
 	return false;
-
 }).on('submit', function(e){
-
     e.preventDefault();
-
 });
-
 JS;
+$this->registerJs($js);
 ?>
     <?php $form = ActiveForm::begin([
-        'action'=> $baseurl.'/cart/add',
+        'action'=> ['cart/address'],
         'id'     => $billingModel->formName(),
         'enableAjaxValidation'   => false,
         'options' => [
             'class' => 'form-fill'
         ],
     ]); ?>
+
     <div class="user-form">
         <div class="input-first-half">
             <fieldset class="form-group">
