@@ -21,11 +21,13 @@ class SpecialProducts extends Widget
     public function run()
     {
 		$model = Product::find()->where(['id' => $this->product_id])->one();
-		$arry = unserialize($model->special); 
-        if($arry) {
-            return $this->render('special-product', [
-                'product_ids' => $arry,
-            ]);
+		if($model){
+			$arry = unserialize($model->special); 
+			if($arry) {
+				return $this->render('special-product', [
+					'product_ids' => $arry,
+				]);
+			}
         }
     }
 

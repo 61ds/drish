@@ -8,7 +8,7 @@ use yii\helpers\Url;
                   <div class="row">
                      <div class="col-lg-3 col-md-2 col-sm-2 col-xs-2 toggle-width">
                         <div class="header">
-                           <a href="index.html" class="header-logo"><img src="<?= Yii::$app->params['baseurl'] ?>/images/drish-logo.png" alt="Drish" title="Drish"></a> 
+                           <a href="<?= Url::to(['site/index']) ?>" class="header-logo"><img src="<?= Yii::$app->params['baseurl'] ?>/images/drish-logo.png" alt="Drish" title="Drish"></a> 
                            <a href="#menu" class="menu-bar"> <i class="fa fa-bars"></i></a>
                            <span class="menu-text">Menu</span>
                         </div>

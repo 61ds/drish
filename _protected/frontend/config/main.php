@@ -33,8 +33,11 @@ return [
 				
                 '/men.html' => 'men/index',
                 '/women.html' => 'women/index',
-                '/kids.html' => 'children/index',
+                '/kids.html' => 'children/index',				
+				'/category/<main:.*?>/<submain:.*?>/<slug:.*?>.html'=>'/site/category',
+				'/category/<main:.*?>/<slug:.*?>.html'=>'/site/category',
                 '/category/<slug:.*?>.html'=>'/site/category',
+                
                 '/<slug:.*?>.html'=>'/site/page',
 
 

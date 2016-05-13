@@ -11,7 +11,7 @@ use yii\helpers\Url;
                      <div class="container-fluid">
                         <div class="row">
                            <div class="col-lg-6 col-md-4 col-sm-3">
-                              <a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/logo-2.png" alt="logo"></a>
+                              <a href="<?= Url::to(['site/index']) ?>"><img src="<?= Yii::$app->params['baseurl'] ?>/images/logo-2.png" alt="logo"></a>
                            </div>
                            <!--col-lg-7-->              
                            <div class="col-lg-2 col-md-3 col-sm-3 women-nav">

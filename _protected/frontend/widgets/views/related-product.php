@@ -10,7 +10,7 @@ if($product_ids){
 			 $product = Product::findOne($id); ?>
 			 <li>
 				<span class="related-product">
-						<a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages[0]->main_image ?>">
+						<a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>">
 						  <h4><?= $product->name ?></h4>
 						<h4><span><i class="fa fa-inr"></i></span><?= $product->price ?></h4></a>
 				 </span>
