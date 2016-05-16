@@ -90,6 +90,7 @@ class CartController extends FrontendController
 			// open a session
 			$session->open();
 		}
+
 		if (!Yii::$app->user->isGuest) {
 			if ($session->has('cart')) {
 				$carts = $session->get('cart');
@@ -143,33 +144,34 @@ class CartController extends FrontendController
 
 		$cart = array();
 		$cart['total'] = 0;
+		if(isset($carts)) {
+			foreach ($carts as $key => $cartitem) {
+				if (($product = Product::findOne($cartitem['product_id'])) !== null) {
+					if (($varient = VarientProduct::findOne($key)) !== null) {
+						if ($varient->quantity < 1)
+							continue;
 
-		foreach($carts as $key => $cartitem ){
-			if (($product = Product::findOne($cartitem['product_id'])) !== null) {
-				if (($varient = VarientProduct::findOne($key)) !== null) {
-					if($varient->quantity < 1)
+					} else {
 						continue;
+					}
 
-				}else{
+					$cart['items'][$key]['name'] = $product->name;
+					$cart['items'][$key]['sku'] = $varient->sku;
+					$cart['items'][$key]['color'] = $varient->color0->name;
+					$cart['items'][$key]['size'] = $varient->size0->name;
+					$cart['items'][$key]['product_id'] = $product->id;
+					$cart['items'][$key]['quantity'] = $cartitem['quantity'];
+					$cart['items'][$key]['img'] = Yii::$app->params['baseurl'] . '/uploads/product/main/' . $product->id . '/custom1/' . $product->productImages->main_image;
+					$cart['items'][$key]['width'] = $varient->width0->name;
+					$cart['items'][$key]['singleprice'] = $product->price + $varient->price;
+					$cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
+					$cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
+				} else {
 					continue;
 				}
 
-				$cart['items'][$key]['name'] = $product->name;
-				$cart['items'][$key]['sku'] = $varient->sku;
-				$cart['items'][$key]['color'] = $varient->color0->name;
-				$cart['items'][$key]['size'] = $varient->size0->name;
-				$cart['items'][$key]['product_id'] = $product->id;
-				$cart['items'][$key]['quantity'] = $cartitem['quantity'];
-				$cart['items'][$key]['img'] = Yii::$app->params['baseurl'].'/uploads/product/main/'.$product->id.'/custom1/'.$product->productImages->main_image;
-				$cart['items'][$key]['width'] = $varient->width0->name;
-				$cart['items'][$key]['singleprice'] = $product->price + $varient->price;
-				$cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
-				$cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
-			}else{
-				continue;
+
 			}
-
-
 		}
 		return $this->render('cart',['items'=>$cart
 		]);
