@@ -108,7 +108,8 @@ class ProductPageSettingController extends BackendController
                 $image_name= $this->uploadFile($video,$name,$main_folder);
                 $model->video = $image_name;
             }else{
-                $model->video = $model->video;
+				$models = $this->findModel($id);
+                $model->video = $models->video;
             }
 
             $model->product_slides = serialize(Yii::$app->request->post("product_slides"));

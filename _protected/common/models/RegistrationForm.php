@@ -72,7 +72,7 @@ class RegistrationForm extends Model
 			$profile->lname = $this->lname;
 			$profile->email = $this->email;	
 			$profile->phone = $this->phone;	
-			$profile->save();
+			$profile->save();
 		}
 	
 		

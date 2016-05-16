@@ -37,6 +37,7 @@ return [
 				'/category/<main:.*?>/<submain:.*?>/<slug:.*?>.html'=>'/site/category',
 				'/category/<main:.*?>/<slug:.*?>.html'=>'/site/category',
                 '/category/<slug:.*?>.html'=>'/site/category',
+                '/product/<slug:.*?>.html'=>'/men/product',
                 
                 '/<slug:.*?>.html'=>'/site/page',
 

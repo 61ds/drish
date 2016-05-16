@@ -1,5 +1,6 @@
 <?php
 use common\models\Product;
+use yii\helpers\Url;
 if($product_ids){
 ?> 
 
@@ -10,53 +11,10 @@ if($product_ids){
 		 ?>
 			<li>
                 <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>">
+                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/custom2/<?= $product->productImages->main_image ?>">
                    <figcaption>
                       <h3><?= $product->name ?></h3>
-                      <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-					</figcaption>
-                </figure>
-            </li>
-			<li>
-                <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/large/<?= $product->productImages->flip_image ?>">
-                   <figcaption>
-                      <h3><?= $product->name ?></h3>
-                      <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-					</figcaption>
-                </figure>
-            </li>
-			<li>
-                <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/home/<?= $product->id ?>/large/<?= $product->productImages->home_image ?>">
-                   <figcaption>
-                      <h3><?= $product->name ?></h3>
-                      <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-					</figcaption>
-                </figure>
-            </li><li>
-                <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>">
-                   <figcaption>
-                      <h3><?= $product->name ?></h3>
-                      <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-					</figcaption>
-                </figure>
-            </li><li>
-                <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/home/<?= $product->id ?>/large/<?= $product->productImages->home_image ?>">
-                   <figcaption>
-                      <h3><?= $product->name ?></h3>
-                      <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
-					</figcaption>
-                </figure>
-            </li>
-			<li>
-                <figure>
-                   <img class="img-responsive" alt="bag" src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/flip/<?= $product->id ?>/large/<?= $product->productImages->flip_image ?>">
-                   <figcaption>
-                      <h3><?= $product->name ?></h3>
-                      <a href="http://dribbble.com/shots/1115960-Music">Shop Now</a>
+                      <a href="<?= Url::to(['men/product','slug'=>$product->slug]) ?>">Shop Now</a>
 					</figcaption>
                 </figure>
             </li>

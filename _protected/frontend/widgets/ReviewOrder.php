@@ -94,7 +94,7 @@ class ReviewOrder extends Widget
                 $cart['items'][$key]['product_id'] = $product->id;
                 $cart['items'][$key]['quantity'] = $cartitem['quantity'];
                 $cart['items'][$key]['singleprice'] = $product->price + $varient->price;
-                $cart['items'][$key]['img'] = Yii::$app->params['baseurl'].'/uploads/product/main/'.$product->id.'/custom1/'.$product->productImages[0]->main_image;
+                $cart['items'][$key]['img'] = Yii::$app->params['baseurl'].'/uploads/product/main/'.$product->id.'/custom1/'.$product->productImages->main_image;
                 $cart['items'][$key]['width'] = $varient->width0->name;
                 $cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
                 $cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
