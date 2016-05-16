@@ -168,6 +168,44 @@ class SiteController extends Controller
         // now we can try to log in the user
         if ($model->load(Yii::$app->request->post()) && $model->login()) 
         {
+            $session = Yii::$app->session;
+
+            if (!$session->isActive) {
+                // open a session
+                $session->open();
+            }
+
+            if (!Yii::$app->user->isGuest) {
+                if ($session->has('cart')) {
+                    $carts = $session->get('cart');
+                    foreach ($carts as $key => $cart) {
+
+                        if (($cartmodel = Cart::find()->where(['varient_id' => $key, 'product_id' => $cart['product_id'], 'user_id' => Yii::$app->user->identity->id])->one()) !== null) {
+                            $cartmodel->color = $cart['color'];
+                            $cartmodel->size = $cart['size'];
+                            $cartmodel->width = $cart['width'];
+                            $cartmodel->quantity = $cart['quantity'];
+                            if ($cart['quantity'] > 0)
+                                $cartmodel->save();
+                        } else {
+                            $newmodel = new Cart();
+                            $newmodel->user_id = Yii::$app->user->identity->id;
+                            $newmodel->product_id = $cart['product_id'];
+                            $newmodel->varient_id = $key;
+                            $newmodel->color = $cart['color'];
+                            $newmodel->size = $cart['size'];
+                            $newmodel->width = $cart['width'];
+                            $newmodel->quantity = $cart['quantity'];
+                            if ($cart['quantity'] > 0)
+                                $newmodel->save();
+                        }
+                        unset($carts[$key]);
+
+                    }
+                    $session->set('cart', $carts);
+                }
+
+            }
             return $this->goBack();
         }
         // user couldn't be logged in, because he has not activated his account

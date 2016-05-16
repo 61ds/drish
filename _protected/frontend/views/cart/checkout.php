@@ -3,6 +3,41 @@ use frontend\widgets\AddressForm;
 use frontend\widgets\ShippingForm;
 use frontend\widgets\PaymentForm;
 use frontend\widgets\ReviewOrder;
+
+use yii\bootstrap\ActiveForm;
+$baseurl = Yii::$app->params['baseurl'];
+
+
+
+$js = <<<JS
+// get the form id and set the event
+$('form#{$order->formName()}').on('beforeSubmit', function(e) {
+	var form = $(this);
+	if (form.find('.has-error').length) {
+	  return false;
+	}
+	// submit form
+	$.ajax({
+		url: form.attr('action'),
+		type: 'post',
+		data: form.serialize(),
+		success: function (response) {
+			if(response.type == 'success'){
+
+
+			}else{
+				$.each( response, function( key, value ) {
+					$('#'+key).parent().removeClass('has-success').addClass('has-error');
+					$('#'+key).parent().find('.help-block').html(value);
+				});
+			}
+		}
+	});
+	return false;
+}).on('submit', function(e){
+    e.preventDefault();
+});
+JS;
 ?>
    <section class="cart-detail-outer">
     
@@ -44,11 +79,37 @@ use frontend\widgets\ReviewOrder;
               </li>
               <li class="step3">
                 <span>3. Payment Information<i class="fa fa-plus"></i></span>
-                  <?= PaymentForm::widget() ?>
+
+                  <div class="detail-shipping">
+                      <div class="shipping-main">
+                          <?php $form = ActiveForm::begin([
+                              'action'=> ['cart/place-order'],
+                              'id'     => $order->formName(),
+                              'enableAjaxValidation'   => false,
+                          ]);
+
+                          ?>
+                          <div class="shipping-method">
+                              <?= $form->field($order, 'payment_method')->radioList($order->getPayments(),['class'=>'free-s'])->label(false) ?>
+                          </div>
+
+                          <hr class="border-line">
+                          <div class="btn-cart red-btn">
+                             <button type="button" class="payment-method-btn">CONTINUE</button>
+                          </div>
+
+                      </div>
+                  </div>
               </li>
               <li class="step4">
                 <span>4. Order Review<i class="fa fa-plus"></i></span>
-                  <?= ReviewOrder::widget() ?>
+                  <div class="detail-shipping">
+                      <div class="shipping-main">
+                          <?= ReviewOrder::widget(['order'=>$order]) ?>
+                      </div>
+                  </div>
+
+                 <?php ActiveForm::end(); ?>
               </li>
               
             </ul>

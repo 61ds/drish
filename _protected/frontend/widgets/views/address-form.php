@@ -206,7 +206,12 @@ $this->registerJs($js);
         <h5>Shipping  Address</h5>
         <div class="checkbox enter-pwd chek-label">
             <label>
-                <input type="checkbox" id="shipaddbtn"> <div class="text-enter ship-chk">Ship to a Different Address</div>
+
+
+                <?php $checkboxTemplate = '{input}{label}'; ?>
+
+                <?= $form->field($billingModel, 'is_shipping')->checkbox(array('template' => $checkboxTemplate,'id'=>'shipaddbtn','label'=>'<div class="text-enter ship-chk">Ship to a Different Address</div>')); ?>
+
             </label>
             <label>
                 <input type="checkbox"> <div class="text-enter ship-chk">Enter a password to create an account</div>

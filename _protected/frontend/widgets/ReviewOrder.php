@@ -11,10 +11,10 @@ use common\models\VarientProduct;
 
 class ReviewOrder extends Widget
 {
-
+    public $order;
     public function run()
     {
-
+        $carts = array();
         $session = Yii::$app->session;
 
         if (!$session->isActive) {
@@ -105,6 +105,6 @@ class ReviewOrder extends Widget
 
         }
         return $this->render('review-order',['items'=>$cart
-        ]);
+        ,'order'=>$this->order]);
     }
 }
