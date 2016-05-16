@@ -19,7 +19,9 @@ use yii\helpers\Url;
                                  <ul>
                                     <li><a href="<?= Url::to(['men/index']) ?>">Men</a></li>
                                     <li>|</li>
-                                    <li><a href="<?= Url::to(['women/index']) ?>">Women</a></li>
+									 <li><a href="<?= Url::to(['women/index']) ?>">Women</a></li>
+                                    <li>|</li>
+                                    <li><a href="<?= Url::to(['children/index']) ?>">Kids</a></li>
                                  </ul>
                               </div>
                               <!--end product type-->

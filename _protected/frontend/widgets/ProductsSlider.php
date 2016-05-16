@@ -20,6 +20,7 @@ class ProductsSlider extends Widget
 	public $type;
     public function run()
     {
+		$prod_model = array();
 		if($this->type == "men"){
 			$prods = Product::find()->where(["status" => 1])->orderBy(["id"=> SORT_DESC ])->all();
 			foreach($prods as $prod){
