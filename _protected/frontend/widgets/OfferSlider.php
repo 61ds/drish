@@ -26,11 +26,13 @@ class OfferSlider extends Widget
 			$prod_ids =ProductPageSetting::find()->where(['category_id' => 2])->one();
 			if($prod_ids){
 				$prods = unserialize($prod_ids->product_slides);
-				foreach($prods as $prod_id){
-					$id = $prod_id;
-					$prod = Product::find()->where(['id'=>$id])->one();
-					if($prod){
-						$prod_model[] = $prod;
+				if($prods){
+					foreach($prods as $prod_id){
+						$id = $prod_id;
+						$prod = Product::find()->where(['id'=>$id])->one();
+						if($prod){
+							$prod_model[] = $prod;
+						}
 					}
 				}
 			}
@@ -38,11 +40,13 @@ class OfferSlider extends Widget
 			$prod_ids =ProductPageSetting::find()->where(['category_id' => 3])->one();
 			if($prod_ids){
 				$prods = unserialize($prod_ids->product_slides);
-				foreach($prods as $prod_id){
-					$id = $prod_id;
-					$prod = Product::find()->where(['id'=>$id])->one();
-					if($prod){
-						$prod_model[] = $prod;
+				if($prods){
+					foreach($prods as $prod_id){
+						$id = $prod_id;
+						$prod = Product::find()->where(['id'=>$id])->one();
+						if($prod){
+							$prod_model[] = $prod;
+						}
 					}
 				}
 			}
@@ -50,11 +54,13 @@ class OfferSlider extends Widget
 			$prod_ids =ProductPageSetting::find()->where(['category_id' => 1])->one();
 			if($prod_ids){
 				$prods = unserialize($prod_ids->product_slides);
-				foreach($prods as $prod_id){
-					$id = $prod_id;
-					$prod = Product::find()->where(['id'=>$id])->one();
-					if($prod){
-						$prod_model[] = $prod;
+				if($prods){
+					foreach($prods as $prod_id){
+						$id = $prod_id;
+						$prod = Product::find()->where(['id'=>$id])->one();
+						if($prod){
+							$prod_model[] = $prod;
+						}
 					}
 				}
 			}

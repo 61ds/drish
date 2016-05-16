@@ -22,7 +22,7 @@ class ProductsFeatured extends Widget
     {
 		$prod_model = array();
 		if($this->type == "men"){
-			$prods = Product::find()->where(["status" => 1,"featured"=>0])->orderBy(["id"=> SORT_DESC ])->all();
+			$prods = Product::find()->where(["status" => 1,"featured"=>1])->orderBy(["id"=> SORT_DESC ])->all();
 			foreach($prods as $prod){
 				$cats = Category::find()->where(['root' => 2,"id"=>$prod->category_id])->one();
 				if($cats){
@@ -30,7 +30,7 @@ class ProductsFeatured extends Widget
 				}
 			}
 		}else if($this->type == "women"){
-			$prods = Product::find()->where(["status" => 1,"featured"=>0])->orderBy(["id"=> SORT_DESC ])->all();
+			$prods = Product::find()->where(["status" => 1,"featured"=>1])->orderBy(["id"=> SORT_DESC ])->all();
 			foreach($prods as $prod){
 				$cats = Category::find()->where(['root' => 3,"id"=>$prod->category_id])->one();
 				if($cats){
@@ -38,7 +38,7 @@ class ProductsFeatured extends Widget
 				}
 			}
 		}else if($this->type == "kids"){
-			$prods = Product::find()->where(["status" => 1,"featured"=>0])->orderBy(["id"=> SORT_DESC ])->all();
+			$prods = Product::find()->where(["status" => 1,"featured"=>1])->orderBy(["id"=> SORT_DESC ])->all();
 			foreach($prods as $prod){
 				$cats = Category::find()->where(['root' => 1,"id"=>$prod->category_id])->one();
 				if($cats){

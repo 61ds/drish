@@ -97,14 +97,16 @@ class MenController extends Controller
     public function actionIndex()
     {
 		$product_setting = ProductPageSetting::find()->where(['category_id' => 2])->one();
-		
 		$this->layout = "inner";
         return $this->render('index', ['product_setting' => $product_setting,]);
 		
     }
 
-    public function actionProduct($id){
+    public function actionProduct($slug){
         $this->layout = "products";
+		
+		$productid = Product::find()->where(['slug' => $slug])->one();
+		$id = $productid->id;
         $ProductDropdownValues = ProductDropdownValues::find()->where(['product_id' => $id])->all();
         $ProductDescValues = ProductDescValues::find()->where(['product_id' => $id])->all();
         $ProductTextValues = ProductTextValues::find()->where(['product_id' => $id])->all();

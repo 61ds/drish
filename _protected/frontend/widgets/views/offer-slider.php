@@ -1,13 +1,13 @@
 <?php
 use common\models\Product;
-
+use yii\helpers\Url;
 if($product_ids){
 ?> 
  <div data-ride="carousel" class="carousel slide" id="myCarousel-shoes">
     <!-- Indicators -->
      <ol class="carousel-indicators carousel-indicators-2">
 		 <?php $i=0;
-		  foreach($product_ids as $product){ echo $product->id; ?>
+		  foreach($product_ids as $product){  ?>
 			  <li class="<?php if($i==0){ echo 'active'; }?>" data-slide-to="<?= $i ?>" data-target="#myCarousel-shoes"></li>
 		<?php  $i++;  }					 
 		 ?>
@@ -23,7 +23,7 @@ if($product_ids){
                   <div class="price-frame">
                      <h4><?= $product->name ?></h4>
                      <p class="price-txt"><span class="price-doller">$</span><?= $product->price ?><span class="price-zero">.00</span></p>
-                     <input type="button" class="shop-now-btn" value="Shop Now &gt;">
+                     <a href="<?= Url::to(['men/product','slug'=>$product->slug]) ?>"><input type="button" class="shop-now-btn" value="Shop Now &gt;"></a>
                   </div>
                   <!--end price-frame-->
                </div>
