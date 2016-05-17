@@ -20,12 +20,9 @@
                 $.each( varients, function( key, value ) {
 					//alert(value.color+'......'+value.size+"....."+value.width);
 					if(attrs == "cart-size"){
-						
 						if(value.size == size){
 							$('#cart-width').append("<option value='"+value.width +"'>"+value.width_val +"</option> ");
 						}
-						
-						
 					}else if(attrs == "cart-width"){
 						if(value.size == size){
 							$('#cart-color').append("<option value='"+value.color +"'>"+value.color_val +"</option> ");
