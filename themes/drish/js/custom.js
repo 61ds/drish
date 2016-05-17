@@ -87,11 +87,12 @@
 
 			});
 
-			var shipping_form = $('#new-account-form').html();
+			var account_form = $('#new-account-form').html();
 			$('#new-account-form').empty();
 			$('#newaccountbtn').change(function(){
 				if(this.checked){
-					$('#new-account-form').html(shipping_form);
+					$('#new-account-form').empty();
+					$('#new-account-form').html(account_form);
 					$('#new-account-form').fadeIn('slow');
 				}
 				else {
