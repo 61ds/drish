@@ -31,6 +31,7 @@ use Yii;
  */
 class ShippingAddress extends \yii\db\ActiveRecord
 {
+    public $confirm_email;
     /**
      * @inheritdoc
      */
@@ -45,11 +46,12 @@ class ShippingAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'fname', 'lname', 'address', 'email', 'phone', 'company', 'city_id', 'state_id', 'country_id', 'zip'], 'required'],
+            [['fname', 'lname', 'address', 'email', 'phone', 'company', 'city_id', 'state_id', 'country_id', 'zip'], 'required'],
             [['user_id', 'phone', 'city_id', 'state_id', 'country_id', 'zip', 'created_at', 'updated_at'], 'integer'],
             [['fname', 'lname'], 'string', 'max' => 50],
             [['address'], 'string', 'max' => 250],
             [['email', 'company'], 'string', 'max' => 100],
+            ['confirm_email', 'compare', 'compareAttribute' => 'email', 'operator' => '=='],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => States::className(), 'targetAttribute' => ['state_id' => 'id']],

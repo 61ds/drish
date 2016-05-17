@@ -129,7 +129,7 @@ $this->registerJs($js);
         <div class="input-first-half">
             <fieldset class="form-group">
                 <label for="firstname">Confirm Email*</label>
-                <?= $form->field($billingModel, 'email',[
+                <?= $form->field($billingModel, 'confirm_email',[
                         'inputOptions' => [
                             'class'=>'form-control',
                         ]]
@@ -213,12 +213,22 @@ $this->registerJs($js);
                 <?= $form->field($billingModel, 'is_shipping')->checkbox(array('template' => $checkboxTemplate,'id'=>'shipaddbtn','label'=>'<div class="text-enter ship-chk">Ship to a Different Address</div>')); ?>
 
             </label>
-            <label>
-                <input type="checkbox"> <div class="text-enter ship-chk">Enter a password to create an account</div>
-            </label>
+            <?php if (Yii::$app->user->isGuest) { ?>
+
+                    <?= $form->field($guestModel, 'new_account')->checkbox(array('template' => $checkboxTemplate,'id'=>'newaccountbtn','label'=>'<div class="text-enter ship-chk">Enter a password to create an account</div>')); ?>
+
+
+             <?php } ?>
         </div>
 
-
+        <div class="user-form" id="new-account-form">
+            <div class="input-first-half">
+                <fieldset class="form-group">
+                    <label for="firstname">Password*</label>
+                    <?= $form->field($guestModel, 'password')->passwordInput(['class' => 'textField form-control','placeholder' => 'Password'])->label(false) ?>
+                </fieldset>
+            </div>
+        </div>
 
         <div class="user-form" id="shipping-address-form">
             <div class="input-first-half">
@@ -295,7 +305,7 @@ $this->registerJs($js);
             <div class="input-first-half">
                 <fieldset class="form-group">
                     <label for="firstname">Confirm Email*</label>
-                    <?= $form->field($billingModel, 'email',[
+                    <?= $form->field($billingModel, 'confirm_email',[
                             'inputOptions' => [
                                 'class'=>'form-control',
                             ]]

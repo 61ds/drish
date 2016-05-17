@@ -43,11 +43,12 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['payment_method'], 'required'],
-            [['user_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'guest_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
             [['price_total', 'delivery_charges', 'grand_total'], 'number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => OrderStatus::className(), 'targetAttribute' => ['status' => 'id']],
             [['payment_method'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_method' => 'id']],
+            [['guest_id'], 'exist', 'skipOnError' => true, 'targetClass' => GuestUser::className(), 'targetAttribute' => ['guest_id' => 'id']],
         ];
     }
     public function behaviors()
@@ -62,6 +63,8 @@ class Orders extends \yii\db\ActiveRecord
             ],
         ];
     }
+
+
     /**
      * @inheritdoc
      */
@@ -70,6 +73,7 @@ class Orders extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
+            'guest_id' => 'Guest ID',
             'items_count' => 'Items Count',
             'price_total' => 'Price Total',
             'delivery_charges' => 'Delivery Charges',
@@ -113,6 +117,14 @@ class Orders extends \yii\db\ActiveRecord
     public function getPaymentMethod()
     {
         return $this->hasOne(PaymentMethods::className(), ['id' => 'payment_method']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGuest()
+    {
+        return $this->hasOne(GuestUser::className(), ['id' => 'guest_id']);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 namespace frontend\controllers;
+use common\models\GuestUser;
 use common\models\OrderItems;
 use yii\web\Response;
 use common\models\Cart;
@@ -173,13 +174,34 @@ class CartController extends FrontendController
 	public function actionCheckout()
 	{
 		$this->layout = 'page';
-		$order = new Orders();
-		$order->payment_method = 1;
-		return $this->render('checkout',['order'=> $order]);
+		if(Yii::$app->user->isGuest){
+			$userid = 0;
+		}else{
+			$userid = Yii::$app->user->identity->id;
+		}
+		$result = Cart::getCartItemsCount($userid);
+		if($result){
+			$order = new Orders();
+			$order->payment_method = 1;
+			return $this->render('checkout',['order'=> $order]);
+		}else{
+			return $this->redirect(['cart/cart']);
+		}
+
+
 
 	}
 	public function actionAddress()
 	{
+		if(Yii::$app->user->isGuest){
+			$userid = 0;
+		}else{
+			$userid = Yii::$app->user->identity->id;
+		}
+		$result = Cart::getCartItemsCount($userid);
+		if($result == 0){
+			return $this->redirect(['cart/cart']);
+		}
 		if (!Yii::$app->user->isGuest) {
 			$billingModel = BillingAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
 			$shippingModel = ShippingAddress::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
@@ -187,10 +209,11 @@ class CartController extends FrontendController
 				$billingModel = new BillingAddress();
 
 			if(!$shippingModel)
-				$shippingModel = new BillingAddress();
+				$shippingModel = new ShippingAddress();
 		}else{
 			$billingModel = new BillingAddress();
-			$shippingModel = new BillingAddress();
+			$shippingModel = new ShippingAddress();
+
 		}
 
 		if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $billingModel->load(Yii::$app->request->post()) ) {
@@ -198,9 +221,62 @@ class CartController extends FrontendController
 			$billingModel->city_id = 1;
 			$billingModel->state_id = 13;
 			$billingModel->country_id = 101;
-			$billingModel->user_id = Yii::$app->user->identity->id;
 
-			if($billingModel->is_shipping == 1){
+
+			if(Yii::$app->user->isGuest) {
+				if (!empty($_SERVER['HTTP_CLIENT_IP']))
+				{
+					$ip=$_SERVER['HTTP_CLIENT_IP'];
+				}
+				elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+				{
+					$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+				}
+				else
+				{
+					$ip=$_SERVER['REMOTE_ADDR'];
+				}
+
+				$guestModel = GuestUser::find()->where(['email'=>$billingModel->email,'ip'=>$ip])->one();
+				if(!$guestModel)
+					$guestModel = new GuestUser();
+
+				$guestModel->load(Yii::$app->request->post());
+				if ($guestModel->new_account == 1) {
+
+				} else {
+
+					$guestModel->fname = $billingModel->fname;
+					$guestModel->lname = $billingModel->lname;
+					$guestModel->email = $billingModel->email;
+					$guestModel->phone = $billingModel->phone;
+					$guestModel->password = $billingModel->phone;
+					$guestModel->ip = $ip;
+					if (!$guestModel->save()) {
+						print_r($guestModel->getErrors());
+						print_r($billingModel->getErrors());
+						print_r($shippingModel->getErrors());
+						die;
+						Yii::$app->response->format = Response::FORMAT_JSON;
+						echo json_encode(ActiveForm::validate($billingModel));
+						Yii::$app->end();
+					}
+
+					$guestid = $guestModel->id;
+					$session = Yii::$app->session;
+					$session->set('guestid',$guestid);
+					$billingModel->guest_id = $guestid;
+					$shippingModel->guest_id = $guestid;
+
+				}
+
+			}else{
+				$userid = Yii::$app->user->identity->id;
+				$billingModel->user_id = $userid;
+				$shippingModel->user_id = $userid;
+			}
+
+			if($billingModel->is_shipping != 1){
 				$shippingModel->fname = $billingModel->fname;
 				$shippingModel->lname = $billingModel->lname;
 				$shippingModel->address = $billingModel->address;
@@ -211,11 +287,18 @@ class CartController extends FrontendController
 				$shippingModel->city_id = $billingModel->city_id;
 				$shippingModel->state_id = $billingModel->state_id;
 				$shippingModel->country_id = $billingModel->country_id;
-				$shippingModel->user_id = Yii::$app->user->identity->id;
+
+			}else{
+				$shippingModel->load(Yii::$app->request->post());
+				$shippingModel->city_id = $billingModel->city_id;
+				$shippingModel->state_id = $billingModel->state_id;
+				$shippingModel->country_id = $billingModel->country_id;
 			}
 
 
+
 			if($billingModel->save() && $shippingModel->save()){
+				$result = array();
 				$result['type'] = 'success';
 				Yii::$app->response->format = trim(Response::FORMAT_JSON);
 				return $result;
@@ -231,6 +314,15 @@ class CartController extends FrontendController
 	}
 	public function actionPlaceOrder($orderid=0)
 	{
+		if(Yii::$app->user->isGuest){
+			$userid = 0;
+		}else{
+			$userid = Yii::$app->user->identity->id;
+		}
+		$result = Cart::getCartItemsCount($userid);
+		if($result == 0){
+			return $this->redirect(['cart/cart']);
+		}
 		echo $orderid;
 		$this->layout = 'page';
 
@@ -308,7 +400,12 @@ class CartController extends FrontendController
 
 
 
-				$orders->user_id = Yii::$app->user->identity->id;
+
+				if (!Yii::$app->user->isGuest) {
+					$orders->user_id = Yii::$app->user->identity->id;
+				}else{
+					$orders->guest_id = $session->get('guestid');
+				}
 				$orders->items_count = count($cart);
 				$orders->price_total = 1;
 				$orders->delivery_charges = 0;

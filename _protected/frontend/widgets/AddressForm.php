@@ -1,6 +1,7 @@
 <?php
 namespace frontend\widgets;
 
+use common\models\GuestUser;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -21,16 +22,17 @@ class AddressForm extends Widget
                 $billingModel = new BillingAddress();
 
             if(!$shippingModel)
-                $shippingModel = new BillingAddress();
+                $shippingModel = new ShippingAddress();
         }else{
             $billingModel = new BillingAddress();
-            $shippingModel = new BillingAddress();
+            $shippingModel = new ShippingAddress();
         }
 
-
+        $guestModel = new GuestUser();
         return $this->render('address-form', [
             'billingModel' =>  $billingModel,
             'shippingModel' =>  $shippingModel,
+            'guestModel' =>  $guestModel,
         ]);
     }
 }
