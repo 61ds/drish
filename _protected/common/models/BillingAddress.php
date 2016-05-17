@@ -31,6 +31,7 @@ use Yii;
  */
 class BillingAddress extends \yii\db\ActiveRecord
 {
+    public $confirm_email;
     /**
      * @inheritdoc
      */
@@ -45,15 +46,17 @@ class BillingAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'fname', 'lname', 'address', 'email', 'phone', 'company', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping'], 'required'],
-            [['user_id', 'phone', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping', 'created_at', 'updated_at'], 'integer'],
+            [['fname', 'lname', 'address', 'email', 'phone', 'company', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping'], 'required'],
+            [['user_id', 'guest_id', 'phone', 'city_id', 'state_id', 'country_id', 'zip', 'is_shipping', 'created_at', 'updated_at'], 'integer'],
             [['fname', 'lname'], 'string', 'max' => 50],
             [['address'], 'string', 'max' => 250],
             [['email', 'company'], 'string', 'max' => 100],
+            ['confirm_email', 'compare', 'compareAttribute' => 'email', 'operator' => '=='],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['state_id'], 'exist', 'skipOnError' => true, 'targetClass' => States::className(), 'targetAttribute' => ['state_id' => 'id']],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Countries::className(), 'targetAttribute' => ['country_id' => 'id']],
+            [['guest_id'], 'exist', 'skipOnError' => true, 'targetClass' => GuestUser::className(), 'targetAttribute' => ['guest_id' => 'id']],
         ];
     }
     public function behaviors()
@@ -68,6 +71,8 @@ class BillingAddress extends \yii\db\ActiveRecord
             ],
         ];
     }
+
+
     /**
      * @inheritdoc
      */
@@ -76,6 +81,7 @@ class BillingAddress extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
+            'guest_id' => 'Guest ID',
             'fname' => 'Fname',
             'lname' => 'Lname',
             'address' => 'Address',
@@ -122,6 +128,14 @@ class BillingAddress extends \yii\db\ActiveRecord
     public function getCountry()
     {
         return $this->hasOne(Countries::className(), ['id' => 'country_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGuest()
+    {
+        return $this->hasOne(GuestUser::className(), ['id' => 'guest_id']);
     }
 
     /**

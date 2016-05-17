@@ -31,9 +31,16 @@ $('form#{$billingModel->formName()}').on('beforeSubmit', function(e) {
 					   $(".address li.step2 span").addClass("active");
 
 			}else{
+			    $('.errors-block').empty();
 				$.each( response, function( key, value ) {
-					$('#'+key).parent().removeClass('has-success').addClass('has-error');
-					$('#'+key).parent().find('.help-block').html(value);
+				    if($('#'+key).length){
+					    $('#'+key).parent().removeClass('has-success').addClass('has-error');
+					    $('#'+key).parent().find('.help-block').html(value);
+					}else{
+                        if(key != 'username'){
+					        $('.errors-block').append('<p class="help-block help-block-error">'+value+'</p>');
+					    }
+					}
 				});
 			}
 		}
@@ -129,7 +136,7 @@ $this->registerJs($js);
         <div class="input-first-half">
             <fieldset class="form-group">
                 <label for="firstname">Confirm Email*</label>
-                <?= $form->field($billingModel, 'email',[
+                <?= $form->field($billingModel, 'confirm_email',[
                         'inputOptions' => [
                             'class'=>'form-control',
                         ]]
@@ -204,16 +211,32 @@ $this->registerJs($js);
     <!-- end of form fill-first half-->
 
         <h5>Shipping  Address</h5>
+        <div class="errors-block"></div>
         <div class="checkbox enter-pwd chek-label">
             <label>
-                <input type="checkbox" id="shipaddbtn"> <div class="text-enter ship-chk">Ship to a Different Address</div>
+
+
+                <?php $checkboxTemplate = '{input}{label}'; ?>
+
+                <?= $form->field($billingModel, 'is_shipping')->checkbox(array('template' => $checkboxTemplate,'id'=>'shipaddbtn','label'=>'<div class="text-enter ship-chk">Ship to a Different Address</div>')); ?>
+
             </label>
-            <label>
-                <input type="checkbox"> <div class="text-enter ship-chk">Enter a password to create an account</div>
-            </label>
+            <?php if (Yii::$app->user->isGuest) { ?>
+
+                    <?= $form->field($guestModel, 'new_account')->checkbox(array('template' => $checkboxTemplate,'id'=>'newaccountbtn','label'=>'<div class="text-enter ship-chk">Enter a password to create an account</div>')); ?>
+
+
+             <?php } ?>
         </div>
 
-
+        <div class="user-form" id="new-account-form">
+            <div class="input-first-half">
+                <fieldset class="form-group">
+                    <label for="firstname">Password*</label>
+                    <?= $form->field($guestModel, 'password')->passwordInput(['class' => 'textField form-control','placeholder' => 'Password'])->label(false) ?>
+                </fieldset>
+            </div>
+        </div>
 
         <div class="user-form" id="shipping-address-form">
             <div class="input-first-half">
@@ -290,7 +313,7 @@ $this->registerJs($js);
             <div class="input-first-half">
                 <fieldset class="form-group">
                     <label for="firstname">Confirm Email*</label>
-                    <?= $form->field($billingModel, 'email',[
+                    <?= $form->field($billingModel, 'confirm_email',[
                             'inputOptions' => [
                                 'class'=>'form-control',
                             ]]

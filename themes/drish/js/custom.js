@@ -84,6 +84,20 @@
 
 			});
 
+			var shipping_form = $('#new-account-form').html();
+			$('#new-account-form').empty();
+			$('#newaccountbtn').change(function(){
+				if(this.checked){
+					$('#new-account-form').html(shipping_form);
+					$('#new-account-form').fadeIn('slow');
+				}
+				else {
+					$('#new-account-form').empty();
+					$('#new-account-form').fadeOut('slow');
+				}
+
+			});
+
 			$('nav#menu').mmenu({
 				extensions	: [ 'effect-slide-menu', 'pageshadow' ],
 				searchfield	: true,
