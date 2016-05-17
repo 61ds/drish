@@ -38,6 +38,7 @@ $('form#{$order->formName()}').on('beforeSubmit', function(e) {
     e.preventDefault();
 });
 JS;
+$this->registerJs($js);
 ?>
    <section class="cart-detail-outer">
     

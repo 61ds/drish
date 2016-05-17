@@ -31,9 +31,16 @@ $('form#{$billingModel->formName()}').on('beforeSubmit', function(e) {
 					   $(".address li.step2 span").addClass("active");
 
 			}else{
+			    $('.errors-block').empty();
 				$.each( response, function( key, value ) {
-					$('#'+key).parent().removeClass('has-success').addClass('has-error');
-					$('#'+key).parent().find('.help-block').html(value);
+				    if($('#'+key).length){
+					    $('#'+key).parent().removeClass('has-success').addClass('has-error');
+					    $('#'+key).parent().find('.help-block').html(value);
+					}else{
+                        if(key != 'username'){
+					        $('.errors-block').append('<p class="help-block help-block-error">'+value+'</p>');
+					    }
+					}
 				});
 			}
 		}
@@ -204,6 +211,7 @@ $this->registerJs($js);
     <!-- end of form fill-first half-->
 
         <h5>Shipping  Address</h5>
+        <div class="errors-block"></div>
         <div class="checkbox enter-pwd chek-label">
             <label>
 

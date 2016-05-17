@@ -35,7 +35,7 @@ class GuestUser extends \yii\db\ActiveRecord
     {
         return [
             [['email', 'ip','password'], 'required'],
-            [['phone', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['phone', 'status', 'created_at', 'updated_at','new_account'], 'integer'],
             [['email', 'ip'], 'string', 'max' => 50],
         ];
     }

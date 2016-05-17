@@ -100,6 +100,7 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+
         $user->status = $this->status;
 
         // if scenario is "rna" we will generate account activation token

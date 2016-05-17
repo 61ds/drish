@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 use common\models\GuestUser;
 use common\models\OrderItems;
+use common\models\User;
+use frontend\models\SignupForm;
 use yii\web\Response;
 use common\models\Cart;
 use common\models\Product;
@@ -10,7 +12,8 @@ use common\models\BillingAddress;
 use common\models\ShippingAddress;
 use common\models\VarientProduct;
 use Yii;
-
+use common\rbac\helpers\RbacHelper;
+use nenad\passwordStrength\StrengthValidator;
 
 class CartController extends FrontendController
 {
@@ -104,6 +107,7 @@ class CartController extends FrontendController
 				$carts[$cartitem->varient_id]['size'] = $cartitem->size;
 				$carts[$cartitem->varient_id]['width'] = $cartitem->width;
 				$carts[$cartitem->varient_id]['quantity'] = $cartitem->quantity;
+				$carts[$cartitem->varient_id]['id'] = $cartitem->id;
 			}
 		} else {
 			if ($session->has('cart')) {
@@ -193,6 +197,7 @@ class CartController extends FrontendController
 	}
 	public function actionAddress()
 	{
+		$session = Yii::$app->session;
 		if(Yii::$app->user->isGuest){
 			$userid = 0;
 		}else{
@@ -242,7 +247,45 @@ class CartController extends FrontendController
 					$guestModel = new GuestUser();
 
 				$guestModel->load(Yii::$app->request->post());
+
 				if ($guestModel->new_account == 1) {
+					if (!$session->has('userid')) {
+						$userModel = new User();
+
+						$userModel->username = $billingModel->email;
+						$userModel->email = $billingModel->email;
+						$userModel->status = 10;
+						$userModel->setPassword($guestModel->password);
+						$userModel->generateAuthKey();
+						$rna = Yii::$app->params['rna'];
+						// if scenario is "rna" we will generate account activation token
+						if ($rna) {
+							$userModel->generateAccountActivationToken();
+						}
+
+
+						if ($userModel->save() && RbacHelper::assignRole($userModel->getId()) ? $userModel : null) {
+
+
+						} else {
+							Yii::$app->response->format = Response::FORMAT_JSON;
+							echo json_encode($userModel->getErrors());
+							Yii::$app->end();
+						}
+
+						$guestid = $userModel->id;
+
+						$session->set('userid', $guestid);
+						$session->remove('guestid');
+						$billingModel->user_id = $guestid;
+						$shippingModel->user_id = $guestid;
+					}else{
+						$guestid = $session->get('userid');
+						$billingModel->user_id = $guestid;
+						$shippingModel->user_id = $guestid;
+
+					}
+
 
 				} else {
 
@@ -320,15 +363,15 @@ class CartController extends FrontendController
 			$userid = Yii::$app->user->identity->id;
 		}
 		$result = Cart::getCartItemsCount($userid);
-		if($result == 0){
+		if($result == 0 && $orderid == 0){
 			return $this->redirect(['cart/cart']);
 		}
-		echo $orderid;
+
 		$this->layout = 'page';
 
 			$orders = new Orders();
 			if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $orders->load(Yii::$app->request->post()) ) {
-				echo "hello";
+
 				if($orders->payment_method == ''){
 					$orders->payment_method = 1;
 				}
@@ -364,6 +407,7 @@ class CartController extends FrontendController
 				$cart['total'] = 0;
 				if(isset($carts)) {
 					foreach ($carts as $key => $cartitem) {
+
 						if (($product = Product::findOne($cartitem['product_id'])) !== null) {
 							if (($varient = VarientProduct::findOne($key)) !== null) {
 								if ($varient->quantity < 1)
@@ -374,7 +418,8 @@ class CartController extends FrontendController
 							}
 
 							$cart['items'][$key]['name'] = $product->name;
-							$cart['items'][$key]['id'] = $cartitem['id'];
+							if(isset($cartitem['id']))
+								$cart['items'][$key]['id'] = $cartitem['id'];
 							$cart['items'][$key]['sku'] = $varient->sku;
 							$cart['items'][$key]['color'] = $varient->color0->name;
 							$cart['items'][$key]['size'] = $varient->size0->name;
@@ -382,9 +427,9 @@ class CartController extends FrontendController
 							$cart['items'][$key]['quantity'] = $cartitem['quantity'];
 							$cart['items'][$key]['img'] = Yii::$app->params['baseurl'] . '/uploads/product/main/' . $product->id . '/custom1/' . $product->productImages->main_image;
 							$cart['items'][$key]['width'] = $varient->width0->name;
-							$cart['items'][$key]['singleprice'] = $product->price + $varient->price;
-							$cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
-							$cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
+							$cart['items'][$key]['singleprice'] = floatval($product->price + $varient->price);
+							$cart['items'][$key]['price'] = floatval($cartitem['quantity'] * ($product->price + $varient->price));
+							$cart['total'] = floatval($cart['total'] + $cart['items'][$key]['price']);
 						} else {
 							continue;
 						}
@@ -394,22 +439,18 @@ class CartController extends FrontendController
 				}
 
 
-
-
-
-
-
-
-
 				if (!Yii::$app->user->isGuest) {
 					$orders->user_id = Yii::$app->user->identity->id;
 				}else{
-					$orders->guest_id = $session->get('guestid');
+					if( $session->get('guestid') != '')
+						$orders->guest_id = $session->get('guestid');
+					if( $session->get('userid') != '')
+						$orders->user_id = $session->get('userid');
 				}
 				$orders->items_count = count($cart);
-				$orders->price_total = 1;
+				$orders->price_total = floatval($cart['total']);
 				$orders->delivery_charges = 0;
-				$orders->grand_total = $cart['total'];
+				$orders->grand_total = floatval($cart['total'] + $orders->delivery_charges);
 				$orders->status = 1;
 				$orders->locked = 0;
 				$orders->payment_status = 1;
@@ -419,18 +460,26 @@ class CartController extends FrontendController
 				if($orders->save()){
 					foreach($cart['items'] as $key => $item){
 						$itemModel = new OrderItems();
+						$itemModel->order_id = $orders->id;
+						$itemModel->product_id = $item['product_id'];
+						$itemModel->varient_id = $key;
+						$itemModel->quantity = $item['quantity'];
+						$itemModel->rate = floatval($item['singleprice']);
+						$itemModel->defaultrate = floatval($item['singleprice']);
+						$itemModel->total = floatval($item['price']);
 
-						if (($cartModel = Cart::findOne($item['id'])) !== null) {
-
-							$itemModel->order_id = $orders->id;
-							$itemModel->product_id = $item['product_id'];
-							$itemModel->varient_id = $key;
-							$itemModel->quantity = $item['quantity'];
-							$itemModel->rate = $item['singleprice'];
-							$itemModel->defaultrate = $item['singleprice'];
-							$itemModel->total = $item['price'];
-							$itemModel->save();
-							$cartModel->delete();
+						if($itemModel->save()){
+							if (!Yii::$app->user->isGuest) {
+								if (isset($item['id']) && ($cartModel = Cart::findOne($item['id'])) !== null) {
+									$cartModel->delete();
+								}
+							}else{
+								if ($session->has('cart')) {
+									$data = $session->get('cart');
+									unset($data[$key]);
+									$session->set('cart',$data);
+								}
+							}
 						}
 
 					}
@@ -443,6 +492,7 @@ class CartController extends FrontendController
 					Yii::$app->end();
 				}
 			}else{
+
 				return $this->render('place-order',['orderid'=>$orderid]);
 			}
 
