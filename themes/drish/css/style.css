@@ -3810,6 +3810,6 @@ button.btn-trans {
 .bg-select li:first-child {
   padding: 6px 0 0;
 }
-.checkout-guest,#shipping-address-form{
+.checkout-guest,#shipping-address-form,#new-account-form{
   display:none;
 }

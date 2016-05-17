@@ -222,10 +222,10 @@ $this->registerJs($js);
 
             </label>
             <?php if (Yii::$app->user->isGuest) { ?>
-
+            <label>
                     <?= $form->field($guestModel, 'new_account')->checkbox(array('template' => $checkboxTemplate,'id'=>'newaccountbtn','label'=>'<div class="text-enter ship-chk">Enter a password to create an account</div>')); ?>
 
-
+            </label>
              <?php } ?>
         </div>
 
