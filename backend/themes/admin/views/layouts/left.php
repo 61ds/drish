@@ -96,6 +96,17 @@
                             ['label' => 'Add New Slider', 'icon' => 'fa fa-plus', 'url' => ['/slider/create'],],
                         ],
                     ],
+
+                    [
+                        'label' => 'Coupon Management',
+                        'icon' => 'fa fa-commenting-o',
+                        'url' => 'javascript:void(0);',
+                        'items' => [
+                            ['label' => 'All Coupons', 'icon' => 'fa fa-angle-right', 'url' => ['/discount'],'active' => ($this->context->route == 'discount/index' || $this->context->route == 'discount-code/create' || $this->context->route == 'discount-code/index'),],
+                            ['label' => 'Add Coupon', 'icon' => 'fa fa-angle-right', 'url' => ['/discount/create'],'active' => ($this->context->route == 'discount/create'),],
+
+                        ],
+                    ],
                     [
                         'label' => 'Testimonial Management',
                         'icon' => 'fa fa-commenting-o',
