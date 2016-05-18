@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model common\models\Discount */
 /* @var $form yii\widgets\ActiveForm */
@@ -25,8 +25,12 @@ use yii\widgets\ActiveForm;
         ]
     )
     ?>
-
-    <?= $form->field($model, 'coupon_code')->textInput(['maxlength' => true]) ?>
+    <?php if($model->isNewRecord){
+        echo $form->field($model, 'coupon_code')->textInput(['maxlength' => true]);
+    }else{
+        echo $form->field($model, 'coupon_code')->textInput(['maxlength' => true,'readonly' => true]);
+    }
+    ?>
 
     <?= $form->field($model, 'discount_choice')->dropDownList(
         array('0'=>'Normal','1'=>'Buy one get second product discount','2'=>'minimum amount','3'=>'buy 1 get special product discount'),
@@ -58,13 +62,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'uses_per_customer')->textInput() ?>
 
-    <?= $form->field($model, 'start_date')->widget(\yii\jui\DatePicker::classname(), [
+    <?= $form->field($model, 'start_date')->widget(DatePicker::classname(), [
      //'language' => 'ru', //'dateFormat' => 'yyyy-MM-dd',
       ]) ?>
+    <?= $form->field($model, 'end_date')->widget(DatePicker::classname(), [
+         //'dateFormat' => 'yyyy-MM-dd',
+    ]) ?>
 
-
-
-    <?= $form->field($model, 'end_date')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

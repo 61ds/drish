@@ -58,10 +58,11 @@ class Discount extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'coupon_code', 'uses_per_coupon', 'uses_per_customer', 'start_date', 'end_date', 'discount_amount', 'discount_choice', 'minimum_amount', 'quantity', 'quantity_used', 'quantity_left'], 'required'],
-            [['coupon_type', 'uses_per_coupon', 'uses_per_customer', 'start_date', 'end_date', 'discount_type', 'discount_choice', 'quantity', 'quantity_used', 'quantity_left', 'status', 'locked', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'description', 'coupon_code', 'uses_per_coupon', 'uses_per_customer', 'start_date', 'end_date', 'discount_amount', 'discount_choice', 'quantity'], 'required'],
+            [['coupon_type', 'uses_per_coupon', 'uses_per_customer', 'discount_type', 'discount_choice', 'quantity', 'quantity_used', 'quantity_left', 'status', 'locked', 'created_at', 'updated_at'], 'integer'],
             [['minimum_amount','discount_amount'], 'number'],
             [['name'], 'string', 'max' => 100],
+            ['coupon_code', 'unique'],
             [['description'], 'string', 'max' => 1000],
             [['coupon_code'], 'string', 'max' => 25],
         ];

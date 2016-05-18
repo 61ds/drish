@@ -69,11 +69,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'buttons' => [
                                         'viewcoupons' =>function ($url, $model, $key) {
                                             $options = array_merge([
-                                                'title' => Yii::t('yii', 'View Items'),
-                                                'aria-label' => Yii::t('yii', 'View Items'),
+                                                'title' => Yii::t('yii', 'View Coupons'),
+                                                'aria-label' => Yii::t('yii', 'View Coupons'),
                                                 'data-pjax' => '0',
                                             ], []);
-                                            return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['coupon-code/index','id'=>$model->id], $options);
+                                            return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['discount-code/index','id'=>$model->id], $options);
                                         },
 
                                     ],

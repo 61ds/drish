@@ -102,7 +102,7 @@
                         'icon' => 'fa fa-commenting-o',
                         'url' => 'javascript:void(0);',
                         'items' => [
-                            ['label' => 'All Coupons', 'icon' => 'fa fa-angle-right', 'url' => ['/discount'],'active' => ($this->context->route == 'discount/index' || $this->context->route == 'discount-code/create' || $this->context->route == 'discount-code/index'),],
+                            ['label' => 'All Coupons', 'icon' => 'fa fa-angle-right', 'url' => ['/discount'],'active' => ($this->context->route == 'discount/index' || $this->context->route == 'discount-code/create' || $this->context->route == 'discount/update' || $this->context->route == 'discount-code/update' || $this->context->route == 'discount-code/index'),],
                             ['label' => 'Add Coupon', 'icon' => 'fa fa-angle-right', 'url' => ['/discount/create'],'active' => ($this->context->route == 'discount/create'),],
 
                         ],

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Discount;
 use Yii;
 use common\models\DiscountCode;
 use common\models\DiscountCodeSearch;
@@ -12,35 +13,23 @@ use yii\filters\VerbFilter;
 /**
  * DiscountCodeController implements the CRUD actions for DiscountCode model.
  */
-class DiscountCodeController extends Controller
+class DiscountCodeController extends BackendController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all DiscountCode models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
         $searchModel = new DiscountCodeSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
+        $discountModel = Discount::findOne($id);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'discountModel' => $discountModel,
         ]);
     }
 

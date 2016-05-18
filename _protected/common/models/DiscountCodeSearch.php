@@ -39,12 +39,14 @@ class DiscountCodeSearch extends DiscountCode
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$id)
     {
         $query = DiscountCode::find();
 
         // add conditions that should always apply here
-
+        if($id) {
+            $query->where(['discount_id' => $id]);
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
