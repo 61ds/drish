@@ -152,13 +152,12 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-		
-        if (!Yii::$app->user->isGuest) 
-        {
+
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-		$this->layout = "products";
+        $this->layout = "products";
         // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
@@ -166,64 +165,64 @@ class SiteController extends Controller
         $model = $lwe ? new LoginForm(['scenario' => 'lwe']) : new LoginForm();
 
         // now we can try to log in the user
-        if ($model->load(Yii::$app->request->post()) && $model->login()) 
-        {
-            $session = Yii::$app->session;
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            if( $model->login()){
+                $session = Yii::$app->session;
 
-            if (!$session->isActive) {
-                // open a session
-                $session->open();
-            }
-
-            if (!Yii::$app->user->isGuest) {
-                if ($session->has('cart')) {
-                    $carts = $session->get('cart');
-                    foreach ($carts as $key => $cart) {
-
-                        if (($cartmodel = Cart::find()->where(['varient_id' => $key, 'product_id' => $cart['product_id'], 'user_id' => Yii::$app->user->identity->id])->one()) !== null) {
-                            $cartmodel->color = $cart['color'];
-                            $cartmodel->size = $cart['size'];
-                            $cartmodel->width = $cart['width'];
-                            $cartmodel->quantity = $cart['quantity'];
-                            if ($cart['quantity'] > 0)
-                                $cartmodel->save();
-                        } else {
-                            $newmodel = new Cart();
-                            $newmodel->user_id = Yii::$app->user->identity->id;
-                            $newmodel->product_id = $cart['product_id'];
-                            $newmodel->varient_id = $key;
-                            $newmodel->color = $cart['color'];
-                            $newmodel->size = $cart['size'];
-                            $newmodel->width = $cart['width'];
-                            $newmodel->quantity = $cart['quantity'];
-                            if ($cart['quantity'] > 0)
-                                $newmodel->save();
-                        }
-                        unset($carts[$key]);
-
-                    }
-                    $session->set('cart', $carts);
+                if (!$session->isActive) {
+                    // open a session
+                    $session->open();
                 }
 
-            }
-            return $this->goBack();
-        }
-        // user couldn't be logged in, because he has not activated his account
-        elseif($model->notActivated())
-        {
-            // if his account is not activated, he will have to activate it first
-            Yii::$app->session->setFlash('error', 
-                'You have to activate your account first. Please check your email.');
+                if (!Yii::$app->user->isGuest) {
+                    if ($session->has('cart')) {
+                        $carts = $session->get('cart');
+                        foreach ($carts as $key => $cart) {
 
-            return $this->refresh();
-        }    
-        // account is activated, but some other errors have happened
-        else
-        {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+                            if (($cartmodel = Cart::find()->where(['varient_id' => $key, 'product_id' => $cart['product_id'], 'user_id' => Yii::$app->user->identity->id])->one()) !== null) {
+                                $cartmodel->color = $cart['color'];
+                                $cartmodel->size = $cart['size'];
+                                $cartmodel->width = $cart['width'];
+                                $cartmodel->quantity = $cart['quantity'];
+                                if ($cart['quantity'] > 0)
+                                    $cartmodel->save();
+                            } else {
+                                $newmodel = new Cart();
+                                $newmodel->user_id = Yii::$app->user->identity->id;
+                                $newmodel->product_id = $cart['product_id'];
+                                $newmodel->varient_id = $key;
+                                $newmodel->color = $cart['color'];
+                                $newmodel->size = $cart['size'];
+                                $newmodel->width = $cart['width'];
+                                $newmodel->quantity = $cart['quantity'];
+                                if ($cart['quantity'] > 0)
+                                    $newmodel->save();
+                            }
+                            unset($carts[$key]);
+
+                        }
+                        $session->set('cart', $carts);
+                    }
+
+                }
+                return $this->goBack();
+            } // user couldn't be logged in, because he has not activated his account
+            elseif ($model->notActivated()) {
+                // if his account is not activated, he will have to activate it first
+                Yii::$app->session->setFlash('error',
+                    'You have to activate your account first. Please check your email.');
+
+                return $this->refresh();
+            } // account is activated, but some other errors have happened
+            else {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo json_encode(\yii\widgets\ActiveForm::validate($model));
+                Yii::$app->end();
+            }
         }
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -323,58 +322,54 @@ class SiteController extends Controller
      *
      * @return string|\yii\web\Response
      */
+
+
     public function actionSignup()
-    {  
+    {
         // get setting value for 'Registration Needs Activation'
         $rna = Yii::$app->params['rna'];
 
         // if 'rna' value is 'true', we instantiate SignupForm in 'rna' scenario
         $model = $rna ? new SignupForm(['scenario' => 'rna']) : new SignupForm();
 
+
         // collect and validate user data
-        if ($model->load(Yii::$app->request->post()) && $model->validate())
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
         {
+            $model->status =10;
             // try to save user data in database
-            if ($user = $model->signup()) 
+            if ($user = $model->signup())
             {
 
                 // if user is active he will be logged in automatically ( this will be first user )
                 if ($user->status === User::STATUS_ACTIVE)
                 {
-                    if (Yii::$app->getUser()->login($user)) 
+                    if (Yii::$app->getUser()->login($user))
                     {
                         return $this->goHome();
                     }
                 }
                 // activation is needed, use signupWithActivation()
-                else 
+                else
                 {
                     $this->signupWithActivation($model, $user);
 
                     return $this->refresh();
-                }            
+                }
             }
             // user could not be saved in database
             else
             {
-                // display error message to user
-                Yii::$app->session->setFlash('error', 
-                    "We couldn't sign you up, please contact us.");
-
-                // log this error, so we can debug possible problem easier.
-                Yii::error('Signup failed! 
-                    User '.Html::encode($user->username).' could not sign up.
-                    Possible causes: something strange happened while saving user in database.');
-
-                return $this->refresh();
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                echo json_encode(\yii\widgets\ActiveForm::validate($model));
+                Yii::$app->end();
             }
         }
-                
+
         return $this->render('signup', [
             'model' => $model,
-        ]);     
+        ]);
     }
-
     /**
      * Sign up user with activation.
      * User will have to activate his account using activation link that we will
