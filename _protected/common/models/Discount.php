@@ -59,7 +59,7 @@ class Discount extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'coupon_code', 'uses_per_coupon', 'uses_per_customer', 'start_date', 'end_date', 'discount_amount', 'discount_choice', 'quantity'], 'required'],
+            [['name', 'description', 'coupon_code','start_date', 'end_date', 'discount_amount', 'discount_choice', 'quantity'], 'required'],
             [['coupon_type', 'uses_per_coupon', 'uses_per_customer', 'discount_type', 'discount_choice', 'quantity', 'quantity_used', 'quantity_left', 'status', 'locked', 'created_at', 'updated_at'], 'integer'],
             [['minimum_amount','discount_amount'], 'number'],
             [['name'], 'string', 'max' => 100],
@@ -122,5 +122,8 @@ class Discount extends \yii\db\ActiveRecord
         $products = Product::find()->where(['status' => 1])->orderBy('id')->all();
         return ArrayHelper::map($products,'id','name');
     }
+
+
+
 
 }

@@ -47,7 +47,7 @@ class DiscountCode extends \yii\db\ActiveRecord
     {
         return [
             [['discount_id', 'code'], 'required'],
-            [['discount_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['discount_id', 'status','locked', 'created_at', 'updated_at'], 'integer'],
             [['code'], 'string', 'max' => 50],
             ['code', 'unique'],
             [['discount_id'], 'exist', 'skipOnError' => true, 'targetClass' => Discount::className(), 'targetAttribute' => ['discount_id' => 'id']],

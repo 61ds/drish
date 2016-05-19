@@ -1,6 +1,7 @@
 <?php
 namespace frontend\models;
 
+use common\models\DiscountCode;
 use yii\base\Model;
 use Yii;
 
@@ -35,5 +36,7 @@ class DiscountForm extends Model
             'code'=> Yii::t('app', 'Discount Code'),
         ];
     }
+
+
 
 }

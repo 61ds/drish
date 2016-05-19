@@ -47,6 +47,7 @@ class CartController extends FrontendController
 				$cart[$model->varient_id]['size'] = $model->size;
 				$cart[$model->varient_id]['width'] = $model->width;
 				$cart[$model->varient_id]['quantity'] = $model->quantity;
+				$cart[$model->varient_id]['discount'] = 0;
 				if($model->quantity > 0)
 					$session->set('cart', $cart);
 			}else{
@@ -93,64 +94,10 @@ class CartController extends FrontendController
 	public function actionCart()
 	{
 		$this->layout = 'page';
-		$session = Yii::$app->session;
 
-		if (!$session->isActive) {
-			// open a session
-			$session->open();
-		}
-
-		if (!Yii::$app->user->isGuest) {
-			$carts = array();
-			$model = new Cart();
-			$cartitems = $model->find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-			foreach ($cartitems as $cartitem) {
-				$carts[$cartitem->varient_id]['product_id'] = $cartitem->product_id;
-				$carts[$cartitem->varient_id]['color'] = $cartitem->color;
-				$carts[$cartitem->varient_id]['size'] = $cartitem->size;
-				$carts[$cartitem->varient_id]['width'] = $cartitem->width;
-				$carts[$cartitem->varient_id]['quantity'] = $cartitem->quantity;
-				$carts[$cartitem->varient_id]['id'] = $cartitem->id;
-			}
-		} else {
-			if ($session->has('cart')) {
-				$carts = $session->get('cart');
-			}
-
-		}
-
-		$cart = array();
-		$cart['total'] = 0;
-		if(isset($carts)) {
-			foreach ($carts as $key => $cartitem) {
-				if (($product = Product::findOne($cartitem['product_id'])) !== null) {
-					if (($varient = VarientProduct::findOne($key)) !== null) {
-						if ($varient->quantity < 1)
-							continue;
-
-					} else {
-						continue;
-					}
-
-					$cart['items'][$key]['name'] = $product->name;
-					$cart['items'][$key]['sku'] = $varient->sku;
-					$cart['items'][$key]['color'] = $varient->color0->name;
-					$cart['items'][$key]['size'] = $varient->size0->name;
-					$cart['items'][$key]['product_id'] = $product->id;
-					$cart['items'][$key]['quantity'] = $cartitem['quantity'];
-					$cart['items'][$key]['img'] = Yii::$app->params['baseurl'] . '/uploads/product/main/' . $product->id . '/custom1/' . $product->productImages->main_image;
-					$cart['items'][$key]['width'] = $varient->width0->name;
-					$cart['items'][$key]['singleprice'] = $product->price + $varient->price;
-					$cart['items'][$key]['price'] = ($cartitem['quantity'] * ($product->price + $varient->price));
-					$cart['total'] = $cart['total'] + $cart['items'][$key]['price'];
-				} else {
-					continue;
-				}
-
-
-			}
-		}
-		return $this->render('cart',['items'=>$cart
+		$cartModel = new Cart();
+		$carts =$cartModel->getResetCart();
+		return $this->render('cart',['items'=>$carts
 		]);
 
 	}
@@ -504,18 +451,21 @@ class CartController extends FrontendController
 
 	public function actionDiscount(){
 		$model = new DiscountForm();
+		$session = Yii::$app->session;
 		if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-			$discountModel = DiscountCode::find()->where(['code'=>$model->code])->one();
+			$discountModel = DiscountCode::find()->where(['code'=>$model->code,'status'=>0,'locked'=>0])->one();
 			if ($discountModel !== null && $discountModel->discount->status == 1) {
-				if($discountModel->status == 0){
-					$discountModel->status = 1;
+				$validate = $model->getvalidateCart($discountModel->id);
+				if($validate == 1) {
+					$discountModel->status = 0;
+					$discountModel->locked = 1;
 					$discModel = Discount::findOne($discountModel->discount_id);
-					$discModel->quantity_used = $discModel->quantity_used+1;
-					$discModel->quantity_left = $discModel->quantity_left-1;
+					$discModel->quantity_used = $discModel->quantity_used + 1;
+					$discModel->quantity_left = $discModel->quantity_left - 1;
 
-					if($discModel->save()){
+					if ($discModel->save()) {
 
-					}else{
+					} else {
 						Yii::$app->response->format = Response::FORMAT_JSON;
 						$message = array();
 						$message['type'] = 'error';
@@ -524,19 +474,21 @@ class CartController extends FrontendController
 						Yii::$app->end();
 					}
 
-					if($discountModel->save()){
+					if ($discountModel->save()) {
 
 
 						Yii::$app->response->format = Response::FORMAT_JSON;
+						$session->set('discountid', $discountModel->id);
 						$message = array();
+
 						$message['type'] = 'success';
 						$message['msg'] = 'Conratulations! Discount added in your cart. ';
 						echo json_encode($message);
 						Yii::$app->end();
-					}else{
+					} else {
 
-						$discModel->quantity_used = $discModel->quantity_used-1;
-						$discModel->quantity_left = $discModel->quantity_left+1;
+						$discModel->quantity_used = $discModel->quantity_used - 1;
+						$discModel->quantity_left = $discModel->quantity_left + 1;
 						$discModel->save();
 
 						Yii::$app->response->format = Response::FORMAT_JSON;
@@ -546,12 +498,18 @@ class CartController extends FrontendController
 						echo json_encode($message);
 						Yii::$app->end();
 					}
-
+				}else if($validate == 2){
+					Yii::$app->response->format = Response::FORMAT_JSON;
+					$message = array();
+					$message['type'] = 'error';
+					$message['msg'] = 'Coupon not applicable for products available in your cart !';
+					echo json_encode($message);
+					Yii::$app->end();
 				}else{
 					Yii::$app->response->format = Response::FORMAT_JSON;
 					$message = array();
 					$message['type'] = 'error';
-					$message['msg'] = 'Coupon already used!';
+					$message['msg'] = 'Coupon not valid!';
 					echo json_encode($message);
 					Yii::$app->end();
 				}

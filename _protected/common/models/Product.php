@@ -52,12 +52,13 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['name','size_width_id', 'slug', 'category_id', 'article_id','quantity', 'price', 'market_price', 'descr'], 'required'],
-            [['category_id','featured', 'quantity', 'price', 'market_price', 'status', 'soldout', 'created_at', 'updated_at','size_width_id'], 'integer'],
+            [['category_id','featured', 'quantity', 'status', 'soldout', 'created_at', 'updated_at','size_width_id'], 'integer'],
             [['descr', 'short_descr', 'meta_description'], 'string'],
             ['general_attrs', 'required',
                 'message' => 'Please select one option.'
             ],
             [['optional_attrs'], 'safe'],
+            [['price','market_price'], 'number'],
             [['slug'], 'unique'],
             [['name','article_id'], 'string', 'max' => 110],
             [['meta_title', 'meta_keyword','article_id','slug'], 'string', 'max' => 255],

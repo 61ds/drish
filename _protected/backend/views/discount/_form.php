@@ -33,7 +33,7 @@ use yii\jui\DatePicker;
     ?>
 
     <?= $form->field($model, 'discount_choice')->dropDownList(
-        array('0'=>'Normal','1'=>'Buy one get second product discount','2'=>'minimum amount','3'=>'buy 1 get special product discount'),
+        array('0'=>'Normal','1'=>'Buy one get discount on minimum second product','2'=>'Buy one get discount on all other product','3'=>'minimum amount','4'=>'buy 1 get special product discount'),
         [
             'prompt'=>'- Select discount type -',
             'class'=>'form-control select2'
@@ -58,9 +58,6 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'quantity')->textInput() ?>
 
-    <?= $form->field($model, 'uses_per_coupon')->textInput() ?>
-
-    <?= $form->field($model, 'uses_per_customer')->textInput() ?>
 
     <?= $form->field($model, 'start_date')->widget(DatePicker::classname(), [
      //'language' => 'ru', //'dateFormat' => 'yyyy-MM-dd',
