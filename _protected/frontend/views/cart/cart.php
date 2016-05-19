@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Url;
+use frontend\widgets\Discountform;
+
 $count = 0;
 if(isset($items['items']))
     $count = count($items['items']);
@@ -88,8 +90,7 @@ if(isset($items['items']))
                                     You will be able to review the final price and other details of your Order Total at the right before you Place Order.</p>
                             </div>
                             <div class="discount">
-                                <span> Discounts</span> <input type="text" placeholder="Enter your coupon code if you have one.">
-                                <button type="button">Apply Coupon</button>
+                                <?= Discountform::widget() ?>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">

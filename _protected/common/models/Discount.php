@@ -4,6 +4,7 @@ namespace common\models;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "discount".
@@ -64,6 +65,7 @@ class Discount extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 100],
             ['coupon_code', 'unique'],
             [['description'], 'string', 'max' => 1000],
+            [['discount_products'], 'safe'],
             [['coupon_code'], 'string', 'max' => 25],
         ];
     }
@@ -85,6 +87,7 @@ class Discount extends \yii\db\ActiveRecord
             'end_date' => 'End Date',
             'discount_type' => 'Discount Type',
             'discount_amount' => 'Discount Amount',
+            'discount_products' => 'Discount Products',
             'discount_choice' => 'Discount Choice',
             'minimum_amount' => 'Minimum Amount',
             'quantity' => 'Quantity',
@@ -113,4 +116,11 @@ class Discount extends \yii\db\ActiveRecord
     {
         return new DiscountQuery(get_called_class());
     }
+
+    //get all company stage
+    public function getAllProducts(){
+        $products = Product::find()->where(['status' => 1])->orderBy('id')->all();
+        return ArrayHelper::map($products,'id','name');
+    }
+
 }

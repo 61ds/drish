@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\DiscountCode;
 use Yii;
 use common\models\Discount;
+use common\models\Product;
 use common\models\DiscountSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -52,8 +53,9 @@ class DiscountController extends BackendController
     public function actionCreate()
     {
         $model = new Discount();
-
+        $product_model = Product::find()->where(['status' => 1])->all();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->discount_products = serialize($model->discount_products);
             $model->start_date = strtotime($model->start_date);
             $model->end_date = strtotime($model->end_date);
             $model->quantity_left = $model->quantity;
@@ -78,12 +80,14 @@ class DiscountController extends BackendController
 
                 return $this->render('create', [
                     'model' => $model,
+                    'product_model' => $product_model,
                 ]);
             }
         } else {
 
             return $this->render('create', [
                 'model' => $model,
+                'product_model' => $product_model,
             ]);
         }
     }
@@ -97,11 +101,15 @@ class DiscountController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $product_model = Product::find()->where(['status' => 1])->all();
+        $model->discount_products = unserialize($model->discount_products);
+
         $quantity = $model->quantity;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->start_date = strtotime($model->start_date);
             $model->end_date = strtotime($model->end_date);
 
+            $model->discount_products = serialize($model->discount_products);
             if($model->save()) {
                 if($model->quantity > $quantity) {
                     $model->quantity_left = $model->quantity_left + ($model->quantity-$quantity);
@@ -131,11 +139,13 @@ class DiscountController extends BackendController
 
                 return $this->render('create', [
                     'model' => $model,
+                    'product_model' => $product_model,
                 ]);
             }
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'product_model' => $product_model,
             ]);
         }
     }

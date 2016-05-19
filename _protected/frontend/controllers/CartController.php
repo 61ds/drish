@@ -1,8 +1,11 @@
 <?php
 namespace frontend\controllers;
+use common\models\Discount;
+use common\models\DiscountCode;
 use common\models\GuestUser;
 use common\models\OrderItems;
 use common\models\User;
+use frontend\models\DiscountForm;
 use frontend\models\SignupForm;
 use yii\web\Response;
 use common\models\Cart;
@@ -498,4 +501,72 @@ class CartController extends FrontendController
 
 
 	}
+
+	public function actionDiscount(){
+		$model = new DiscountForm();
+		if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+			$discountModel = DiscountCode::find()->where(['code'=>$model->code])->one();
+			if ($discountModel !== null && $discountModel->discount->status == 1) {
+				if($discountModel->status == 0){
+					$discountModel->status = 1;
+					$discModel = Discount::findOne($discountModel->discount_id);
+					$discModel->quantity_used = $discModel->quantity_used+1;
+					$discModel->quantity_left = $discModel->quantity_left-1;
+
+					if($discModel->save()){
+
+					}else{
+						Yii::$app->response->format = Response::FORMAT_JSON;
+						$message = array();
+						$message['type'] = 'error';
+						$message['msg'] = 'Something wrong happen! Please try after some time. ';
+						echo json_encode($message);
+						Yii::$app->end();
+					}
+
+					if($discountModel->save()){
+
+
+						Yii::$app->response->format = Response::FORMAT_JSON;
+						$message = array();
+						$message['type'] = 'success';
+						$message['msg'] = 'Conratulations! Discount added in your cart. ';
+						echo json_encode($message);
+						Yii::$app->end();
+					}else{
+
+						$discModel->quantity_used = $discModel->quantity_used-1;
+						$discModel->quantity_left = $discModel->quantity_left+1;
+						$discModel->save();
+
+						Yii::$app->response->format = Response::FORMAT_JSON;
+						$message = array();
+						$message['type'] = 'error';
+						$message['msg'] = 'Something wrong happen! Please try after some time. ';
+						echo json_encode($message);
+						Yii::$app->end();
+					}
+
+				}else{
+					Yii::$app->response->format = Response::FORMAT_JSON;
+					$message = array();
+					$message['type'] = 'error';
+					$message['msg'] = 'Coupon already used!';
+					echo json_encode($message);
+					Yii::$app->end();
+				}
+
+			} else {
+				Yii::$app->response->format = Response::FORMAT_JSON;
+				$message = array();
+				$message['type'] = 'error';
+				$message['msg'] = 'Coupon not valid!';
+				echo json_encode($message);
+				Yii::$app->end();
+			}
+		}
+
+	}
+
+
 }

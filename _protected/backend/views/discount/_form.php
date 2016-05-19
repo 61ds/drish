@@ -69,6 +69,7 @@ use yii\jui\DatePicker;
          //'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
+    <?= $form->field($model, 'discount_products')->checkboxList($model->allProducts) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
