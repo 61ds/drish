@@ -232,7 +232,7 @@ class Cart extends \yii\db\ActiveRecord
             $discountid = $session->get('discountid');
 
             $discountModel = DiscountCode::find()->where(['id'=>$discountid,'status'=>0])->one();
-            if ($discountModel !== null && $discountModel->discount->status == 1 && $discountModel->discount->locked == 0) {
+            if ($discountModel !== null && $discountModel->discount->status == 1 && $discountModel->discount->locked == 0 && ($discountModel->discount->quantity_left > 0)) {
                 $products = unserialize($discountModel->discount->discount_products);
                 if ($discountModel->discount->coupon_type == 0) {
                     if($discountModel->discount->discount_choice == 0){
@@ -425,7 +425,7 @@ class Cart extends \yii\db\ActiveRecord
         $valid =0;
 
         $discountModel = DiscountCode::find()->where(['code' => $id, 'status' => 0])->one();
-        if ($discountModel !== null && $discountModel->discount->status == 1 && $discountModel->discount->locked == 0) {
+        if ($discountModel !== null && $discountModel->discount->status == 1 && $discountModel->discount->locked == 0 && ($discountModel->discount->quantity_left > 0)) {
 
             $products = unserialize($discountModel->discount->discount_products);
 
