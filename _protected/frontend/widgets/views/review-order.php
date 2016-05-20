@@ -60,7 +60,8 @@ use yii\helpers\Html;
         <tbody>
             <?php
 
-            foreach($items['items'] as $key=>$item){ ?>
+            foreach($items['items'] as $key=>$item){
+                ?>
 
                 <tr class="first odd">
                 <td><h3 class="product-name"><?= $item['name'] ?></h3>

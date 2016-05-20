@@ -41,6 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'format' => 'raw',
                                     'filter'=>array("1"=>"Used","0"=>"Available"),
                                 ],
+                                [
+                                    'attribute' => 'locked',
+                                    'value' => function ($model) {
+                                        if ($model->locked) {
+                                            return "Yes";
+                                        } else {
+                                            return "No";
+                                        }
+                                    },
+                                    'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                    'format' => 'raw',
+                                    'filter'=>array("1"=>"Yes","0"=>"No"),
+                                ],
                                 //'created_at',
                                 // 'updated_at',
 

@@ -226,6 +226,7 @@ class Cart extends \yii\db\ActiveRecord
         $min_prod = array();
         $min_prod['id'] = 0;
         $min_prod['value'] = 0;
+        $cart['discount'] = 0;
         $valid = 0;
         if ($session->has('discountid')) {
             $discountid = $session->get('discountid');
@@ -235,23 +236,27 @@ class Cart extends \yii\db\ActiveRecord
                 $products = unserialize($discountModel->discount->discount_products);
                 if ($discountModel->discount->coupon_type == 0) {
                     if($discountModel->discount->discount_choice == 0){
-                        if($discountModel->discount->discount_type == 0){
-                            $cart['discount'] = $discountModel->discount->discount_amount;
-                        }else{
-                            $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total']))/100) ;
+                        if($cart['total'] > $discountModel->discount->minimum_amount) {
+                            if ($discountModel->discount->discount_type == 0) {
+                                $cart['discount'] = $discountModel->discount->discount_amount;
+                            } else {
+                                $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total'])) / 100);
+                            }
                         }
 
 
                     }else if($discountModel->discount->discount_choice == 1){
-                        foreach($products as $product){
-                            if(in_array($product,$min_carts)){
-                                $key = array_search($product, $min_carts);
-                                if($min_prod['id']==0 || $min_prod['value'] > $cart['items'][$key]['singleprice']){
-                                    $min_prod['id'] = $key;
-                                    $min_prod['value'] = $cart['items'][$key]['singleprice'];
-                                    $valid =1;
-                                }
+                        if($cart['total'] > $discountModel->discount->minimum_amount) {
+                            foreach ($products as $product) {
+                                if (in_array($product, $min_carts)) {
+                                    $key = array_search($product, $min_carts);
+                                    if ($min_prod['id'] == 0 || $min_prod['value'] > $cart['items'][$key]['singleprice']) {
+                                        $min_prod['id'] = $key;
+                                        $min_prod['value'] = $cart['items'][$key]['singleprice'];
+                                        $valid = 1;
+                                    }
 
+                                }
                             }
                         }
                         if($valid){
@@ -263,44 +268,46 @@ class Cart extends \yii\db\ActiveRecord
 
                         }
                     }else if($discountModel->discount->discount_choice == 2){
-                        foreach($products as $product){
-                            if(in_array($product,$min_carts)){
-                                $key = array_search($product, $min_carts);
-                                if($discountModel->discount->discount_type == 0) {
-                                    $cart['items'][$key]['discount']  = $discountModel->discount->discount_amount ;
-                                }else {
-                                    $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$key]['singleprice'])) / 100);
-                                }
+                        if($cart['total'] > $discountModel->discount->minimum_amount) {
+                            foreach ($products as $product) {
+                                if (in_array($product, $min_carts)) {
+                                    $key = array_search($product, $min_carts);
+                                    if ($discountModel->discount->discount_type == 0) {
+                                        $cart['items'][$key]['discount'] = $discountModel->discount->discount_amount;
+                                    } else {
+                                        $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$key]['singleprice'])) / 100);
+                                    }
 
+                                }
                             }
                         }
 
                     }else if($discountModel->discount->discount_choice == 3){
                         if($cart['total'] > $discountModel->discount->minimum_amount){
-                            if($cart['total'] > $discountModel->discount->minimum_amount){
-                                if($discountModel->discount->discount_type == 0){
-                                    $cart['discount'] = $discountModel->discount->discount_amount;
-                                }else{
-                                    $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total']))/100) ;
-                                }
+                            if($discountModel->discount->discount_type == 0){
+                                $cart['discount'] = $discountModel->discount->discount_amount;
+                            }else{
+                                $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total']))/100) ;
                             }
                         }
 
 
                     }else if($discountModel->discount->discount_choice == 4){
-                        foreach($products as $product){
-                            $productModel = Product::findOne($product);
-                            $specials = unserialize($productModel->special);
-                            if(count($specials) > 0){
-                                foreach($specials as $sproduct){
-                                    if(in_array($sproduct,$min_carts)){
-                                        $key = array_search($sproduct, $min_carts);
-                                        if($discountModel->discount->discount_type == 0) {
-                                            $cart['items'][$key]['discount']  = $discountModel->discount->discount_amount ;
-                                        }else {
-                                            $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$sproduct]['singleprice'])) / 100);
-                                        }
+                        if($cart['total'] > $discountModel->discount->minimum_amount) {
+                            foreach ($products as $product) {
+                                $productModel = Product::findOne($product);
+                                $specials = unserialize($productModel->special);
+                                if (count($specials) > 0) {
+                                    foreach ($specials as $sproduct) {
+                                        if (in_array($sproduct, $min_carts)) {
+                                            $key = array_search($sproduct, $min_carts);
+                                            if ($discountModel->discount->discount_type == 0) {
+                                                $cart['items'][$key]['discount'] = $discountModel->discount->discount_amount;
+                                            } else {
+                                                $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$sproduct]['singleprice'])) / 100);
+                                            }
 
+                                        }
                                     }
                                 }
                             }
@@ -309,23 +316,27 @@ class Cart extends \yii\db\ActiveRecord
                 } else {
                     if($discountModel->locked == 1){
                         if($discountModel->discount->discount_choice == 0){
-                            if($discountModel->discount->discount_type == 0){
-                                $cart['discount'] = $discountModel->discount->discount_amount;
-                            }else{
-                                $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total']))/100) ;
+                            if($cart['total'] > $discountModel->discount->minimum_amount) {
+                                if ($discountModel->discount->discount_type == 0) {
+                                    $cart['discount'] = $discountModel->discount->discount_amount;
+                                } else {
+                                    $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total'])) / 100);
+                                }
                             }
 
 
                         }else if($discountModel->discount->discount_choice == 1){
-                            foreach($products as $product){
-                                if(in_array($product,$min_carts)){
-                                    $key = array_search($product, $min_carts);
-                                    if($min_prod['id']==0 || $min_prod['value'] > $cart['items'][$key]['singleprice']){
-                                        $min_prod['id'] = $key;
-                                        $min_prod['value'] = $cart['items'][$key]['singleprice'];
-                                        $valid =1;
-                                    }
+                            if($cart['total'] > $discountModel->discount->minimum_amount) {
+                                foreach ($products as $product) {
+                                    if (in_array($product, $min_carts)) {
+                                        $key = array_search($product, $min_carts);
+                                        if ($min_prod['id'] == 0 || $min_prod['value'] > $cart['items'][$key]['singleprice']) {
+                                            $min_prod['id'] = $key;
+                                            $min_prod['value'] = $cart['items'][$key]['singleprice'];
+                                            $valid = 1;
+                                        }
 
+                                    }
                                 }
                             }
                             if($valid){
@@ -337,39 +348,45 @@ class Cart extends \yii\db\ActiveRecord
 
                             }
                         }else if($discountModel->discount->discount_choice == 2){
-                            foreach($products as $product){
-                                if(in_array($product,$min_carts)){
-                                    $key = array_search($product, $min_carts);
-                                    if($discountModel->discount->discount_type == 0) {
-                                        $cart['items'][$key]['discount']  = $discountModel->discount->discount_amount ;
-                                    }else {
-                                        $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$key]['singleprice'])) / 100);
+                            if($cart['total'] > $discountModel->discount->minimum_amount) {
+                                foreach ($products as $product) {
+                                    if (in_array($product, $min_carts)) {
+                                        $key = array_search($product, $min_carts);
+                                        if ($discountModel->discount->discount_type == 0) {
+                                            $cart['items'][$key]['discount'] = $discountModel->discount->discount_amount;
+                                        } else {
+                                            $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$key]['singleprice'])) / 100);
+                                        };
                                     }
-                                    ;
                                 }
                             }
 
                         }else if($discountModel->discount->discount_choice == 3){
-                            if($discountModel->discount->discount_type == 0){
-                                $cart['discount'] = $discountModel->discount->discount_amount;
-                            }else{
-                                $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total']))/100) ;
+
+                            if($cart['total'] > $discountModel->discount->minimum_amount) {
+                                if ($discountModel->discount->discount_type == 0) {
+                                    $cart['discount'] = $discountModel->discount->discount_amount;
+                                } else {
+                                    $cart['discount'] = round(($discountModel->discount->discount_amount * ($cart['total'])) / 100);
+                                }
                             }
 
                         }else if($discountModel->discount->discount_choice == 4){
-                            foreach($products as $product){
-                                $productModel = Product::findOne($product);
-                                $specials = unserialize($productModel->special);
-                                if(count($specials) > 0){
-                                    foreach($specials as $sproduct){
-                                        if(in_array($sproduct,$min_carts)){
-                                            $key = array_search($product, $min_carts);
-                                            if($discountModel->discount->discount_type == 0) {
-                                                $cart['items'][$key]['discount']  = $discountModel->discount->discount_amount ;
-                                            }else {
-                                                $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$key]['singleprice'])) / 100);
-                                            }
+                            if($cart['total'] > $discountModel->discount->minimum_amount) {
+                                foreach ($products as $product) {
+                                    $productModel = Product::findOne($product);
+                                    $specials = unserialize($productModel->special);
+                                    if (count($specials) > 0) {
+                                        foreach ($specials as $sproduct) {
+                                            if (in_array($sproduct, $min_carts)) {
+                                                $key = array_search($sproduct, $min_carts);
+                                                if ($discountModel->discount->discount_type == 0) {
+                                                    $cart['items'][$key]['discount'] = $discountModel->discount->discount_amount;
+                                                } else {
+                                                    $cart['items'][$key]['discount'] = round(($discountModel->discount->discount_amount * ($cart['items'][$key]['singleprice'])) / 100);
+                                                }
 
+                                            }
                                         }
                                     }
                                 }
@@ -413,16 +430,20 @@ class Cart extends \yii\db\ActiveRecord
             $products = unserialize($discountModel->discount->discount_products);
 
             if ($discountModel->discount->discount_choice == 0) {
-                $valid =1;
+                if($carts['total'] > $discountModel->discount->minimum_amount) {
+                    $valid = 1;
+                }
             } else if ($discountModel->discount->discount_choice == 1 && $discountModel->locked==0) {
                 if(count($min_carts) < 1) {
                     return 0;
                 }
-                foreach($products as $product){
+                if($carts['total'] > $discountModel->discount->minimum_amount) {
+                    foreach ($products as $product) {
 
-                    if(in_array($product,$min_carts)){
-                        $valid = 1;
-                        break;
+                        if (in_array($product, $min_carts)) {
+                            $valid = 1;
+                            break;
+                        }
                     }
                 }
                 if(!$valid){
@@ -432,32 +453,37 @@ class Cart extends \yii\db\ActiveRecord
                 if(count($min_carts) < 1) {
                     return 0;
                 }
-                foreach($products as $product){
-                    if(in_array($product,$min_carts)){
-                        $valid = 1;
-                        break;
+                if($carts['total'] > $discountModel->discount->minimum_amount) {
+                    foreach ($products as $product) {
+                        if (in_array($product, $min_carts)) {
+                            $valid = 1;
+                            break;
+                        }
                     }
                 }
                 if(!$valid){
                     $valid = 2;
                 }
+
             } else if ($discountModel->discount->discount_choice == 3) {
                 if($carts['total'] > $discountModel->discount->minimum_amount){
                     $valid = 1;
                 }
 
-            } else if ($discountModel->discount->discount_choice == 4  && $discountModel->locked==0) {
-                if(count($min_carts) < 1) {
-                    return 0;
-                }
-                foreach($products as $product){
-                    $productModel = Product::findOne($product);
-                    $specials = unserialize($productModel->special);
-                    if(count($specials) > 0){
-                        foreach($specials as $sproduct){
-                            if(in_array($sproduct,$min_carts)){
-                                $valid = 1;
-                                break;
+            } else if ($discountModel->discount->discount_choice == 4  && $discountModel->locked==0 ) {
+                if($carts['total'] > $discountModel->discount->minimum_amount) {
+                    if (count($min_carts) < 1) {
+                        return 0;
+                    }
+                    foreach ($products as $product) {
+                        $productModel = Product::findOne($product);
+                        $specials = unserialize($productModel->special);
+                        if (count($specials) > 0) {
+                            foreach ($specials as $sproduct) {
+                                if (in_array($sproduct, $min_carts)) {
+                                    $valid = 1;
+                                    break;
+                                }
                             }
                         }
                     }
