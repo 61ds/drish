@@ -59,6 +59,13 @@ class DiscountController extends BackendController
             $model->start_date = strtotime($model->start_date);
             $model->end_date = strtotime($model->end_date);
             $model->quantity_left = $model->quantity;
+            if($model->start_date > time() ){
+                $model->locked = 1;
+
+            }
+            if($model->end_date < time() ){
+                $model->locked = 1;
+            }
             if($model->save()) {
                 if ($model->coupon_type == 0) {
                     $couponModel = new DiscountCode();
@@ -108,7 +115,13 @@ class DiscountController extends BackendController
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->start_date = strtotime($model->start_date);
             $model->end_date = strtotime($model->end_date);
+            if($model->start_date > time() ){
+                $model->locked = 1;
 
+            }
+            if($model->end_date < time() ){
+                $model->locked = 1;
+            }
             $model->discount_products = serialize($model->discount_products);
             if($model->save()) {
                 if($model->quantity > $quantity) {

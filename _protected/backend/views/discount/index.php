@@ -39,7 +39,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                 // 'quantity',
                                  'quantity_used',
                                  'quantity_left',
-                                //'locked',
+                                [
+                                    'attribute' => 'locked',
+                                    'value' => function ($model) {
+                                        if ($model->locked) {
+                                            return "Expired/Finished";
+                                        } else {
+                                            return "Available";
+                                        }
+                                    },
+                                    'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                    'format' => 'raw',
+                                    'filter'=>array("0"=>"Available","1"=>"Expired/Finished"),
+                                ],
                                 [
                                     'attribute' => 'status',
                                     'value' => function ($model) {
