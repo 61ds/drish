@@ -35,6 +35,7 @@ $('form#{$model->formName()}').on('beforeSubmit', function(e) {
 JS;
 
 $this->registerJs($js);
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -45,6 +46,7 @@ $this->registerJs($js);
     <span> Discounts</span>
     <?= $form->field($model, 'code',[	'template' => '{input}{error}','inputOptions' => [	'class'=>'','placeholder' => 'Enter your coupon code if you have one.']])->label(false) ?>
     <?= Html::submitButton('Apply Coupon', ['id' => 'apply_discount']) ?>
-	<div class="form-success"></div>
+
+	<div class="form-success"><?= $msg ?></div>
 	<div class="form-error"></div>
 <?php ActiveForm::end(); ?>

@@ -59,6 +59,7 @@ class DiscountController extends BackendController
             $model->start_date = strtotime($model->start_date);
             $model->end_date = strtotime($model->end_date);
             $model->quantity_left = $model->quantity;
+            $model->locked = 0;
             if($model->start_date > time() ){
                 $model->locked = 1;
 
@@ -115,6 +116,7 @@ class DiscountController extends BackendController
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->start_date = strtotime($model->start_date);
             $model->end_date = strtotime($model->end_date);
+            $model->locked = 0;
             if($model->start_date > time() ){
                 $model->locked = 1;
 

@@ -16,31 +16,39 @@ use yii\helpers\Html;
             <th rowspan="1">Product Name</th>
             <th class="a-center" colspan="1">Price</th>
             <th class="a-center" rowspan="1">Qty</th>
+            <th class="a-center" rowspan="1">Discount</th>
             <th class="a-center" colspan="1">Subtotal</th>
             </tr>
         </thead>
 
         <tfoot>
             <tr class="first">
-                <td colspan="3" class="a-right" style="">
+                <td colspan="4" class="a-right" style="">
                 Subtotal    </td>
                 <td class="a-right last" style="">
-                <span class="price"><i aria-hidden="true" class="fa fa-inr"></i><?= $items['total'] ?></span>    </td>
+                <span class="price"><i aria-hidden="true" class="fa fa-inr"></i><?= $items['total'] + $items['discount'] ?></span>    </td>
             </tr>
             <tr>
-                <td colspan="3" class="a-right" style="">
+                <td colspan="4" class="a-right" style="">
                 Shipping &amp; Handling (Free Shipping - Free)    </td>
                 <td class="a-right last" style="">
                 <span class="price"><i aria-hidden="true" class="fa fa-inr"></i>0.00</span>    </td>
             </tr>
             <tr>
-                <td class="a-right" style="" colspan="3">
+                <td class="a-right" style="" colspan="4">
                 Cash On Delivery            </td>
                 <td class="a-right last" style="">
                 <span class="price"><i aria-hidden="true" class="fa fa-inr"></i>0.00</span>            </td>
             </tr>
+            <tr>
+                <td class="a-right" style="" colspan="4">
+                    Discount           </td>
+                <td class="a-right last" style="">
+                    <span class="price"><i aria-hidden="true" class="fa fa-inr"></i><?= $items['discount'] ?></span>
+                </td>
+            </tr>
             <tr class="last">
-                <td colspan="3" class="a-right" style="">
+                <td colspan="4" class="a-right" style="">
                 <strong>Grand Total</strong>
                 </td>
                 <td class="a-right last" style="">
@@ -74,6 +82,12 @@ use yii\helpers\Html;
 
                 </td>
                 <td class="a-center"><?= $item['quantity'] ?></td>
+                    <td class="a-right last">
+                <span class="cart-price">
+
+                <span class="price"><i aria-hidden="true" class="fa fa-inr"></i><?= $item['discount'] ?></span>
+
+                    </td>
                 <!-- sub total starts here -->
                 <td class="a-right last">
                 <span class="cart-price">

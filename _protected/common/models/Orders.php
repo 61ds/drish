@@ -43,12 +43,13 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['payment_method'], 'required'],
-            [['user_id', 'guest_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
-            [['price_total', 'delivery_charges', 'grand_total'], 'number'],
+            [['user_id', 'guest_id','discount_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
+            [['price_total', 'delivery_charges', 'grand_total','discount'], 'number'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => OrderStatus::className(), 'targetAttribute' => ['status' => 'id']],
             [['payment_method'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_method' => 'id']],
             [['guest_id'], 'exist', 'skipOnError' => true, 'targetClass' => GuestUser::className(), 'targetAttribute' => ['guest_id' => 'id']],
+            [['discount_id'], 'exist', 'skipOnError' => true, 'targetClass' => DiscountCode::className(), 'targetAttribute' => ['discount_id' => 'id']],
         ];
     }
     public function behaviors()
@@ -78,6 +79,8 @@ class Orders extends \yii\db\ActiveRecord
             'price_total' => 'Price Total',
             'delivery_charges' => 'Delivery Charges',
             'grand_total' => 'Grand Total',
+            'discount' => 'Discount',
+            'discount_id' => 'Discount ID',
             'status' => 'Status',
             'locked' => 'Locked',
             'payment_method' => 'Payment Method',
@@ -111,6 +114,13 @@ class Orders extends \yii\db\ActiveRecord
         return $this->hasOne(OrderStatus::className(), ['id' => 'status']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDiscount0()
+    {
+        return $this->hasOne(DiscountCode::className(), ['id' => 'discount_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

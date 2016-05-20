@@ -60,15 +60,15 @@ class settings implements BootstrapInterface {
 		//update all coupon
 		$couponModel = Discount::find()->where(['status'=>1])->all();
 		foreach($couponModel as $coupon){
+			$coupon->locked = 0;
 			if($coupon->start_date > time() ){
 				$coupon->locked = 1;
-				$coupon->save();
-				continue;
 			}
 			if($coupon->end_date < time() ){
 				$coupon->locked = 1;
-				$coupon->save();
+
 			}
+			$coupon->save();
 		}
     }
 

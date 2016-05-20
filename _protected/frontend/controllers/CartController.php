@@ -246,13 +246,13 @@ class CartController extends FrontendController
 					$guestModel->password = $billingModel->phone;
 					$guestModel->ip = $ip;
 					if (!$guestModel->save()) {
-						print_r($guestModel->getErrors());
-						print_r($billingModel->getErrors());
-						print_r($shippingModel->getErrors());
-						die;
+						$err1 = $billingModel->getErrors();
+						$err2 = $shippingModel->getErrors();
+						$err3 = $guestModel->getErrors();
 						Yii::$app->response->format = Response::FORMAT_JSON;
-						echo json_encode(ActiveForm::validate($billingModel));
+						echo json_encode(array_merge($err1 , $err2 , $err3));
 						Yii::$app->end();
+
 					}
 
 					$guestid = $guestModel->id;
@@ -296,9 +296,10 @@ class CartController extends FrontendController
 				Yii::$app->response->format = trim(Response::FORMAT_JSON);
 				return $result;
 			}else{
-				print_r($billingModel->getErrors());   print_r($shippingModel->getErrors()); die;
+				$err1 = $billingModel->getErrors();
+				$err2 = $shippingModel->getErrors();
 				Yii::$app->response->format = Response::FORMAT_JSON;
-				echo json_encode(ActiveForm::validate($billingModel));
+				echo json_encode(array_merge($err1 , $err2));
 				Yii::$app->end();
 			}
 
@@ -328,64 +329,11 @@ class CartController extends FrontendController
 
 
 				$session = Yii::$app->session;
-
-				if (!$session->isActive) {
-					// open a session
-					$session->open();
-				}
-
-				if (!Yii::$app->user->isGuest) {
-					$carts = array();
-					$model = new Cart();
-					$cartitems = $model->find()->where(['user_id' => Yii::$app->user->identity->id])->all();
-					foreach ($cartitems as $cartitem) {
-						$carts[$cartitem->varient_id]['product_id'] = $cartitem->product_id;
-						$carts[$cartitem->varient_id]['color'] = $cartitem->color;
-						$carts[$cartitem->varient_id]['size'] = $cartitem->size;
-						$carts[$cartitem->varient_id]['width'] = $cartitem->width;
-						$carts[$cartitem->varient_id]['quantity'] = $cartitem->quantity;
-						$carts[$cartitem->varient_id]['id'] = $cartitem->id;
-					}
-				} else {
-					if ($session->has('cart')) {
-						$carts = $session->get('cart');
-					}
-
-				}
-
-				$cart = array();
-				$cart['total'] = 0;
-				if(isset($carts)) {
-					foreach ($carts as $key => $cartitem) {
-
-						if (($product = Product::findOne($cartitem['product_id'])) !== null) {
-							if (($varient = VarientProduct::findOne($key)) !== null) {
-								if ($varient->quantity < 1)
-									continue;
-
-							} else {
-								continue;
-							}
-
-							$cart['items'][$key]['name'] = $product->name;
-							if(isset($cartitem['id']))
-								$cart['items'][$key]['id'] = $cartitem['id'];
-							$cart['items'][$key]['sku'] = $varient->sku;
-							$cart['items'][$key]['color'] = $varient->color0->name;
-							$cart['items'][$key]['size'] = $varient->size0->name;
-							$cart['items'][$key]['product_id'] = $product->id;
-							$cart['items'][$key]['quantity'] = $cartitem['quantity'];
-							$cart['items'][$key]['img'] = Yii::$app->params['baseurl'] . '/uploads/product/main/' . $product->id . '/custom1/' . $product->productImages->main_image;
-							$cart['items'][$key]['width'] = $varient->width0->name;
-							$cart['items'][$key]['singleprice'] = floatval($product->price + $varient->price);
-							$cart['items'][$key]['price'] = floatval($cartitem['quantity'] * ($product->price + $varient->price));
-							$cart['total'] = floatval($cart['total'] + $cart['items'][$key]['price']);
-						} else {
-							continue;
-						}
-
-
-					}
+				$cartModel = new Cart();
+				$cart = $cartModel->getFinalCart();
+				if ($session->has('discountid')) {
+					$discountid = $session->get('discountid');
+					$orders->discount_id = $discountid;
 				}
 
 
@@ -398,8 +346,11 @@ class CartController extends FrontendController
 						$orders->user_id = $session->get('userid');
 				}
 				$orders->items_count = count($cart);
-				$orders->price_total = floatval($cart['total']);
+				$orders->price_total = $cart['total'];
 				$orders->delivery_charges = 0;
+				$orders->grand_total = floatval($cart['total'] + $orders->delivery_charges);
+				$orders->discount = $cart['discount'];
+
 				$orders->grand_total = floatval($cart['total'] + $orders->delivery_charges);
 				$orders->status = 1;
 				$orders->locked = 0;
@@ -414,9 +365,9 @@ class CartController extends FrontendController
 						$itemModel->product_id = $item['product_id'];
 						$itemModel->varient_id = $key;
 						$itemModel->quantity = $item['quantity'];
-						$itemModel->rate = floatval($item['singleprice']);
-						$itemModel->defaultrate = floatval($item['singleprice']);
-						$itemModel->total = floatval($item['price']);
+						$itemModel->defaultrate = $item['singleprice'];
+						$itemModel->total = floatval($item['singleprice'] - $item['discount']);
+						$itemModel->discount = $item['discount'];
 
 						if($itemModel->save()){
 							if (!Yii::$app->user->isGuest) {
@@ -433,7 +384,9 @@ class CartController extends FrontendController
 						}
 
 					}
-
+					if ($session->has('discountid')) {
+						$session->remove('discountid');
+					}
 					return $this->redirect(['cart/place-order','orderid'=>$orders->id]);
 				}else{
 
@@ -451,11 +404,12 @@ class CartController extends FrontendController
 
 	public function actionDiscount(){
 		$model = new DiscountForm();
+		$cartModel = new Cart();
 		$session = Yii::$app->session;
 		if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
-			$discountModel = DiscountCode::find()->where(['code'=>$model->code,'status'=>0,'locked'=>0])->one();
-			if ($discountModel !== null && $discountModel->discount->status == 1) {
-				$validate = $model->getvalidateCart($discountModel->id);
+			$discountModel = DiscountCode::find()->where(['code'=>$model->code,'status'=>0])->one();
+			if ($discountModel !== null && $discountModel->discount->status == 1 && $discountModel->discount->locked == 0) {
+				$validate = $cartModel->getvalidateCart($model->code);
 				if($validate == 1) {
 					$discountModel->status = 0;
 					$discountModel->locked = 1;
