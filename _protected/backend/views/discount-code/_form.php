@@ -12,15 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'discount_id')->textInput() ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'locked')->dropDownList(
+        array('0'=>'No','1'=>'Yes'),
+        [
+            'prompt'=>'- Select discount type -',
+            'class'=>'form-control select2'
 
-    <?= $form->field($model, 'status')->textInput() ?>
+        ]
+    )
+    ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

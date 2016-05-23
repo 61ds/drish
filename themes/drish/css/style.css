@@ -3813,3 +3813,10 @@ button.btn-trans {
 .checkout-guest,#shipping-address-form,#new-account-form{
   display:none;
 }
+.discount form{
+  width:100%;
+}
+.discount span {
+  font-size: 18px;
+  padding-right: 46px;
+}

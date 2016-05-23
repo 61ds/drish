@@ -4,6 +4,7 @@ namespace common\models;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "discount".
@@ -58,11 +59,13 @@ class Discount extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'coupon_code', 'uses_per_coupon', 'uses_per_customer', 'start_date', 'end_date', 'discount_amount', 'discount_choice', 'minimum_amount', 'quantity', 'quantity_used', 'quantity_left'], 'required'],
-            [['coupon_type', 'uses_per_coupon', 'uses_per_customer', 'start_date', 'end_date', 'discount_type', 'discount_choice', 'quantity', 'quantity_used', 'quantity_left', 'status', 'locked', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'description', 'coupon_code','start_date', 'end_date', 'discount_amount', 'discount_choice', 'quantity'], 'required'],
+            [['coupon_type', 'uses_per_coupon', 'uses_per_customer', 'discount_type', 'discount_choice', 'quantity', 'quantity_used', 'quantity_left', 'status', 'locked', 'created_at', 'updated_at'], 'integer'],
             [['minimum_amount','discount_amount'], 'number'],
             [['name'], 'string', 'max' => 100],
+            ['coupon_code', 'unique'],
             [['description'], 'string', 'max' => 1000],
+            [['discount_products'], 'safe'],
             [['coupon_code'], 'string', 'max' => 25],
         ];
     }
@@ -84,6 +87,7 @@ class Discount extends \yii\db\ActiveRecord
             'end_date' => 'End Date',
             'discount_type' => 'Discount Type',
             'discount_amount' => 'Discount Amount',
+            'discount_products' => 'Discount Products',
             'discount_choice' => 'Discount Choice',
             'minimum_amount' => 'Minimum Amount',
             'quantity' => 'Quantity',
@@ -112,4 +116,14 @@ class Discount extends \yii\db\ActiveRecord
     {
         return new DiscountQuery(get_called_class());
     }
+
+    //get all company stage
+    public function getAllProducts(){
+        $products = Product::find()->where(['status' => 1])->orderBy('id')->all();
+        return ArrayHelper::map($products,'id','name');
+    }
+
+
+
+
 }

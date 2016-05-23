@@ -5,6 +5,7 @@ namespace common\config;
 use Yii;
 use yii\base\BootstrapInterface;
 use common\models\SettingAttributes;
+use common\models\Discount;
 /*
 /* The base class that you use to retrieve the settings from the database
 */
@@ -54,6 +55,21 @@ class settings implements BootstrapInterface {
 		
 		Yii::$app->params['folders']['name'] = array('uploadMain','uploadLarge','uploadThumbs','uploadMedium');
 		Yii::$app->params['folders']['size'] = array('uploadMain'=>'','uploadLarge'=>'800','uploadThumbs'=>'150','uploadMedium'=>'500');
+		
+		
+		//update all coupon
+		$couponModel = Discount::find()->where(['status'=>1])->all();
+		foreach($couponModel as $coupon){
+			$coupon->locked = 0;
+			if($coupon->start_date > time() ){
+				$coupon->locked = 1;
+			}
+			if($coupon->end_date < time() ){
+				$coupon->locked = 1;
+
+			}
+			$coupon->save();
+		}
     }
 
 }

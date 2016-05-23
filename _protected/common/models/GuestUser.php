@@ -37,8 +37,18 @@ class GuestUser extends \yii\db\ActiveRecord
             [['email', 'ip','password'], 'required'],
             [['phone', 'status', 'created_at', 'updated_at','new_account'], 'integer'],
             [['email', 'ip'], 'string', 'max' => 50],
+            ['email','validateGuest'],
         ];
     }
+    public function validateGuest($attribute, $params)
+    {
+        $users = User::find()->where(['email'=>$this->$attribute])->one();
+        if(count($users)>0){
+            $this->addError($attribute, 'Account already exist! You cannot checkout as guest');
+        }
+
+    }
+
     public function behaviors()
     {
         return [

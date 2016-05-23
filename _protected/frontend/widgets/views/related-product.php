@@ -7,7 +7,11 @@ if($product_ids){
     <ul class="bxslider-pro">
 		<?php
 		 foreach($product_ids as $id){
-			 $product = Product::findOne($id); ?>
+			 $product = Product::findOne($id);
+
+			 if(!$product)
+				 continue;
+			 ?>
 			 <li>
 				<span class="related-product">
 						<a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>">

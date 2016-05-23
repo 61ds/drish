@@ -111,15 +111,6 @@ return array (
       '@kartik/slider' => $vendorDir . '/kartik-v/yii2-slider',
     ),
   ),
-  'kartik-v/yii2-widget-fileinput' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-fileinput',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/file' => $vendorDir . '/kartik-v/yii2-widget-fileinput',
-    ),
-  ),
   'creocoder/yii2-nested-sets' => 
   array (
     'name' => 'creocoder/yii2-nested-sets',
@@ -161,15 +152,6 @@ return array (
       '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
     ),
   ),
-  'kartik-v/yii2-krajee-base' => 
-  array (
-    'name' => 'kartik-v/yii2-krajee-base',
-    'version' => '1.8.4.0',
-    'alias' => 
-    array (
-      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
-    ),
-  ),
   'kartik-v/yii2-widget-activeform' => 
   array (
     'name' => 'kartik-v/yii2-widget-activeform',
@@ -188,15 +170,32 @@ return array (
       '@rmrevin/yii/fontawesome' => $vendorDir . '/rmrevin/yii2-fontawesome',
     ),
   ),
-  'nodge/yii2-eauth' => 
+  'kartik-v/yii2-krajee-base' => 
   array (
-    'name' => 'nodge/yii2-eauth',
-    'version' => '2.4.1.0',
+    'name' => 'kartik-v/yii2-krajee-base',
+    'version' => '1.8.5.0',
     'alias' => 
     array (
-      '@nodge/eauth' => $vendorDir . '/nodge/yii2-eauth/src',
+      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
     ),
-    'bootstrap' => 'nodge\\eauth\\Bootstrap',
+  ),
+  'yiisoft/yii2-jui' => 
+  array (
+    'name' => 'yiisoft/yii2-jui',
+    'version' => '2.0.5.0',
+    'alias' => 
+    array (
+      '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
+    ),
+  ),
+  'kartik-v/yii2-widget-fileinput' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-fileinput',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/file' => $vendorDir . '/kartik-v/yii2-widget-fileinput',
+    ),
   ),
   'kartik-v/yii2-tree-manager' => 
   array (

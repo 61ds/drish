@@ -2,8 +2,10 @@
 
 namespace backend\controllers;
 
+use common\models\DiscountCode;
 use Yii;
 use common\models\Discount;
+use common\models\Product;
 use common\models\DiscountSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,22 +14,9 @@ use yii\filters\VerbFilter;
 /**
  * DiscountController implements the CRUD actions for Discount model.
  */
-class DiscountController extends Controller
+class DiscountController extends BackendController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Discount models.
@@ -64,12 +53,49 @@ class DiscountController extends Controller
     public function actionCreate()
     {
         $model = new Discount();
+        $product_model = Product::find()->where(['status' => 1])->all();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->discount_products = serialize($model->discount_products);
+            $model->start_date = strtotime($model->start_date);
+            $model->end_date = strtotime($model->end_date);
+            $model->quantity_left = $model->quantity;
+            $model->locked = 0;
+            if($model->start_date > time() ){
+                $model->locked = 1;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            }
+            if($model->end_date < time() ){
+                $model->locked = 1;
+            }
+            if($model->save()) {
+                if ($model->coupon_type == 0) {
+                    $couponModel = new DiscountCode();
+                    $couponModel->code = $model->coupon_code;
+                    $couponModel->discount_id = $model->id;
+                    $couponModel->save();
+                } else {
+                    for ($i = 0; $i < $model->quantity; $i++) {
+                        $couponModel = new DiscountCode();
+                        $couponModel->code = $model->coupon_code . '-' . $i . mt_rand(111111, 999999);
+                        $couponModel->discount_id = $model->id;
+                        $couponModel->save();
+                    }
+                }
+
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! Coupons successfully created."));
+                return $this->redirect(['discount-code/index', 'id' => $model->id]);
+            }else {
+
+                return $this->render('create', [
+                    'model' => $model,
+                    'product_model' => $product_model,
+                ]);
+            }
         } else {
+
             return $this->render('create', [
                 'model' => $model,
+                'product_model' => $product_model,
             ]);
         }
     }
@@ -83,12 +109,58 @@ class DiscountController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $product_model = Product::find()->where(['status' => 1])->all();
+        $model->discount_products = unserialize($model->discount_products);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $quantity = $model->quantity;
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->start_date = strtotime($model->start_date);
+            $model->end_date = strtotime($model->end_date);
+            $model->locked = 0;
+            if($model->start_date > time() ){
+                $model->locked = 1;
+
+            }
+            if($model->end_date < time() ){
+                $model->locked = 1;
+            }
+            $model->discount_products = serialize($model->discount_products);
+            if($model->save()) {
+                if($model->quantity > $quantity) {
+                    $model->quantity_left = $model->quantity_left + ($model->quantity-$quantity);
+                    $model->save();
+                    if ($model->coupon_type == 1) {
+
+                        for ($i = $quantity+1; $i <= ($model->quantity-$quantity); $i++) {
+                            $couponModel = new DiscountCode();
+                            $couponModel->code = $model->coupon_code . '-' . $i . mt_rand(111111, 999999);
+                            $couponModel->discount_id = $model->id;
+                            $couponModel->save();
+                        }
+                    }
+                }else if($model->quantity < $quantity) {
+                    $discounoldModels = DiscountCode::find()->where(['discount_id' =>$model->id , 'status'=>0])->limit(0,$model->quantity-$quantity)->all();
+
+                    foreach($discounoldModels as $data){
+                        print_r($data->id);
+                    }
+                    die;
+
+                }
+
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! Coupons successfully created."));
+                return $this->redirect(['discount-code/index', 'id' => $model->id]);
+            }else {
+
+                return $this->render('create', [
+                    'model' => $model,
+                    'product_model' => $product_model,
+                ]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'product_model' => $product_model,
             ]);
         }
     }
