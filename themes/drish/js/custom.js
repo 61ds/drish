@@ -216,7 +216,8 @@
 			}
 			if($('.bxslider-1').length){
 				$('.bxslider-1').bxSlider({
-				 minSlides: 2,
+					infiniteLoop: false,
+					minSlides: 1,
 				  maxSlides: 6,
 				  slideWidth: 270,
 				  moveSlides:1
