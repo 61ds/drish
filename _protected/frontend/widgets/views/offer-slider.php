@@ -22,7 +22,7 @@ if($product_ids){
                <div class="carousel-caption">
                   <div class="price-frame">
                      <h4><?= $product->name ?></h4>
-                     <p class="price-txt"><span class="price-doller">$</span><?= $product->price ?><span class="price-zero">.00</span></p>
+                     <p class="price-txt"><span class="price-doller"><i class="fa fa-inr"></i></span><?= $product->price ?></p>
                      <a href="<?= Url::to(['men/product','slug'=>$product->slug]) ?>"><input type="button" class="shop-now-btn" value="Shop Now &gt;"></a>
                   </div>
                   <!--end price-frame-->

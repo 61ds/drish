@@ -5,7 +5,9 @@ if($product_ids){
 ?> 
 <ul class="bxslider-1 grid cs-style-2">
 		<?php 
-		 foreach($product_ids as $product){  
+		 foreach($product_ids as $product){
+             if(!$product)
+                 continue;
 		 ?>
 			<li>
                 <a href="<?= Url::to(['men/product','slug'=>$product->slug]) ?>">
