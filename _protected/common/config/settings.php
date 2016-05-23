@@ -37,7 +37,18 @@ class settings implements BootstrapInterface {
 		Yii::$app->params['adminEmail'] = Yii::$app->params['settings']['admin_mail'];
 		Yii::$app->params['siteName'] = Yii::$app->params['settings']['site_meta_title'];
 
+		$session = Yii::$app->session;
 
+		if (!$session->isActive) {
+			// open a session
+			$session->open();
+		}
+
+		if ($session->getHasSessionId()) {
+
+		}else{
+			$session->setId(sha1(md5('123'.time())));
+		}
 		
 		//thumb,medium,large image path
 		Yii::$app->params['uploadThumbs'] = 'thumbs';

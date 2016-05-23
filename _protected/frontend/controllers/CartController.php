@@ -111,6 +111,7 @@ class CartController extends FrontendController
 				$product_id = $cart[$id]['product_id'];
 				unset($cart[$id]);
 				$session->set('cart', $cart);
+				$session->set('changed', 1);
 			}
 		}else{
 			if (($cartmodel = Cart::find()->where(['varient_id'=>$id,'user_id'=>Yii::$app->user->identity->id])->one()) !== null) {
