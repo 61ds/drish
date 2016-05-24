@@ -20,34 +20,16 @@
             [
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
-                    ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
                     [
-                        'label' => 'User Management',
-                        'icon' => 'fa fa-share',
-                        'url' => '#',
+                        'label' => 'Orders Management',
+                        'icon' => 'fa fa-product-hunt',
+                        'url' => 'javascript:void(0);',
                         'items' => [
-                            ['label' => 'All Users', 'icon' => 'fa fa-file-code-o', 'url' => ['/user'],'active' => ($this->context->route == 'user/index')],
-                            ['label' => 'Add New User', 'icon' => 'fa fa-dashboard', 'url' => ['/user/create'],'active' => ($this->context->route == 'user/create')],
+                            ['label' => 'All Orders', 'icon' => 'fa fa-angle-right', 'url' => ['/order'],'active' => ($this->context->route == 'order/index'),],
+                            ['label' => 'Add Page', 'icon' => 'fa fa-angle-right', 'url' => ['/order/create'],'active' => ($this->context->route == 'order/create'),],
+
                         ],
                     ],
-					 [
-                        'label' => 'Location Management',
-                        'icon' => 'fa fa-map-marker',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Active Countries', 'icon' => 'fa fa-angle-right', 'url' => ['countries/index'],'active' => ($this->context->route == 'countries/index' || $this->context->route == 'countries/viewstates' || $this->context->route == 'countries/inactive-states' || $this->context->route == 'countries/viewcities' || $this->context->route == 'countries/inactive-cities')],
-                            ['label' => 'All Countries', 'icon' => 'fa fa-angle-right', 'url' => ['/countries/all'],'active' => ($this->context->route == 'countries/all')],
-                        ],
-                    ],
-
-                    ['label' => 'Menu Management', 'icon' => 'fa fa-bars', 'url' => ['/menu'],'active' => ($this->context->route == 'menu/index'),],
-
-                    [   'label' => 'Website Settings',
-                        'icon' => 'fa fa-cogs',
-                        'url' => ['/setting-attributes/globalsetting'],
-
-                    ],
-					
                     [
                         'label' => 'Pages Management',
                         'icon' => 'fa fa-product-hunt',
@@ -78,6 +60,7 @@
                             ['label' => 'Add/Remove Attributes', 'icon' => 'fa fa-angle-right', 'url' => ['/type'],'active' => ($this->context->route == 'type/index'),],
                         ],
                     ],
+
                     [
                         'label' => 'Attribute Management',
                         'icon' => 'fa fa-share',
@@ -125,6 +108,32 @@
                             ['label' => 'All Subscribers', 'icon' => 'fa fa-newspaper-o ', 'url' => ['/newsletter'],],
                             ['label' => 'Add New Subscriber', 'icon' => 'fa fa-plus', 'url' => ['/newsletter/create'],],
                         ],
+                    ],
+                    [
+                        'label' => 'User Management',
+                        'icon' => 'fa fa-share',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'All Users', 'icon' => 'fa fa-file-code-o', 'url' => ['/user'],'active' => ($this->context->route == 'user/index')],
+                            ['label' => 'Add New User', 'icon' => 'fa fa-dashboard', 'url' => ['/user/create'],'active' => ($this->context->route == 'user/create')],
+                        ],
+                    ],
+                    [
+                        'label' => 'Location Management',
+                        'icon' => 'fa fa-map-marker',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Active Countries', 'icon' => 'fa fa-angle-right', 'url' => ['countries/index'],'active' => ($this->context->route == 'countries/index' || $this->context->route == 'countries/viewstates' || $this->context->route == 'countries/inactive-states' || $this->context->route == 'countries/viewcities' || $this->context->route == 'countries/inactive-cities')],
+                            ['label' => 'All Countries', 'icon' => 'fa fa-angle-right', 'url' => ['/countries/all'],'active' => ($this->context->route == 'countries/all')],
+                        ],
+                    ],
+
+                    ['label' => 'Menu Management', 'icon' => 'fa fa-bars', 'url' => ['/menu'],'active' => ($this->context->route == 'menu/index'),],
+
+                    [   'label' => 'Website Settings',
+                        'icon' => 'fa fa-cogs',
+                        'url' => ['/setting-attributes/globalsetting'],
+
                     ],
                 ],
 
