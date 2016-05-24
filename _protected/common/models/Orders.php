@@ -150,4 +150,11 @@ class Orders extends \yii\db\ActiveRecord
         $group = PaymentMethods::find()->orderBy('method')->all();
         return ArrayHelper::map($group,'id','method');
     }
+
+    public function getOrderStatus()
+    {
+        $group = OrderStatus::find()->orderBy('id')->all();
+        return ArrayHelper::map($group,'id','name');
+    }
+
 }

@@ -26,7 +26,6 @@
                         'url' => 'javascript:void(0);',
                         'items' => [
                             ['label' => 'All Orders', 'icon' => 'fa fa-angle-right', 'url' => ['/order'],'active' => ($this->context->route == 'order/index'),],
-                            ['label' => 'Add Page', 'icon' => 'fa fa-angle-right', 'url' => ['/order/create'],'active' => ($this->context->route == 'order/create'),],
 
                         ],
                     ],

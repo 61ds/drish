@@ -9,6 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ *
+ * @property Orders[] $orders
  */
 class OrderStatus extends \yii\db\ActiveRecord
 {
@@ -27,7 +29,7 @@ class OrderStatus extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['name'], 'string', 'max' => 15],
+            [['name'], 'string', 'max' => 50],
         ];
     }
 
@@ -43,11 +45,10 @@ class OrderStatus extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return OrderStatusQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getOrders()
     {
-        return new OrderStatusQuery(get_called_class());
+        return $this->hasMany(Orders::className(), ['status' => 'id']);
     }
 }

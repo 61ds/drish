@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'columns' => [
                                 ['class' => 'yii\grid\SerialColumn',"header"=>"Sr.No."],
                                 [
+                                    'label' => 'User Name',
                                     'attribute' => 'user_id',
                                     'value' => function ($model) {
                                         if ($model->user_id) {
@@ -37,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'format' => 'raw',
                                 ],
                                 [
+                                    'label' => 'Guest Name',
                                     'attribute' => 'guest_id',
                                     'value' => function ($model) {
                                         if ($model->guest_id) {
@@ -55,9 +57,40 @@ $this->params['breadcrumbs'][] = $this->title;
                                 // 'discount_id',
                                  'grand_total',
                                 // 'locked',
-                                 'payment_method',
-                                 'payment_status',
-                                 'status',
+                                [
+                                    'attribute' => 'payment_method',
+                                    'value' => function ($model) {
+                                        $status =  $model->getPayments();
+                                        return $status[$model->payment_method];
+                                    },
+                                    'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                    'format' => 'raw',
+                                    'filter'=> $order->getPayments(),
+                                ],
+                                [
+                                    'attribute' => 'payment_status',
+                                    'value' => function ($model) {
+                                        if ($model->payment_status) {
+                                            return "Paid";
+                                        } else {
+                                            return "Pending";
+                                        }
+                                    },
+                                    'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                    'format' => 'raw',
+                                    'filter'=>array("0"=>"Pending","1"=>"Paid"),
+                                ],
+                                [
+                                    'attribute' => 'status',
+                                    'value' => function ($model) {
+                                        $status =  $model->getOrderStatus();
+                                         return $status[$model->status];
+                                    },
+                                    'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                    'format' => 'raw',
+                                    'filter'=> $order->getOrderStatus(),
+                                ],
+
                                  'created_at:Date',
                                 // 'updated_at',
 
