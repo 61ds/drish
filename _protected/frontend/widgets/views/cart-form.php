@@ -70,7 +70,7 @@ $baseurl = Yii::$app->params['baseurl'];
 			</div>
 			<div class="color">
 				<?= $form->field($cart, 'width')->dropDownList(
-					$varientModel->getAvailattr($model->id,'width'),
+					array(),
 					[
 						'prompt'=>'Select Width',
 						'class'=>'form-control select2 required updateprice',
@@ -84,7 +84,7 @@ $baseurl = Yii::$app->params['baseurl'];
 
 			<div class="color">
 				<?= $form->field($cart, 'color')->dropDownList(
-					$varientModel->getAvailattr($model->id,'color'),
+					array(),
 					[
 						'prompt'=>'Select Color',
 						'class'=>'form-control select2 required updateprice',
@@ -94,8 +94,9 @@ $baseurl = Yii::$app->params['baseurl'];
 			</div>
 			<div class="color">
 				<?= $form->field($cart, 'quantity')->dropDownList(
-					$varientModel->getQuantity($model->id),
+					array(),
 					[
+						'prompt'=>'Select Quantity',
 						'class'=>'form-control select2 required',
 					]
 				)->label(false);

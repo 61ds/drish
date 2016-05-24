@@ -38,6 +38,7 @@ if(isset($items['items']))
             if($count > 0){
 
             foreach($items['items'] as $key=>$item){
+
                 if($i%2==0 && $i != 0)
                     echo '</div><div class="row br-top">';
             ?>

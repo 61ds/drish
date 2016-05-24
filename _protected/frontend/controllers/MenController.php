@@ -125,20 +125,18 @@ class MenController extends Controller
                 if($qnt < 1)
                     continue;
 
-                $varients[$i]['color'] = $varient->color;
-                $varients[$i]['color_val'] = $varient->color0->displayname;
-                $varients[$i]['size'] = $varient->size;
-                $varients[$i]['size_val'] = $varient->size0->displayname;
-                $varients[$i]['width'] = $varient->width;
-                $varients[$i]['width_val'] = $varient->width0->displayname;
-                $varients[$i]['price'] = $varient->price + $model->price;
-                $varients[$i]['quantity'] = $qnt;
+                $varients[$varient->size][$varient->width][$varient->color]['color_val'] = $varient->color0->displayname;
+                $varients[$varient->size][$varient->width]['width_val'] = $varient->width0->displayname;
+                $varients[$varient->size][$varient->width][$varient->color]['price'] = $varient->price + $model->price;
+                $varients[$varient->size][$varient->width][$varient->color]['quantity'] = $qnt;
                 $i++;
             }
+
             $cart->product_id = $model->id;
             if(!Yii::$app->user->isGuest) {
                 $cart->user_id = Yii::$app->user->identity->id;
             }
+
             return $this->render('product',['model'=>$model,
                 'productDropdownValues'=>$ProductDropdownValues,
                 'productDescValues'=>$ProductDescValues,
