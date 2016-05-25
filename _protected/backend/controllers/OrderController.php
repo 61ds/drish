@@ -12,22 +12,9 @@ use yii\filters\VerbFilter;
 /**
  * OrderController implements the CRUD actions for Orders model.
  */
-class OrderController extends Controller
+class OrderController extends BackendController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Orders models.
@@ -123,4 +110,14 @@ class OrderController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionSummary($id)
+    {
+        $model = $this->findModel($id);
+
+        return $this->render('summary', [
+            'model' => $model,
+        ]);
+    }
+
 }

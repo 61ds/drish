@@ -96,17 +96,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 ['class' => 'yii\grid\ActionColumn','header'=>'Actions',
                                     'buttons' => [
-                                        'viewcoupons' =>function ($url, $model, $key) {
+                                        'vieworder' =>function ($url, $model, $key) {
                                             $options = array_merge([
-                                                'title' => Yii::t('yii', 'View Coupons'),
-                                                'aria-label' => Yii::t('yii', 'View Coupons'),
+                                                'title' => Yii::t('yii', 'View Order'),
+                                                'aria-label' => Yii::t('yii', 'View Order'),
                                                 'data-pjax' => '0',
                                             ], []);
-                                            return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['discount-code/index','id'=>$model->id], $options);
+                                            return Html::a('<span class="glyphicon glyphicon-folder-open"></span>', ['order/summary','id'=>$model->id], $options);
                                         },
 
                                     ],
-                                    'template' => '{viewcoupons}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
+                                    'template' => '{vieworder}', 'contentOptions' => ['style' => 'text-align:center'],
                                 ],
                             ],
                         ]); ?>
