@@ -1,5 +1,7 @@
 <?php
 use common\models\Product;
+use yii\helpers\Url;
+
 if($product_ids){
 ?> 
 <h3>Related product</h3>
@@ -14,7 +16,7 @@ if($product_ids){
 			 ?>
 			 <li>
 				<span class="related-product">
-						<a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>">
+						<a href="<?= Url::to(['men/product','slug'=>$product->slug]) ?>"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/main/<?= $product->id ?>/large/<?= $product->productImages->main_image ?>">
 						  <h4><?= $product->name ?></h4>
 						<h4><span><i class="fa fa-inr"></i></span><?= $product->price ?></h4></a>
 				 </span>
