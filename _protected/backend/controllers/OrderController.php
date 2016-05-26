@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\OrderComments;
 use Yii;
 use common\models\Orders;
 use common\models\OrderSearch;
@@ -113,10 +114,34 @@ class OrderController extends BackendController
 
     public function actionSummary($id)
     {
-        $model = $this->findModel($id);
+        $models = $this->findModel($id);
+        $model = new OrderComments();
+        $model->order_id = $id;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            if($model->save()){
+                $models->status = $model->status;
+                $models->save();
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', "Order status updated successfully."));
+
+            }else{
+
+                Yii::$app->getSession()->setFlash('danger', Yii::t('app', "This status already updated."));
+
+            }
+            return $this->redirect(['summary', 'id' => $id]);
+        }
+        $model->status = $models->status;
+        $comments = OrderComments::find()->where(['order_id' => $id])->orderBy([
+	           'created_at' => SORT_DESC,
+	        ])->all();
+
+        $orderdetail = Orders::getOrderDetail($id);
 
         return $this->render('summary', [
+            'orderdetail' => $orderdetail,
             'model' => $model,
+            'comments' => $comments,
         ]);
     }
 

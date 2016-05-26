@@ -156,5 +156,110 @@ class Orders extends \yii\db\ActiveRecord
         $group = OrderStatus::find()->orderBy('id')->all();
         return ArrayHelper::map($group,'id','name');
     }
+    public function getOrderDetail($id)
+    {
+        $data = Orders::findOne($id);
+        $orderdetail = array();
+        $orderdetail['id'] = $data->id;
+        $orderdetail['created_at'] = $data->created_at;
+        $orderdetail['payment'] = $data->paymentMethod->method;
+        $orderdetail['status'] = $data->status0->name;
+        $orderdetail['status_id'] = $data->status;
+        $orderdetail['subtotal'] = $data->price_total;
+        $orderdetail['discount'] = $data->discount;
+        $orderdetail['shipping'] = $data->delivery_charges;
+        $orderdetail['total'] = $data->grand_total;
+        if($data->payment_status)
+            $orderdetail['payment_status'] = 'Paid';
+        else
+            $orderdetail['payment_status'] = 'Pending';
 
+        if($data->user_id != ''){
+            $orderdetail['usertype'] = 'User Details';
+            $add = BillingAddress::find()->where(['user_id'=>$data->user_id])->one();
+            $ship = ShippingAddress::find()->where(['user_id'=>$data->user_id])->one();
+            $profile = Profile::find()->where(['user_id'=>$data->user_id])->one();
+            $orderdetail['fname'] = $profile->fname;
+            $orderdetail['lname'] = $profile->lname;
+            $orderdetail['phone'] = $profile->phone;
+            $orderdetail['email'] = $data->user->email;
+            $orderdetail['id'] = $data->user_id;
+
+            $orderdetail['billing']['fname'] = $add->fname;
+            $orderdetail['billing']['lname'] = $add->lname;
+            $orderdetail['billing']['address'] = $add->address;
+            $orderdetail['billing']['email'] = $add->email;
+            $orderdetail['billing']['phone'] = $add->phone;
+            $orderdetail['billing']['city'] = $add->city->name;
+            $orderdetail['billing']['state'] = $add->state->name;
+            $orderdetail['billing']['country'] = $add->country->name;
+            $orderdetail['billing']['zip'] = $add->zip;
+            $orderdetail['billing']['is_shipping'] = $add->is_shipping;
+
+            if($add->is_shipping != 0){
+                $orderdetail['shipping']['fname'] = $ship->fname;
+                $orderdetail['shipping']['lname'] = $ship->lname;
+                $orderdetail['shipping']['address'] = $ship->address;
+                $orderdetail['shipping']['email'] = $ship->email;
+                $orderdetail['shipping']['phone'] = $ship->phone;
+                $orderdetail['shipping']['city'] = $ship->city->name;
+                $orderdetail['shipping']['state'] = $ship->state->name;
+                $orderdetail['shipping']['country'] = $ship->country->name;
+                $orderdetail['shipping']['zip'] = $ship->zip;
+                $orderdetail['shipping']['is_shipping'] = $ship->is_shipping;
+            }
+
+        }else{
+            $add = BillingAddress::find()->where(['guest_id'=>$data->guest_id])->one();
+            $ship = ShippingAddress::find()->where(['guest_id'=>$data->user_id])->one();
+
+            $orderdetail['usertype'] = 'Guest Details';
+            $orderdetail['fname'] = $data->guest->fname;
+            $orderdetail['lname'] = $data->guest->lname;
+            $orderdetail['phone'] = $data->guest->phone;
+            $orderdetail['email'] = $data->guest->email;
+            $orderdetail['id'] = $data->guest_id;
+
+            $orderdetail['billing']['fname'] = $add->fname;
+            $orderdetail['billing']['lname'] = $add->lname;
+            $orderdetail['billing']['address'] = $add->address;
+            $orderdetail['billing']['email'] = $add->email;
+            $orderdetail['billing']['phone'] = $add->phone;
+            $orderdetail['billing']['city'] = $add->city->name;
+            $orderdetail['billing']['state'] = $add->state->name;
+            $orderdetail['billing']['country'] = $add->country->name;
+            $orderdetail['billing']['zip'] = $add->zip;
+            $orderdetail['billing']['is_shipping'] = $add->is_shipping;
+
+            if($add->is_shipping != 0){
+                $orderdetail['shipping']['fname'] = $ship->fname;
+                $orderdetail['shipping']['lname'] = $ship->lname;
+                $orderdetail['shipping']['address'] = $ship->address;
+                $orderdetail['shipping']['email'] = $ship->email;
+                $orderdetail['shipping']['phone'] = $ship->phone;
+                $orderdetail['shipping']['city'] = $ship->city->name;
+                $orderdetail['shipping']['state'] = $ship->state->name;
+                $orderdetail['shipping']['country'] = $ship->country->name;
+                $orderdetail['shipping']['zip'] = $ship->zip;
+                $orderdetail['shipping']['is_shipping'] = $ship->is_shipping;
+            }
+
+
+        }
+        foreach($data->orderItems as $item){
+            $orderdetail['items'][$item->id]['product_id'] = $item->product_id;
+            $orderdetail['items'][$item->id]['name'] = $item->product->name;
+            $orderdetail['items'][$item->id]['article_id'] = $item->product->article_id;
+            $orderdetail['items'][$item->id]['quantity'] = $item->quantity;
+            $orderdetail['items'][$item->id]['defaultrate'] = $item->defaultrate;
+            $orderdetail['items'][$item->id]['sku'] = $item->varient->sku;
+            $orderdetail['items'][$item->id]['size'] = $item->varient->size0->displayname;
+            $orderdetail['items'][$item->id]['width'] = $item->varient->width0->displayname;
+            $orderdetail['items'][$item->id]['color'] = $item->varient->color0->displayname;
+            $orderdetail['items'][$item->id]['discount'] = $item->discount;
+            $orderdetail['items'][$item->id]['total'] = $item->total;
+        }
+
+        return $orderdetail;
+    }
 }

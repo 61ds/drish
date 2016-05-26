@@ -105,7 +105,6 @@ class Product extends \yii\db\ActiveRecord
             'meta_title' => 'Meta Title',
             'meta_description' => 'Meta Description',
             'meta_keyword' => 'Meta Keyword',
-            'article_id' => 'Article ID',
             'size_width_id' => 'Size width Code',
         ];
     }
