@@ -218,6 +218,7 @@ class Cart extends \yii\db\ActiveRecord
         $cart = $cartModel->getResetCart();
 
         $session = Yii::$app->session;
+
         $min_carts = array();
         foreach($cart['items'] as $key => $cartprod){
             if($key != $cart['max']['id'])
@@ -228,6 +229,18 @@ class Cart extends \yii\db\ActiveRecord
         $min_prod['value'] = 0;
         $cart['discount'] = 0;
         $valid = 0;
+        $cart['subtotal'] = $cart['total'];
+        $cart['payment_method'] = 1;
+
+        if ($session->has('payment_method')) {
+            $cart['payment_method'] = $session->get('payment_method');
+        }
+        $cart['cod'] = 0;
+        if($cart['payment_method'] == 1){
+            $cart['cod'] = round((2 * $cart['subtotal'])/100);
+        }else{
+            $cart['cod'] = 0;
+        }
         if ($session->has('discountid')) {
             $discountid = $session->get('discountid');
 
@@ -403,7 +416,7 @@ class Cart extends \yii\db\ActiveRecord
         foreach($cart['items'] as $key => $cartitem ){
                 $finalcart['discount'] = floatval($cartitem['discount'] + $finalcart['discount']);
         }
-        $cart['total'] =  floatval($cart['total'] - $finalcart['discount'] - $cart['discount']);
+        $cart['total'] =  floatval($cart['total']+ $cart['cod'] - $finalcart['discount'] - $cart['discount']);
         $cart['discount'] = floatval($finalcart['discount'] + $cart['discount']);
 
         return $cart;

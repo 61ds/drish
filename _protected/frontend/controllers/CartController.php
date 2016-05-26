@@ -4,6 +4,7 @@ use common\models\Discount;
 use common\models\DiscountCode;
 use common\models\GuestUser;
 use common\models\OrderItems;
+use common\models\PaymentMethods;
 use common\models\User;
 use frontend\models\DiscountForm;
 use frontend\models\SignupForm;
@@ -17,6 +18,8 @@ use common\models\VarientProduct;
 use Yii;
 use common\rbac\helpers\RbacHelper;
 use nenad\passwordStrength\StrengthValidator;
+use yii\helpers\Url;
+
 
 class CartController extends FrontendController
 {
@@ -138,7 +141,11 @@ class CartController extends FrontendController
 		if($result){
 			$order = new Orders();
 			$order->payment_method = 1;
-			return $this->render('checkout',['order'=> $order]);
+			$payment = new Orders();
+			$payment->payment_method = 1;
+
+			return $this->render('checkout',['order'=> $order,'payment'=>$payment]);
+
 		}else{
 			return $this->redirect(['cart/cart']);
 		}
@@ -322,14 +329,16 @@ class CartController extends FrontendController
 		$this->layout = 'page';
 
 			$orders = new Orders();
-			if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $orders->load(Yii::$app->request->post()) ) {
+			if (Yii::$app->request->isPost && Yii::$app->request->isAjax  ) {
+				$session = Yii::$app->session;
 
-				if($orders->payment_method == ''){
+				if ($session->has('payment_method')) {
+					$paymentid = $session->get('payment_method');
+					$orders->payment_method = $paymentid;
+				}else{
 					$orders->payment_method = 1;
 				}
 
-
-				$session = Yii::$app->session;
 				$cartModel = new Cart();
 				$cart = $cartModel->getFinalCart();
 				if ($session->has('discountid')) {
@@ -349,10 +358,14 @@ class CartController extends FrontendController
 				$orders->items_count = count($cart);
 				$orders->price_total = $cart['total'];
 				$orders->delivery_charges = 0;
-				$orders->grand_total = floatval($cart['total'] + $orders->delivery_charges);
+				$orders->cod_charge = 0;
+				if($orders->payment_method == 1){
+					$orders->cod_charge = round((2 * $cart['total'])/100);
+				}
+
 				$orders->discount = $cart['discount'];
 
-				$orders->grand_total = floatval($cart['total'] + $orders->delivery_charges);
+				$orders->grand_total = floatval($cart['total'] + $orders->delivery_charges + $orders->cod_charge);
 				$orders->status = 1;
 				$orders->locked = 0;
 				$orders->payment_status = 1;
@@ -360,6 +373,67 @@ class CartController extends FrontendController
 
 
 				if($orders->save()){
+
+				if($orders->payment_method == 2) {
+					$working_key = '';//Shared by CCAVENUES
+					$access_code = '';//Shared by CCAVENUES
+					$merchant_data = '';
+
+					$ccavenue_data = array();
+
+					$ccavenue_data['merchant_id'] =
+					$ccavenue_data['order_id'] = $orders->id;
+					$ccavenue_data['currency'] = 'INR';
+					$ccavenue_data['amount'] = $orders->grand_total;
+					$ccavenue_data['redirect_url'] = Url::to('cart/response', true);
+					$ccavenue_data['cancel_url'] = Url::to('cart/response', true);
+					$ccavenue_data['integration_type'] = 'iframe_normal';
+					$ccavenue_data['language'] = 'EN';
+					$orderdata = $orders->getOrderDetail($orders->id);
+
+
+					$ccavenue_data['billing_name'] = $orderdata['billing']['fname'] . ' ' . $orderdata['billing']['lname'];
+					$ccavenue_data['billing_address'] = $orderdata['billing']['address'];
+					$ccavenue_data['billing_city'] = $orderdata['billing']['city'];
+					$ccavenue_data['billing_state'] = $orderdata['billing']['state'];
+					$ccavenue_data['billing_zip'] = $orderdata['billing']['zip'];
+					$ccavenue_data['billing_country'] = $orderdata['billing']['country'];
+					$ccavenue_data['billing_tel'] = $orderdata['billing']['phone'];
+					$ccavenue_data['billing_email'] = $orderdata['billing']['email'];
+
+					if ($orderdata['billing']['is_shipping'] != 0) {
+						$ccavenue_data['delivery_name'] = $orderdata['shipping']['fname'] . ' ' . $orderdata['billing']['lname'];
+						$ccavenue_data['delivery_address'] = $orderdata['shipping']['address'];
+						$ccavenue_data['delivery_city'] = $orderdata['shipping']['city'];
+						$ccavenue_data['delivery_state'] = $orderdata['shipping']['state'];
+						$ccavenue_data['delivery_zip'] = $orderdata['shipping']['zip'];
+						$ccavenue_data['delivery_country'] = $orderdata['shipping']['country'];
+						$ccavenue_data['delivery_tel'] = $orderdata['shipping']['phone'];
+					} else {
+						$ccavenue_data['delivery_name'] = $orderdata['billing']['fname'] . ' ' . $orderdata['billing']['lname'];
+						$ccavenue_data['delivery_address'] = $orderdata['billing']['address'];
+						$ccavenue_data['delivery_city'] = $orderdata['billing']['city'];
+						$ccavenue_data['delivery_state'] = $orderdata['billing']['state'];
+						$ccavenue_data['delivery_zip'] = $orderdata['billing']['zip'];
+						$ccavenue_data['delivery_country'] = $orderdata['billing']['country'];
+						$ccavenue_data['delivery_tel'] = $orderdata['billing']['phone'];
+
+					}
+
+					$ccavenue_data['merchant_param1'] = $orderdata['usertype'];
+					$ccavenue_data['merchant_param2'] = $orderdata['id'];
+
+					foreach ($ccavenue_data as $key => $value) {
+						$merchant_data .= $key . '=' . $value . '&';
+					}
+
+					$encrypted_data = $orders->encrypt($merchant_data, $working_key); // Method for encrypting the data.
+
+					$orders->production_url = 'https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction&encRequest=' . $encrypted_data . '&access_code=' . $access_code;
+
+
+				}
+
 					foreach($cart['items'] as $key => $item){
 						$itemModel = new OrderItems();
 						$itemModel->order_id = $orders->id;
@@ -388,7 +462,15 @@ class CartController extends FrontendController
 					if ($session->has('discountid')) {
 						$session->remove('discountid');
 					}
-					return $this->redirect(['cart/place-order','orderid'=>$orders->id]);
+					if ($session->has('payment_method')) {
+						$session->remove('payment_method');
+					}
+					if($orders->payment_method == 1){
+						return $this->render('place-order',['orderid'=>$orderid]);
+					}else{
+						return $this->redirect(['cart/payment','order'=>$orders]);
+					}
+
 				}else{
 
 					Yii::$app->response->format = Response::FORMAT_JSON;
@@ -481,5 +563,75 @@ class CartController extends FrontendController
 
 	}
 
+	public function actionResponse(){
+		if($_POST){
+			$order = new Orders();
+			$workingKey='';		//Working Key should be provided here.
+			$encResponse= $_POST["encResp"];			//This is the response sent by the CCAvenue Server
+			$rcvdString= $order->decrypt($encResponse,$workingKey);		//Crypto Decryption used as per the specified working key.
+			$order_status="";
+			$decryptValues=explode('&', $rcvdString);
+			$dataSize=sizeof($decryptValues);
+			echo "<pre>";
+			print_r($decryptValues);
+			die;
+			for($i = 0; $i < $dataSize; $i++)
+			{
+				$information=explode('=',$decryptValues[$i]);
+				if($i==3)	$order_status=$information[1];
+			}
 
+			if($order_status==="Success")
+			{
+
+				echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+
+			}
+			else if($order_status==="Aborted")
+			{
+				echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+
+			}
+			else if($order_status==="Failure")
+			{
+				echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+			}
+			else
+			{
+				echo "<br>Security Error. Illegal access detected";
+
+			}
+
+
+		}
+	}
+	public function actionPaymentMethod()
+	{
+		$session = Yii::$app->session;
+		$order = new Orders();
+		if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $order->load(Yii::$app->request->post()) ) {
+			if($order->validate()){
+
+				$session->set('payment_method',$order->payment_method);
+
+
+
+				$cartModel = new Cart();
+				$cart = $cartModel->getFinalCart();
+				$cart['type'] = 'success';
+
+
+				Yii::$app->response->format = trim(Response::FORMAT_JSON);
+				return $cart;
+			}else{
+				$result['type'] = 'error';
+				$result['msg'] = \yii\widgets\ActiveForm::validate($order);
+				Yii::$app->response->format = trim(Response::FORMAT_JSON);
+				return $result;
+
+			}
+
+		}
+
+	}
 }

@@ -187,32 +187,7 @@ $(document).ready(function(){
 
 
 				});
-				$(".address li.step3 button").on('click',function(event){
 
-					var target = $(event.target).next().is(':visible');
-					if (target) {
-						$(this).next().slideUp();
-						$("i", this).removeClass("fa-minus").addClass("fa-plus");
-
-						$(this).removeClass("active");
-						return;
-					}
-					else {
-
-
-
-						$(".address li.step4 span").removeClass("close").addClass("open");
-						$(".address li.step3 span").next().slideUp();
-						$(".address li.step3 span i").removeClass("fa-minus").addClass("fa-plus");
-
-						$(".address li.step4 span").next().slideDown();
-						$("i",".address li.step4 span").addClass("fa-minus").removeClass("fa-plus");
-						$(".address li span").removeClass("active");
-						$(".address li.step4 span").addClass("active");
-					}
-
-
-				});
 			}
 
 

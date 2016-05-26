@@ -153,6 +153,12 @@ $this->params['breadcrumbs'][] = 'invoice';
                         <th>Discount</th>
                         <td><i aria-hidden="true" class="fa fa-inr"></i><?= $orderdetail['discount'] ?></td>
                     </tr>
+                    <?php if($orderdetail['payment_id'] == 1){ ?>
+                    <tr>
+                        <th>COD</th>
+                        <td><i aria-hidden="true" class="fa fa-inr"></i><?= $orderdetail['cod_charge'] ?></td>
+                    </tr>
+                    <?php } ?>
                     <tr>
                         <th>Shipping:</th>
                         <td><i aria-hidden="true" class="fa fa-inr"></i><?= $orderdetail['shipping'] ?></td>

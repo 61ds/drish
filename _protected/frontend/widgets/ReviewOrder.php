@@ -17,7 +17,7 @@ class ReviewOrder extends Widget
     {
         $cartModel = new Cart();
         $cart = $cartModel->getFinalCart();
-
+        $this->order->payment_method = $cart['payment_method'];
         return $this->render('review-order',['items'=>$cart
         ,'order'=>$this->order]);
     }

@@ -28,6 +28,8 @@ use yii\helpers\ArrayHelper;
  */
 class Orders extends \yii\db\ActiveRecord
 {
+
+    public $production_url;
     /**
      * @inheritdoc
      */
@@ -44,7 +46,8 @@ class Orders extends \yii\db\ActiveRecord
         return [
             [['payment_method'], 'required'],
             [['user_id', 'guest_id','discount_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
-            [['price_total', 'delivery_charges', 'grand_total','discount'], 'number'],
+            [['price_total', 'delivery_charges', 'grand_total','discount','cod_charge'], 'number'],
+            [['production_url'],'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'exist', 'skipOnError' => true, 'targetClass' => OrderStatus::className(), 'targetAttribute' => ['status' => 'id']],
             [['payment_method'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_method' => 'id']],
@@ -76,6 +79,7 @@ class Orders extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'guest_id' => 'Guest ID',
             'items_count' => 'Items Count',
+            'cod_charge' => 'COD Charge',
             'price_total' => 'Price Total',
             'delivery_charges' => 'Delivery Charges',
             'grand_total' => 'Grand Total',
@@ -163,6 +167,7 @@ class Orders extends \yii\db\ActiveRecord
         $orderdetail['id'] = $data->id;
         $orderdetail['created_at'] = $data->created_at;
         $orderdetail['payment'] = $data->paymentMethod->method;
+        $orderdetail['payment_id'] = $data->payment_method;
         $orderdetail['status'] = $data->status0->name;
         $orderdetail['status_id'] = $data->status;
         $orderdetail['subtotal'] = $data->price_total;
@@ -262,4 +267,69 @@ class Orders extends \yii\db\ActiveRecord
 
         return $orderdetail;
     }
+
+
+     public function encrypt($plainText,$key)
+    {
+        $secretKey = hextobin(md5($key));
+        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+        $openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
+        $blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, 'cbc');
+        $plainPad = pkcs5_pad($plainText, $blockSize);
+        if (mcrypt_generic_init($openMode, $secretKey, $initVector) != -1)
+        {
+            $encryptedText = mcrypt_generic($openMode, $plainPad);
+            mcrypt_generic_deinit($openMode);
+
+        }
+        return bin2hex($encryptedText);
+    }
+
+    public function decrypt($encryptedText,$key)
+    {
+        $secretKey = hextobin(md5($key));
+        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+        $encryptedText=hextobin($encryptedText);
+        $openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
+        mcrypt_generic_init($openMode, $secretKey, $initVector);
+        $decryptedText = mdecrypt_generic($openMode, $encryptedText);
+        $decryptedText = rtrim($decryptedText, "\0");
+        mcrypt_generic_deinit($openMode);
+        return $decryptedText;
+
+    }
+    //*********** Padding Function *********************
+
+    public function pkcs5_pad ($plainText, $blockSize)
+    {
+        $pad = $blockSize - (strlen($plainText) % $blockSize);
+        return $plainText . str_repeat(chr($pad), $pad);
+    }
+
+    //********** Hexadecimal to Binary function for php 4.0 version ********
+
+    public function hextobin($hexString)
+    {
+        $length = strlen($hexString);
+        $binString="";
+        $count=0;
+        while($count<$length)
+        {
+            $subString =substr($hexString,$count,2);
+            $packedString = pack("H*",$subString);
+            if ($count==0)
+            {
+                $binString=$packedString;
+            }
+
+            else
+            {
+                $binString.=$packedString;
+            }
+
+            $count+=2;
+        }
+        return $binString;
+    }
+
 }

@@ -3,7 +3,7 @@ use frontend\widgets\AddressForm;
 use frontend\widgets\ShippingForm;
 use frontend\widgets\PaymentForm;
 use frontend\widgets\ReviewOrder;
-
+use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 $baseurl = Yii::$app->params['baseurl'];
 
@@ -11,7 +11,7 @@ $baseurl = Yii::$app->params['baseurl'];
 
 $js = <<<JS
 // get the form id and set the event
-$('form#{$order->formName()}').on('beforeSubmit', function(e) {
+$('form#payment-form').on('beforeSubmit', function(e) {
 	var form = $(this);
 	if (form.find('.has-error').length) {
 	  return false;
@@ -23,6 +23,30 @@ $('form#{$order->formName()}').on('beforeSubmit', function(e) {
 		data: form.serialize(),
 		success: function (response) {
 			if(response.type == 'success'){
+			    $(".cod-tr").hide();
+                $(".address li.step4 span").removeClass("close").addClass("open");
+                $(".address li.step3 span").next().slideUp();
+                $(".address li.step3 span i").removeClass("fa-minus").addClass("fa-plus");
+
+                $(".address li.step4 span").next().slideDown();
+                $("i",".address li.step4 span").addClass("fa-minus").removeClass("fa-plus");
+                $(".address li span").removeClass("active");
+                $(".address li.step4 span").addClass("active");
+
+                if(response.payment_method == 1){
+
+                     $(".cod").html(response.cod);
+                     $(".cod-tr").show();
+
+                     $(".discount").html(response.discount);
+                     $(".total").html(response.total);
+                }else{
+                    $(".cod").html(response.cod);
+                     $(".cod-tr").hide();
+
+                     $(".discount").html(response.discount);
+                     $(".total").html(response.total);
+                }
 
 
 			}else{
@@ -84,21 +108,21 @@ $this->registerJs($js);
                   <div class="detail-shipping">
                       <div class="shipping-main">
                           <?php $form = ActiveForm::begin([
-                              'action'=> ['cart/place-order'],
-                              'id'     => $order->formName(),
+                              'action'=> ['cart/payment-method'],
+                              'id'     => 'payment-form',
                               'enableAjaxValidation'   => false,
                           ]);
 
                           ?>
                           <div class="shipping-method">
-                              <?= $form->field($order, 'payment_method')->radioList($order->getPayments(),['class'=>'free-s'])->label(false) ?>
+                              <?= $form->field($payment, 'payment_method')->radioList($payment->getPayments(),['class'=>'free-s'])->label(false) ?>
                           </div>
 
                           <hr class="border-line">
                           <div class="btn-cart red-btn">
-                             <button type="button" class="payment-method-btn">CONTINUE</button>
+                              <?= Html::submitButton('CONTINUE', ['class' => 'payment-method-btn', 'name' => 'pay-button']) ?>
                           </div>
-
+                          <?php ActiveForm::end(); ?>
                       </div>
                   </div>
               </li>
@@ -106,11 +130,12 @@ $this->registerJs($js);
                 <span>4. Order Review<i class="fa fa-plus"></i></span>
                   <div class="detail-shipping">
                       <div class="shipping-main">
+
                           <?= ReviewOrder::widget(['order'=>$order]) ?>
                       </div>
                   </div>
 
-                 <?php ActiveForm::end(); ?>
+
               </li>
               
             </ul>
