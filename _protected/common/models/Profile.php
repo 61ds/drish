@@ -53,19 +53,7 @@ class Profile extends \yii\db\ActiveRecord
             ],
         ];
     }
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['user_id', 'fname', 'lname', 'phone'], 'required'],
-            [['user_id', 'phone', 'created_at', 'updated_at'], 'integer'],
-            [['fname', 'lname'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-        ];
-    }
-
+    
     /**
      * @inheritdoc
      */
