@@ -45,7 +45,7 @@ class User extends UserIdentity
                       
             ['username', 'unique', 'message' => 'This username has already been taken.'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],
-        ];
+          ];
     }
 
     /**
@@ -111,15 +111,7 @@ class User extends UserIdentity
         return $this->hasOne(Role::className(), ['user_id' => 'id']);
     }
 
-    /**
-     * Relation with Article model.
-     * 
-     * @return \yii\db\ActiveQuery
-     */
-    public function getArticles()
-    {
-        return $this->hasMany(Article::className(), ['user_id' => 'id']);
-    }    
+
 
 //------------------------------------------------------------------------------------------------//
 // USER FINDERS
@@ -316,4 +308,54 @@ class User extends UserIdentity
     {
         $this->account_activation_token = null;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBillingAddresses()
+    {
+        return $this->hasMany(BillingAddress::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCarts()
+    {
+        return $this->hasMany(Cart::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(Orders::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReviews()
+    {
+        return $this->hasMany(Review::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShippingAddresses()
+    {
+        return $this->hasMany(ShippingAddress::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfiles()
+    {
+        return $this->hasMany(Profile::className(), ['user_id' => 'id']);
+    }
+
+
 }
