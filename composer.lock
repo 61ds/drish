@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d1363f449e6f3111e860e84ad1529eb0",
-    "content-hash": "f1771c9cd5a23c8f04ad168838b7edd4",
+    "hash": "25b25427b47117cdc7ace34a0e6fab33",
+    "content-hash": "0f5fe11797b48891f58210029b9ecb5a",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -1003,7 +1003,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/c9471b2489feec5534d4ac42cede6ee0677170f8",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/fb36b8051b7bb13520171fe234a7f3ad6a10c116",
                 "reference": "c9471b2489feec5534d4ac42cede6ee0677170f8",
                 "shasum": ""
             },

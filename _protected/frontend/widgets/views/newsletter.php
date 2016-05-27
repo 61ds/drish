@@ -43,7 +43,7 @@ $this->registerJs($js);
  <div class="news-section">
 	<?php $form = ActiveForm::begin([
 		'id' => $model->formName(),
-		'action' => ['site/newsletter'],
+		'action' => ['account/newsletter'],
 		'enableAjaxValidation' => false,		
 	]); ?>
 	 <h1>Newsletter<br>
