@@ -183,10 +183,10 @@ class Orders extends \yii\db\ActiveRecord
             $orderdetail['usertype'] = 'User Details';
             $add = BillingAddress::find()->where(['user_id'=>$data->user_id])->one();
             $ship = ShippingAddress::find()->where(['user_id'=>$data->user_id])->one();
-            $profile = Profile::find()->where(['user_id'=>$data->user_id])->one();
-            $orderdetail['fname'] = $profile->fname;
-            $orderdetail['lname'] = $profile->lname;
-            $orderdetail['phone'] = $profile->phone;
+
+            $orderdetail['fname'] = $data->user->profiles->fname;
+            $orderdetail['lname'] = $data->user->profiles->lname;
+            $orderdetail['phone'] = $data->user->profiles->phone;
             $orderdetail['email'] = $data->user->email;
             $orderdetail['id'] = $data->user_id;
 

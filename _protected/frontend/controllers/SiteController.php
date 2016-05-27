@@ -23,6 +23,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SearchForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Profile;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -335,14 +336,17 @@ class SiteController extends Controller
         // if 'rna' value is 'true', we instantiate SignupForm in 'rna' scenario
         $model = $rna ? new SignupForm(['scenario' => 'rna']) : new SignupForm();
 
-
+        $profile = new Profile();
         // collect and validate user data
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post()))
         {
+
             $model->status =10;
             // try to save user data in database
             if ($user = $model->signup())
             {
+                $profile->user_id = $user->id;
+                $profile->save();
 
                 // if user is active he will be logged in automatically ( this will be first user )
                 if ($user->status === User::STATUS_ACTIVE)

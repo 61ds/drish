@@ -1,23 +1,23 @@
 <?php
 
 namespace common\models;
-
-use Yii;
-use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use Yii;
+
 /**
  * This is the model class for table "profile".
  *
  * @property integer $id
+ * @property integer $user_id
  * @property string $fname
  * @property string $lname
  * @property integer $phone
- * @property integer $user_id
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property User $user
+ * @property User[] $users
  */
 class Profile extends \yii\db\ActiveRecord
 {
@@ -28,6 +28,8 @@ class Profile extends \yii\db\ActiveRecord
     {
         return 'profile';
     }
+<<<<<<< HEAD
+=======
 
     /**
      * @inheritdoc
@@ -41,6 +43,7 @@ class Profile extends \yii\db\ActiveRecord
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
+>>>>>>> 2acd62884a0953ac2bbbe21da598e9de193cceb2
     public function behaviors()
     {
         return [
@@ -56,14 +59,27 @@ class Profile extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function rules()
+    {
+        return [
+            [['user_id', 'fname', 'lname', 'phone'], 'required'],
+            [['user_id', 'phone', 'created_at', 'updated_at'], 'integer'],
+            [['fname', 'lname'], 'string', 'max' => 255],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'fname' => 'First Name',
-            'lname' => 'Last Name',
-            'phone' => 'Phone No.',
             'user_id' => 'User ID',
+            'fname' => 'Fname',
+            'lname' => 'Lname',
+            'phone' => 'Phone',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -76,4 +92,21 @@ class Profile extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-}
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['profile_id' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return ProfileQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new ProfileQuery(get_called_class());
+    }
+} 
