@@ -1,6 +1,8 @@
 <?php 
 use yii\helpers\Url;
+use frontend\widgets\Sorting;
 ?>
+<div class="loading_gif" style="display:none;"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/ajax-loader.gif"></div>
 <section class="caterogy-area-outer">
    <div class="container-fluid cate-pad">
 	<?php  if($category){ 
@@ -54,7 +56,7 @@ use yii\helpers\Url;
       </div>
       <div class="row">
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <a href="#" class="item-numer"> 55 Items</a>
+            <a href="#" class="item-numer"><?php if($products) { echo count($products[0]); }else { echo "0"; } ?></a>
          </div>
       </div>
       <!-- end of 55 items-->
@@ -62,84 +64,13 @@ use yii\helpers\Url;
          <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                <div class="product-list">
-                  <div class="tool-tip">
-                     <p class="shop-text">Shop By</p>
-                     <div class="range-slider">
-                        <div class="range-block">
-                           <h6>Price</h6>
-                           <h6 class="range-text">Range:</h6>
-                        </div>
-                        <div class="range-prize">
-                           <div style="position: relative; padding: 200px;">
-                              <div>
-                                 <input type="text" id="range" value="" name="range" />
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="c-s-w">
-                     <div class="color">
-                        <select id="selectmenu">
-                           <option>Color</option>
-                           <option>Slow</option>
-                           <option selected="selected">Color</option>
-                           <option>Fast</option>
-                           <option>Faster</option>
-                        </select>
-                     </div>
-                     <div class="color">
-                        <select id="selectmenu-1">
-                           <option>Size</option>
-                           <option>Slow</option>
-                           <option selected="selected">Size</option>
-                           <option>Fast</option>
-                           <option>Faster</option>
-                        </select>
-                     </div>
-                     <div class="color">
-                        <select id="selectmenu-2">
-                           <option>Width</option>
-                           <option>Slow</option>
-                           <option selected="selected">Width</option>
-                           <option>Fast</option>
-                           <option>Faster</option>
-                        </select>
-                     </div>
-                  </div>
-                  <div class="view-bar">
-                     <ul>
-                        <li><a href="#">View As</a></li>
-                        <li><a href="#"><i class="fa fa-th-large"></i></a></li>
-                        <li><a href="#"><i class="fa fa-list"></i></a></li>
-                     </ul>
-                  </div>
-                  <div class="show-select">
-                     <div class="color sort c-s">
-                        <select id="selectmenu-3">
-                           <option>Width</option>
-                           <option>Slow</option>
-                           <option selected="selected">Shop</option>
-                           <option>Fast</option>
-                           <option>Faster</option>
-                        </select>
-                     </div>
-                     <div class="color sort sort-by ">
-                        <select id="selectmenu-6">
-                           <option>Shop By</option>
-                           <option>Slow</option>
-                           <option selected="selected">Sort By</option>
-                           <option>Fast</option>
-                           <option>Faster</option>
-                        </select>
-                     </div>
-                  </div>
+                  <?= Sorting::widget() ?> 
                </div>
             </div>
          </div>
       </div>
       <!-- end of range slider-->   
-      <div class="row">
+      <div class="row" id="product_div">
 		<?php 
 			$i =1; 
 			if($products){
@@ -170,7 +101,7 @@ use yii\helpers\Url;
 						</div>
 			<?php	}else{ ?>
 			<div class="col-lg-3 col-sm-4 col-md-4 col-xs-12 braided-flip">
-            <a href="product.html">
+            <a href="<?= Url::to(["men/product","slug"=>$product->slug ]) ?>">
                <div class="braided-main">
                   <div class="braided-img">
                      <ul class="braided-heart">
@@ -217,12 +148,7 @@ use yii\helpers\Url;
       <div class="shop-by select-foter">
          <div class="row">
             <div class="col-lg-5 col-md-7 col-sm-7 col-xs-12">
-               <ul class="view-bar f-view">
-                  <li><a href="#">View As</a></li>
-                  <li><a href="#"><i class="fa fa-th-large"></i></a></li>
-                  <li><a href="#"><i class="fa fa-list"></i></a></li>
-               </ul>
-               <div class="f-c-s">
+               <!--div class="f-c-s">
                   <div class="color f-color">
                      <select id="selectmenu-4">
                         <option>Show</option>
@@ -241,7 +167,7 @@ use yii\helpers\Url;
                         <option>Faster</option>
                      </select>
                   </div>
-               </div>
+               </div-->
             </div>
             <div class="col-lg-7 col-md-5 col-sm-5 col-xs-12">
                <ul class="pagination categ-page">

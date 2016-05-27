@@ -41,16 +41,13 @@ class CatAsset extends AssetBundle
         'css/jquery.mmenu.all.css',
     ];
     public $js = [
-
-        'js/jquery-1.11.3.min.js',
+		'js/bootstrap.min.js',
         'js/ion.rangeSlider.js',
         'js/jquery.bxslider.min.js',
         'js/jquery-ui.js',
-        'js/bootstrap.min.js',
         'js/custom.js',
         'js/jquery.mmenu.all.min.js',
         'js/bootstrap-slider.js',
-        'js/bootstrap.min.js',
     ];
 
     public $depends = [

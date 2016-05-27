@@ -1,5 +1,6 @@
 <?php
 use frontend\widgets\HomeMenuMain;
+use frontend\widgets\Search;
 use frontend\widgets\CartProductCounter;
 use yii\helpers\Url;
 ?>
@@ -51,8 +52,7 @@ use yii\helpers\Url;
                         </div>
                         <!--end col-lg-5-->
                         <div class="col-lg-2 col-md-1 col-sm-1 col-xs-1 border-serach">
-                           <div class="search-right mob-serach">   <input type="search" placeholder="Search" class="search-txt"></div>
-                           <span class="f-mob-search"><i class="fa fa-search"></i></span>
+                           <?= Search::widget(['type'=>'second']) ?>
                         </div>
                         <!--end col-lg-1-->         
                         <div class="col-lg-1 col-md-2 col-sm-2 col-xs-4 col-padding login-detail">
