@@ -28,8 +28,6 @@ class Profile extends \yii\db\ActiveRecord
     {
         return 'profile';
     }
-<<<<<<< HEAD
-=======
 
     /**
      * @inheritdoc
@@ -43,7 +41,6 @@ class Profile extends \yii\db\ActiveRecord
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
->>>>>>> 2acd62884a0953ac2bbbe21da598e9de193cceb2
     public function behaviors()
     {
         return [
