@@ -72,8 +72,7 @@ class DropdownValues extends \yii\db\ActiveRecord
     }
 	
 	public function getAttrValues($id=0){		
-		$attrvalues = DropdownValues::find()->where(['attribute_id' => $id])->orderBy('sort_order')->all();	
-		
+		$attrvalues = DropdownValues::find()->where(['attribute_id' => $id])->orderBy('sort_order')->all();
 		$arr = array();
 		foreach($attrvalues as $val){
 			$values[] = ['id'=>$val->id,'name'=>$val->name];

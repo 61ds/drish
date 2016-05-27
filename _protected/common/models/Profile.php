@@ -37,7 +37,7 @@ class Profile extends \yii\db\ActiveRecord
         return [
             [['fname', 'lname', 'phone'], 'required'],
             [['phone', 'user_id','created_at', 'updated_at'], 'integer'],
-            [['fname', 'lname'], 'string', 'max' => 255],
+            [['fname', 'lname', 'wishlist'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

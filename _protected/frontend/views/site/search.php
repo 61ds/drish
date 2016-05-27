@@ -2,61 +2,11 @@
 use yii\helpers\Url;
 use frontend\widgets\Sorting;
 ?>
-<div class="loading_gif" style="display:none;"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/ajax-loader.gif"></div>
 <section class="caterogy-area-outer">
    <div class="container-fluid cate-pad">
-	<?php  if($category){ 
-		$categorys = $category->find()->where(['id'=>$category->id, 'active' =>1])->one();
-			$parents = $categorys->parents()->all();
-				$sub_children = $categorys->children(1)->all();
-					if($sub_children){
-					?>
       <div class="row">
          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="cate-nav">
-               <ul>
-			   <?php 
-				    
-						if($parents){ 
-						foreach($sub_children as $category){
-							if(count($parents) == 2){ 
-								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[1]->slug ]) ?>"><?= $category->name ?></a></li><?php
-							}else if(count($parents) == 1){ 
-								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[0]->slug ]) ?>"><?= $category->name ?></a></li><?php
-							}else{  
-								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li><?php
-							}
-							?>
-						
-						<?php
-						}
-						} else{
-							foreach($sub_children as $category){?>
-							<li> <a href="<?= Url::to(['site/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li>
-							<?php
-							}
-						}
-				?>
-               </ul>
-            </div>
-         </div>
-      </div>
-		<?php }
-		} ?>
-      <div class="row">
-         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1><?= $categorys->name ?></h1>
-            <div class="bredcrumb-nav">
-               <ul>
-                  <li><a href="<?= Yii::$app->homeUrl ?>">Home</a></li>
-                  <li><a href="<?= Url::to(['site/category','slug'=>$slug]) ?>"><?= $categorys->name ?></a></li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <div class="row">
-         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <a href="#" class="item-numer"><?php if($products) { echo count($products[0]); }else { echo "0"; } ?></a>
+            <a href="#" class="item-numer"> <?php if($products) { echo count($products[0]); }else { echo "0"; } ?> Items</a>
          </div>
       </div>
       <!-- end of 55 items-->
@@ -64,8 +14,8 @@ use frontend\widgets\Sorting;
          <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                <div class="product-list">
-                  <?= Sorting::widget() ?> 
-               </div>
+                 <?= Sorting::widget() ?> 
+				</div>
             </div>
          </div>
       </div>
@@ -101,7 +51,7 @@ use frontend\widgets\Sorting;
 						</div>
 			<?php	}else{ ?>
 			<div class="col-lg-3 col-sm-4 col-md-4 col-xs-12 braided-flip">
-            <a href="<?= Url::to(["men/product","slug"=>$product->slug ]) ?>">
+            <a href="product.html">
                <div class="braided-main">
                   <div class="braided-img">
                      <ul class="braided-heart">
@@ -148,6 +98,7 @@ use frontend\widgets\Sorting;
       <div class="shop-by select-foter">
          <div class="row">
             <div class="col-lg-5 col-md-7 col-sm-7 col-xs-12">
+              
                <!--div class="f-c-s">
                   <div class="color f-color">
                      <select id="selectmenu-4">

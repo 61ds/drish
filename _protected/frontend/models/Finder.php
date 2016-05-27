@@ -1,44 +1,32 @@
 <?php
 
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+
 /**
- * This is the model class for table "product".
+ * This is the model class for table "university".
  *
  * @property integer $id
  * @property string $name
- * @property integer $category_id
- * @property integer $quantity
- * @property integer $price
- * @property integer $market_price
- * @property string $descr
- * @property string $short_descr
+ * @property string $sname
+ * @property integer $uni_type_id
+ * @property integer $city_id
+ * @property integer $state_id
+ * @property integer $country_id
+ * @property string $logo
  * @property integer $status
- * @property integer $soldout
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $meta_title
- * @property string $meta_description
- * @property string $meta_keyword
  *
- * @property Category $category
+ * @property Cities $city
+ * @property UniType $uniType
  */
-class Product extends \yii\db\ActiveRecord
+class Finder extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-
-    public $category;
+	 public $category;
     public $step;
     public $general_attrs;
-    public $color;
-    public $width;
-    public $size;
     public $optional_attrs;
     public $feat_image;
 

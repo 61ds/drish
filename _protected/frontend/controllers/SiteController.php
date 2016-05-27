@@ -1,12 +1,14 @@
 <?php
 namespace frontend\controllers;
-
+use yii\helpers\Url;
 use common\models\User;
 use common\models\LoginForm;
 use common\models\Pages;
 use common\models\Newsletter;
 use common\models\Product;
 use common\models\Cart;
+use common\models\VarientProduct;
+use common\models\Review;
 use common\models\ProductImages;
 use common\models\ProductPageSetting;
 use common\models\ProductDropdownValues;
@@ -18,6 +20,7 @@ use common\models\Attributes;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
+use frontend\models\SearchForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\helpers\Html;
@@ -484,87 +487,5 @@ class SiteController extends Controller
 		return $this->render('page', [
                 'model' => $page,
             ]);
-	}
-	public function actionCategory($slug,$main=0,$submain = 0){
-		$this->layout="category";
-		
-		if($main){
-			$parent_main = Category::find()->where(['slug' =>$main ])->one();
-			$cat = Category::find()->where(['slug' =>$slug,'root' => $parent_main->id])->one();
-			/* $cat_childs = $parent_main->children(1)->all();
-			foreach($cat_childs as $cat_child){
-				if( $cat_child->id == $cat->id ){
-					
-				}
-			} */
-			if($submain){
-				$parent_submain = Category::find()->where(['slug' =>$submain ])->one();
-			}
-		}else{
-			$cat = Category::find()->where(['slug' =>$slug])->one();	
-		} 
-		
-		$products = array();
-		$productimage = new ProductImages;
-		if($cat){
-		$cat_child = $cat->children(1)->all();
-		
-		$products1 = Product::find()->where(['category_id' => $cat->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
-		
-		if($products1){
-			$products[] = $products1;
-		}
-		if($cat_child){
-			foreach($cat_child as $cat_sub_child){
-				$cat_subchild = $cat_sub_child->children(1)->all();
-				$products2 = Product::find()->where(['category_id' => $cat_sub_child->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
-				if($products2){
-					$products[] = $products2;
-				}
-				if($cat_subchild){
-					foreach($cat_subchild as $cat_subchild1){
-						$cat_subchilds = $cat_subchild1->children(1)->all();
-						$products3 = Product::find()->where(['category_id' => $cat_subchild1->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
-						if($products3){
-							$products[] = $products3;
-						}
-						if($cat_subchilds){
-							foreach($cat_subchilds as $cat_subchilds1){
-							$products4 = Product::find()->where(['category_id' => $cat_subchilds1->id])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
-							if($products4){
-									$products[] = $products4;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		}
-		return $this->render('category', [
-           'products' => $products,
-           'productimage' => $productimage,
-           'category' => $cat,
-           'main' => $main,
-           'submain' => $submain,
-           'slug' => $slug,
-        ]);
-	}
-	public function actionNewsletter()
-	{	
-		$model = new Newsletter;
-		if($model->load(Yii::$app->request->post()))
-		{
-			$model->status = 0;
-			$model->save();
-			$result = 'success';
-			Yii::$app->response->format = trim(Response::FORMAT_JSON);
-			return $result;
-		}else{
-			$error = \yii\widgets\ActiveForm::validate($model);
-			Yii::$app->response->format = trim(Response::FORMAT_JSON);
-			return $error; 
-		}		
- 
 	}
 }
