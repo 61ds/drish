@@ -3785,3 +3785,14 @@ border: 1px solid #000;
 .bg-select li:first-child {
   padding: 6px 0 0;
 }
+
+.checkout-guest,#shipping-address-form,#new-account-form{
+  display:none;
+}
+.discount form{
+  width:100%;
+}
+.discount span {
+  font-size: 18px;
+  padding-right: 46px;
+}

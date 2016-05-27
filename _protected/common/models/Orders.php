@@ -173,6 +173,7 @@ class Orders extends \yii\db\ActiveRecord
         $orderdetail['subtotal'] = $data->price_total;
         $orderdetail['discount'] = $data->discount;
         $orderdetail['shipping'] = $data->delivery_charges;
+        $orderdetail['cod_charge'] = $data->cod_charge;
         $orderdetail['total'] = $data->grand_total;
         if($data->payment_status)
             $orderdetail['payment_status'] = 'Paid';

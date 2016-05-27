@@ -354,7 +354,7 @@ class User extends UserIdentity
      */
     public function getProfiles()
     {
-        return $this->hasMany(Profile::className(), ['user_id' => 'id']);
+        return $this->hasOne(Profile::className(), ['user_id' => 'id']);
     }
 
 

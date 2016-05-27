@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'attribute' => 'user_id',
                                     'value' => function ($model) {
                                         if ($model->user_id) {
-                                            return $model->user->fname.' '.$model->user->lname;
+                                            return $model->user->profiles->fname.' '.$model->user->profiles->lname;
                                         } else {
                                             return 'Not user';
                                         }

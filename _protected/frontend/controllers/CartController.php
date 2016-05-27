@@ -5,6 +5,7 @@ use common\models\DiscountCode;
 use common\models\GuestUser;
 use common\models\OrderItems;
 use common\models\PaymentMethods;
+use common\models\Profile;
 use common\models\User;
 use frontend\models\DiscountForm;
 use frontend\models\SignupForm;
@@ -209,6 +210,7 @@ class CartController extends FrontendController
 				if ($guestModel->new_account == 1) {
 					if (!$session->has('userid')) {
 						$userModel = new User();
+						$profileModel = new Profile();
 
 						$userModel->username = $billingModel->email;
 						$userModel->email = $billingModel->email;
@@ -223,7 +225,11 @@ class CartController extends FrontendController
 
 
 						if ($userModel->save() && RbacHelper::assignRole($userModel->getId()) ? $userModel : null) {
-
+							$profileModel->user_id = $userModel->id;
+							$profileModel->fname = $billingModel->fname;
+							$profileModel->lname = $billingModel->lname;
+							$profileModel->phone = $billingModel->phone;
+							$profileModel->save();
 
 						} else {
 							Yii::$app->response->format = Response::FORMAT_JSON;
