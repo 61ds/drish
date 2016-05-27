@@ -34,11 +34,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                 // 'uses_per_customer',
                                  'start_date:Date',
                                  'end_date:Date',
-                                // 'discount_type',
+                                 //'discount_type',
                                 // 'discount_amount',
                                 // 'quantity',
                                  'quantity_used',
                                  'quantity_left',
+                                [
+                                    'attribute' => 'discount_choice',
+                                    'value' => function ($model) {
+
+                                            $choices =  array('0'=>'Normal','1'=>'Buy one get discount on minimum second product','2'=>'Buy one get discount on all other product','3'=>'minimum amount','4'=>'buy 1 get special product discount');
+
+                                            return $choices[$model->discount_choice];
+
+                                    },
+                                    'contentOptions' => ['style' => 'width:160px;text-align:center'],
+                                    'format' => 'raw',
+                                    'filter'=> array('0'=>'Normal','1'=>'Buy one get discount on minimum second product','2'=>'Buy one get discount on all other product','3'=>'minimum amount','4'=>'buy 1 get special product discount'),
+                                ],
+
                                 [
                                     'attribute' => 'locked',
                                     'value' => function ($model) {
