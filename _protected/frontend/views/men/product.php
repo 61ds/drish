@@ -1,6 +1,7 @@
 <?php
 use frontend\widgets\RelatedProducts;
 use frontend\widgets\SpecialProducts;
+use frontend\widgets\Reviews;
 use frontend\widgets\CartForm;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -154,48 +155,12 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
                         </div>
 
                         <div class="tab-pane fade" id="menu1">
-                            <div class="review-form">
-                                <h4>You're reviewing: <span>Casual Suede Toddler Sneakers</span></h4>
-                                <h6>How do you rate this product? <em class="required">*</em></h6>
-                                <table class="data-table col-md-12 table table-striped" id="product-review-table">
-
-                                    <tbody>
-                                    <tr class="first last odd">
-                                        <th data-title=" star">Quality</th>
-                                        <td class="value" data-title="1 star"><input type="radio" name="ratings[1]" id="Quality_1" value="1" class="radio"> 1star</td>
-                                        <td class="value" data-title="2 star"><input type="radio" name="ratings[1]" id="Quality_2" value="2" class="radio">2star</td>
-                                        <td class="value" data-title="3 star"><input type="radio" name="ratings[1]" id="Quality_3" value="3" class="radio">3star</td>
-                                        <td class="value" data-title="4 star"><input type="radio" name="ratings[1]" id="Quality_4" value="4" class="radio">4star</td>
-                                        <td class="value last" data-title="5 star"><input type="radio" name="ratings[1]" id="Quality_5" value="5" class="radio">5star</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <ul class="form-list">
-                                    <li>
-                                        <label for="nickname_field" class="required"><em>*</em>Nickname</label>
-                                        <div class="input-box form-group">
-                                            <input type="text" name="nickname" id="nickname_field" class="input-text required-entry form-control" value="">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <label for="summary_field" class="required"><em>*</em>Summary of Your Review</label>
-                                        <div class="input-box form-group">
-                                            <input type="text" name="title" id="summary_field" class="input-text required-entry form-control" value="">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <label for="review_field" class="required"><em>*</em>Review</label>
-                                        <div class="input-box form-group">
-                                            <textarea name="detail" id="review_field" rows="3" class="required-entry form-control"></textarea>
-                                        </div>
-                                    </li>
-                                </ul>                        <div class="buttons-set">
-                                    <button type="submit" title="Submit Review" class="button btn btn-kids"><span><span>Submit Review</span></span></button>
-                                </div>
-
-
-                            </div>
-                        </div>
+						<?php  if (!Yii::$app->user->isGuest) { ?>
+						   <?= Reviews::widget(['product_id' => $model->id]) ?>
+						<?php } else{
+							echo'<h3>Please Login For Write Review !</h3>';
+						} ?>
+						  </div>
 
                     </div>
                 </div>

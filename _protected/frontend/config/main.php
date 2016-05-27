@@ -34,9 +34,9 @@ return [
                 '/men.html' => 'men/index',
                 '/women.html' => 'women/index',
                 '/kids.html' => 'children/index',				
-				'/category/<main:.*?>/<submain:.*?>/<slug:.*?>.html'=>'/site/category',
-				'/category/<main:.*?>/<slug:.*?>.html'=>'/site/category',
-                '/category/<slug:.*?>.html'=>'/site/category',
+				'/category/<main:.*?>/<submain:.*?>/<slug:.*?>.html'=>'/finder/category',
+				'/category/<main:.*?>/<slug:.*?>.html'=>'/finder/category',
+                '/category/<slug:.*?>.html'=>'/finder/category',
                 '/product/<slug:.*?>.html'=>'/men/product',
                 
                 '/<slug:.*?>.html'=>'/site/page',

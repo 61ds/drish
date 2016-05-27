@@ -3,6 +3,7 @@ use frontend\widgets\HomeMenuLeft;
 use frontend\widgets\SliderWid;
 use frontend\widgets\CartProductCounter;
 use yii\helpers\Url;
+use frontend\widgets\Search;
 ?>
 
 <div class="slide-content">
@@ -28,12 +29,7 @@ use yii\helpers\Url;
                            </div>
                            <!--col-lg-1-->                  
                            <div class="col-lg-2 col-md-3 col-sm-4 search-main">
-                              <div class="input-group search-bar-home">
-                                 <input type="text" class="form-control" placeholder="Search products" name="q">
-                                 <div class="input-group-btn search-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                                 </div>
-                              </div>
+						      <?= Search::widget(['type'=>'first']) ?>
                            </div>
                            <!--col-lg-2-->                     
                            <div class="col-lg-2 col-md-2 col-sm-2 cart-top-header">
@@ -98,7 +94,7 @@ use yii\helpers\Url;
                      <!--end container-fluid-->                     
                   </header>
                   <div class="slider-text">
-                     <h1>World’s best leather shoe on your feet<br><span>This winter 2015/16</span></h1>
+                     <h1>World's best leather shoe on your feet<br><span>This winter 2015/16</span></h1>
                      <a href="#"><button type="button" class="shop_btn">View collection | Shop now</button></a>
                   </div>
                   <!-- end of header-->

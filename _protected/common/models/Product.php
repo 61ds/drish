@@ -36,6 +36,9 @@ class Product extends \yii\db\ActiveRecord
     public $category;
     public $step;
     public $general_attrs;
+    public $color;
+    public $width;
+    public $size;
     public $optional_attrs;
     public $feat_image;
 
