@@ -1,15 +1,16 @@
 <?php
-
 namespace frontend\controllers;
-
+use yii\helpers\Url;
+use common\models\User;
+use common\models\Product;
+use yii\helpers\Html;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+use yii\web\Controller;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use Yii;
 use yii\web\Response;
-use yii\web\Controller;
-use common\models\Wishlist;
-use yii\filters\VerbFilter;
-use common\models\WishlistSearch;
-use yii\web\NotFoundHttpException;
-use common\models\Product;
 
 /**
  * WishlistController implements the CRUD actions for Wishlist model.
@@ -32,55 +33,16 @@ class WishlistController extends Controller
      * Lists all Wishlist models.
      * @return mixed
      */
-    public function actionIndex()
-    {
-        $searchModel = new WishlistSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Wishlist model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Wishlist model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Wishlist();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->client_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+    
 	public function actionRemove($id)
     {
 		if(Yii::$app->user->isGuest){
 			return $this->redirect("/site/index"); 
 			}else{
 			$client_id = Yii::$app->user->identity->id;
-			if (($model = Wishlist::findOne(['client_id'=> $client_id])) !== null) {
+			if (($model = Profile::findOne(['user_id'=> $client_id])) !== null) {
 				$product = UniversityCourses::find()->where(['id'=>$id])->one();
-				$products = unserialize($model->products);
+				$products = unserialize($model->uni_courses);
 				if(!in_array($product->id, $products)){
 					$result = "This course is not present in your wishlist";
 					$label = "Add to Wishlist";
@@ -92,7 +54,7 @@ class WishlistController extends Controller
 					if(($key = array_search($product->id, $products)) !== false) {
 						unset($products[$key]);
 						}
-						$model->products = serialize($products);
+						$model->uni_courses = serialize($products);
 						$model->save();
 						Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Course has been removed from your Wishlist!'));
 						return $this->redirect("/account/mywishlist"); 
@@ -105,7 +67,7 @@ class WishlistController extends Controller
        $request = Yii::$app->request;
        if ($request->isAjax) {
 			$id = Yii::$app->request->post('pid');
-			$product = Product::find()->where(['id'=>$id])->one();
+			$product = UniversityCourses::find()->where(['id'=>$id])->one();
 			$type = Yii::$app->request->post('isadded');
 			if(Yii::$app->user->isGuest){
 			$result = "Please login/register to create wishlist";
@@ -122,26 +84,26 @@ class WishlistController extends Controller
 			$client_id = Yii::$app->user->identity->id;
 			if($type=="true"){
 				if (($model = Wishlist::findOne(['client_id' => $client_id])) !== null) {
-					$products = unserialize($model->products);
+					$products = unserialize($model->uni_courses);
 					if (!in_array($product->id, $products)) {
 						$products[] = $product->id;
-						$result = "Product is added to your wishlist";
+						$result = "Course is added to your wishlist";
 						$label = "Remove from Wishlist";
 						$enabled = "false";
 						$success = true;
 					} else {
-						$result = "This Product is already added to your wishlist";
+						$result = "This course is already added to your wishlist";
 						$label = "Remove from Wishlist";
 						$enabled = "false";
 						$success = false;
 					}
 					sort($products);
-					$model->products = serialize($products);
+					$model->uni_courses = serialize($products);
 					
 				} else {
 					$model = new Wishlist();
 					$model->client_id = $client_id;
-					$model->products = serialize(array($product->id));
+					$model->uni_courses = serialize(array($product->id));
 					$result = "Course is added to your wishlist";
 					$label = "Remove from Wishlist";
 					$enabled = "false";
@@ -164,11 +126,11 @@ class WishlistController extends Controller
 			} else {
 				if (($model = Wishlist::findOne(['client_id'=> $client_id])) !== null) {
 					
-					$products = unserialize($model->products);
+					$products = unserialize($model->uni_courses);
 					
 					if(!in_array($product->id, $products)){
 						
-						$result = "This Product is not present in your wishlist";
+						$result = "This course is not present in your wishlist";
 						$label = "Add to Wishlist";
 						$enabled = "true";
 						$success = false;
@@ -176,12 +138,12 @@ class WishlistController extends Controller
 						if(($key = array_search($product->id, $products)) !== false) {
 							unset($products[$key]);
 							}
-						$result = "This Product is removed from your wishlist";
+						$result = "This course is removed from your wishlist";
 						$label = "Add to Wishlist";
 						$enabled = "true";
 						$success = true;
 					}				
-					$model->products = serialize($products);
+					$model->uni_courses = serialize($products);
 					$model->save();
 					if($success==true){
 						$count = Wishlist::getCoursesCount($client_id);
@@ -190,7 +152,7 @@ class WishlistController extends Controller
 					}
 					
 				} else {
-					$result = "This Product is not present in your wishlist";
+					$result = "This course is not present in your wishlist";
 					$label = "Add to Wishlist";
 					$enabled = "true";
 					$success = false;
