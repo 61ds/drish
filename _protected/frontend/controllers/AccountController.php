@@ -3,27 +3,11 @@ namespace frontend\controllers;
 use yii\helpers\Url;
 use common\models\User;
 use common\models\LoginForm;
-use common\models\Pages;
 use common\models\Newsletter;
 use common\models\Product;
 use common\models\Profile;
+use common\models\Orders;
 use common\models\Cart;
-use common\models\VarientProduct;
-use common\models\Review;
-use common\models\ProductImages;
-use common\models\ProductPageSetting;
-use common\models\ProductDropdownValues;
-use common\models\Category;
-use common\models\ProductTextValues;
-use common\models\ProductDescValues;
-use common\models\DropdownValues;
-use common\models\Attributes;
-use frontend\models\AccountActivation;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SearchForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -37,7 +21,7 @@ use yii\web\Response;
  * It is responsible for displaying static pages, logging users in and out,
  * sign up and account activation, password reset.
  */
-class AccountController extends Controller
+class AccountController extends FrontendController
 {
     /**
      * Returns a list of behaviors that this component should behave as.
@@ -94,60 +78,6 @@ class AccountController extends Controller
 // STATIC PAGES
 //------------------------------------------------------------------------------------------------//
 
-	public function actionWishlist()
-	{
-		$model =  new Profile();
-
-        // collect and validate user data
-        if (Yii::$app->request->isAjax )
-        {
-			if(Yii::$app->user->isGuest){
-				$result = "Please Login First";
-				$label = "Please Login First";
-				$enabled = "false";
-				$success = true;
-				return $result;
-			}else{
-				$id = Yii::$app->request->post('prodid');
-				$data = $model->find()->where(['user_id' => Yii::$app->user->identity->id])->one();
-				$id_array = array();
-				if($data){
-					$ids = unserialize($data->wishlist);
-					if($ids){
-						if (!in_array($id, $ids)) {
-							$ids[] = $id;
-							$data->wishlist = serialize($ids);
-							$data->save();
-							$result = "Product is added to your wishlist";
-							$label = "Remove from Wishlist";
-							$enabled = "false";
-							$success = true;
-							return $result;
-						} else {
-							$result = "This Product is already added to your wishlist";
-							$label = "Remove from Wishlist";
-							$enabled = "false";
-							$success = false;
-							return $result;
-						}
-						$data->save();
-						$result = 'success';
-						Yii::$app->response->format = trim(Response::FORMAT_JSON);
-						return $result;
-					}else{
-						$id_array[] = $id;
-						$id_wish = serialize($id_array);
-						$data->wishlist = $id_wish;
-						$data->save();
-						$result = 'success';
-						Yii::$app->response->format = trim(Response::FORMAT_JSON);
-						return $result;
-					}
-				}
-			}
-		}
-	}
-	
 	public function actionNewsletter()
 	{	
 		$model = new Newsletter;
@@ -209,4 +139,66 @@ class AccountController extends Controller
             'model' => $model,
         ]);
     }
+	public function actionIndex()
+    { 
+		return $this->render('index');
+    }
+	
+    public function actionDashboard()
+    { 
+		return $this->render('dashboard');
+    }
+
+    public function actionInformation()
+    { 
+
+		$userId = \Yii::$app->user->identity->id;
+		$profile = Profile::find()->where(['user_id' => $userId])->one();
+
+		if (Yii::$app->request->isAjax && $profile->load(Yii::$app->request->post()))
+		{	
+
+			if($profile->save()){
+				Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Account Information updated successfully!'));
+				return $this->redirect(['account/information']);
+			}else{
+				Yii::$app->response->format = Response::FORMAT_JSON;
+				return ActiveForm::validate($profile);
+			}
+				
+		}	
+		return $this->render('information',['profile' => $profile]);
+    }
+
+    public function actionAddress()
+    { 
+		return $this->render('address');
+    }
+
+    public function actionNotifications()
+    { 
+		return $this->render('notifications');
+    }	
+
+	public function beforeAction($action)
+	{
+		$this->layout = 'account'; 
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}
+		return parent::beforeAction($action);
+	}	
+	
+	public function actionOrders()
+    { 
+		$app_model = new Orders;
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}		
+		$model = $app_model->find()->where(['user_id' => \Yii::$app->user->identity->id])->all();
+		return $this->render('applications',[
+			"model" => $model,
+		]);
+    }
+
 }
