@@ -2,21 +2,10 @@
 use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\helpers\Url;
 
-$url = URL::to(['account/wishlist']);
+
 $js = <<<JS
-$('#add_wishlist').click(function(){
-	var prod_id = $(this).attr('data-id');
-	$.ajax({
-		url: '{$url}',
-		type: 'post',
-		data: {prodid : prod_id },
-		success: function (response) {						
-			alert(response);				
-		}
-	});
-});
+
 
 // get the form id and set the event
 $('form#{$cart->formName()}').on('beforeSubmit', function(e) {
@@ -139,7 +128,7 @@ $baseurl = Yii::$app->params['baseurl'];
 	</div>
 
 	<div class="wish-list">
-		<p id='add_wishlist' data-id= '<?= $model->id ?>'><span class="wish-img" ><img title="wish-list" alt="wish-list" src="<?= Yii::$app->params['baseurl'] ?>/images/add-wishlist.png"></span>Add to Wishlist</p>
+		<p id='add_wishlist' class="addToWishlist wishlist" data-id= '<?= $model->id ?>' data-is-enabled="<?= $wishlist->getInwishlist($model->id) ?>"><span class="wish-img" ><img title="wish-list" alt="wish-list" src="<?= Yii::$app->params['baseurl'] ?>/images/add-wishlist.png"></span><?= $wishlist->getInwishlist($model->id)=="true"?"Add to Wishlist":"Remove from Wishlist"; ?></p>
 		<p class="avail">Availability:<span class="green-color">In stock</span></p>
 
 	</div>

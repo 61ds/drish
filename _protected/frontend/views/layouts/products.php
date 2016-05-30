@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use yii\web\View;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -21,7 +22,12 @@ ProductsAsset::register($this);
 
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?php $this->head();
+
+	$this->registerJs("var baseurl = ".json_encode(Yii::$app->request->baseUrl).";", View::POS_END);
+
+	?>
+	
 </head>
 <body>
 <?php $this->beginBody() ?>

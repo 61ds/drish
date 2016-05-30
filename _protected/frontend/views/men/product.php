@@ -96,7 +96,7 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
 
                             </div>
 
-                            <?= CartForm::widget(['model'=>$model,'varientModel'=>$varientModel,'cart'=>$cart]) ?>
+                            <?= CartForm::widget(['model'=>$model,'varientModel'=>$varientModel,'cart'=>$cart,'wishlist'=>$wishlist]) ?>
                             <div class="share-with">
 
                                 <p> Share with:</p>

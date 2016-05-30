@@ -398,6 +398,50 @@ $(document).ready(function(){
 		}
 
 
+
+
+$(document).on("click",".addToWishlist",function(e){
+	var id = $(this).attr("data-id");
+	var ajaxloading  = false;
+	var current_element = $(this);
+	var isadded = $(this).attr("data-is-enabled");
+	if(ajaxloading==false){
+		ajaxloading = true; //prevent further ajax loading
+		$('i',this).attr('class','fa fa-spinner fa-pulse'); //show loading image
+
+		//load data from the server using a HTTP POST request
+		$.post(baseurl+"/wishlist/add",{'pid':id,'isadded':isadded}, function(data){
+			//append received data into the element
+			$(".flash span").html(data.result);
+			$(".flash").fadeIn(100);
+			setTimeout(function(){
+				$(".flash").fadeOut();
+			},3000);
+			setTimeout(function(){
+				$(".flash span").html("");
+			},4000);
+			if(data.success==true){
+				$('#fav_fruits').html(data.counts[0]);
+				$('#fav_vegetables').html(data.counts[1]);
+			}
+			$(current_element).attr('title',data.label);
+			$(current_element).attr('data-is-enabled',data.enabled);
+			//hide loading image
+			$('.animation_image').hide(); //hide loading image once data is received
+			//loaded group increment
+			ajaxloading = false;
+
+		}).fail(function(xhr, ajaxOptions, thrownError) { //any errors?
+
+			alert(thrownError); //alert with HTTP error
+			$('.animation_image').hide(); //hide loading image
+			ajaxloading = false;
+
+		});
+	}
+
+});
+
 		
 
 		
