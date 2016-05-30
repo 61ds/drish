@@ -2,34 +2,20 @@
 use nenad\passwordStrength\PasswordInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
-
+$url = URL::to(['account/wishlist']);
 $js = <<<JS
 $('#add_wishlist').click(function(){
 	var prod_id = $(this).attr('data-id');
-	alert(prod_id);
-	if (prod_id == '' ) {
-		return false;
-	} else {
-		$.post($('#sort_form').attr('action'), {
-		prodid: prod_id
-		}, function(data){
-			var obj = $.parseJSON(data);
-			$('#product_div').empty();
-			$('.loading_gif').hide();
-			if(obj.length != 0){
-				$.each( obj, function( key, value ) {
-						divs = value.div;
-							
-						$('#product_div').append(divs);
-				});
-			}else{
-				$('#product_div').append("<h3>No Items Found.</h3>");
-			}	
-				
-			
-		});
-	}
+	$.ajax({
+		url: '{$url}',
+		type: 'post',
+		data: {prodid : prod_id },
+		success: function (response) {						
+			alert(response);				
+		}
+	});
 });
 
 // get the form id and set the event
