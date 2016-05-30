@@ -151,7 +151,9 @@ class AccountController extends FrontendController
 
     public function actionInformation()
     { 
-
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}
 		$userId = \Yii::$app->user->identity->id;
 		$profile = Profile::find()->where(['user_id' => $userId])->one();
 
