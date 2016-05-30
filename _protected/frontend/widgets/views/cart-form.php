@@ -5,32 +5,7 @@ use yii\bootstrap\ActiveForm;
 
 
 $js = <<<JS
-$('#add_wishlist').click(function(){
-	var prod_id = $(this).attr('data-id');
-	alert(prod_id);
-	if (prod_id == '' ) {
-		return false;
-	} else {
-		$.post($('#sort_form').attr('action'), {
-		prodid: prod_id
-		}, function(data){
-			var obj = $.parseJSON(data);
-			$('#product_div').empty();
-			$('.loading_gif').hide();
-			if(obj.length != 0){
-				$.each( obj, function( key, value ) {
-						divs = value.div;
-							
-						$('#product_div').append(divs);
-				});
-			}else{
-				$('#product_div').append("<h3>No Items Found.</h3>");
-			}	
-				
-			
-		});
-	}
-});
+
 
 // get the form id and set the event
 $('form#{$cart->formName()}').on('beforeSubmit', function(e) {
@@ -153,7 +128,7 @@ $baseurl = Yii::$app->params['baseurl'];
 	</div>
 
 	<div class="wish-list">
-		<p id='add_wishlist' data-id= '<?= $model->id ?>'><span class="wish-img" ><img title="wish-list" alt="wish-list" src="<?= Yii::$app->params['baseurl'] ?>/images/add-wishlist.png"></span>Add to Wishlist</p>
+		<p id='add_wishlist' class="addToWishlist wishlist" data-id= '<?= $model->id ?>' data-is-enabled="<?= $wishlist->getInwishlist($model->id) ?>"><span class="wish-img" ><img title="wish-list" alt="wish-list" src="<?= Yii::$app->params['baseurl'] ?>/images/add-wishlist.png"></span><?= $wishlist->getInwishlist($model->id)=="true"?"Add to Wishlist":"Remove from Wishlist"; ?></p>
 		<p class="avail">Availability:<span class="green-color">In stock</span></p>
 
 	</div>

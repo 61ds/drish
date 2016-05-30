@@ -25,6 +25,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
+
+use common\models\Wishlist;
+
 use Yii;
 /**
  * Site controller.
@@ -114,7 +117,7 @@ class MenController extends Controller
         $DropdownValues = new DropdownValues;
         $cart = new Cart();
         $varientModel = new VarientProduct();
-
+        $wishlist = Wishlist::getWishlistObj();
 
         if (($model = Product::findOne($id)) !== null) {
             $searchvarient = VarientProduct::find()->where(['product_id'=>$id])->all();
@@ -146,6 +149,7 @@ class MenController extends Controller
                 'varientModel'=>$varientModel,
                 'cart'=>$cart,
                 'varients'=>$varients,
+                'wishlist'=>$wishlist,
             ]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
