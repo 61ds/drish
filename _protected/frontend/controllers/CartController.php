@@ -496,6 +496,9 @@ class CartController extends FrontendController
 		$cartModel = new Cart();
 		$session = Yii::$app->session;
 		if (Yii::$app->request->isPost && Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+
+			$cartModel->getRemoveDiscount();
+
 			$discountModel = DiscountCode::find()->where(['code'=>$model->code,'status'=>0])->one();
 			if ($discountModel !== null && $discountModel->discount->status == 1 && $discountModel->discount->locked == 0) {
 				$validate = $cartModel->getvalidateCart($model->code);
