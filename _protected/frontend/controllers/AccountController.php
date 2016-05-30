@@ -101,36 +101,48 @@ class AccountController extends Controller
         // collect and validate user data
         if (Yii::$app->request->isAjax )
         {
-			$id = Yii::$app->request->post('prodid');
-			$data = $model->find()->where(['user_id' => Yii::$app->user->identity->id])->one();
-			$id_array = array();
-			if($data){
-				$ids = unserialize($data->wishlist);
-				if($ids){
-					if (!in_array($id, $ids)) {
-						$products[] = $id;
-						$result = "Product is added to your wishlist";
-						$label = "Remove from Wishlist";
-						$enabled = "false";
-						$success = true;
-					} else {
-						$result = "This Product is already added to your wishlist";
-						$label = "Remove from Wishlist";
-						$enabled = "false";
-						$success = false;
+			if(Yii::$app->user->isGuest){
+				$result = "Please Login First";
+				$label = "Please Login First";
+				$enabled = "false";
+				$success = true;
+				return $result;
+			}else{
+				$id = Yii::$app->request->post('prodid');
+				$data = $model->find()->where(['user_id' => Yii::$app->user->identity->id])->one();
+				$id_array = array();
+				if($data){
+					$ids = unserialize($data->wishlist);
+					if($ids){
+						if (!in_array($id, $ids)) {
+							$ids[] = $id;
+							$data->wishlist = serialize($ids);
+							$data->save();
+							$result = "Product is added to your wishlist";
+							$label = "Remove from Wishlist";
+							$enabled = "false";
+							$success = true;
+							return $result;
+						} else {
+							$result = "This Product is already added to your wishlist";
+							$label = "Remove from Wishlist";
+							$enabled = "false";
+							$success = false;
+							return $result;
+						}
+						$data->save();
+						$result = 'success';
+						Yii::$app->response->format = trim(Response::FORMAT_JSON);
+						return $result;
+					}else{
+						$id_array[] = $id;
+						$id_wish = serialize($id_array);
+						$data->wishlist = $id_wish;
+						$data->save();
+						$result = 'success';
+						Yii::$app->response->format = trim(Response::FORMAT_JSON);
+						return $result;
 					}
-					$data->save();
-					$result = 'success';
-					Yii::$app->response->format = trim(Response::FORMAT_JSON);
-					return $result;
-				}else{
-					$id_array[] = $id;
-					$id_wish = serialize($id_array);
-					$data->wishlist = $id_wish;
-					$data->save();
-					$result = 'success';
-					Yii::$app->response->format = trim(Response::FORMAT_JSON);
-					return $result;
 				}
 			}
 		}
