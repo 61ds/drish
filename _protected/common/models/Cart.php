@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "cart".
@@ -130,6 +131,7 @@ class Cart extends \yii\db\ActiveRecord
 
     //get all company stage
     public function getResetCart(){
+
         $carts = array();
         $session = Yii::$app->session;
 
@@ -208,6 +210,8 @@ class Cart extends \yii\db\ActiveRecord
 
 
         }
+        $cartModel = new Cart();
+        $cartModel->getValidateDiscount();
 
         return $cart;
 
@@ -422,7 +426,82 @@ class Cart extends \yii\db\ActiveRecord
         return $cart;
     }
 
+    public function getValidateDiscount()
+    {
 
+        $session = Yii::$app->session;
+        if ($session->has('discountid')) {
+
+            $discountid = $session->get('discountid');
+            $now = time();
+
+            $discount = DiscountCode::find()->where(['id' => $discountid,'status'=>0])->one();
+            if ($discount) {
+                $diff = round(abs($now-$discount->updated_at) / 60);
+
+                if($diff > 10){
+                    $cartModel = new Cart();
+                    $cartModel->getRemoveDiscount();
+                }
+            } else {
+                $session->remove('discountid');
+
+            }
+        }
+        return true;
+    }
+
+    public function getRemoveDiscount()
+    {
+        $session = Yii::$app->session;
+        if ($session->has('discountid')) {
+            $discountid = $session->get('discountid');
+
+            $discount = DiscountCode::find()->where(['id' => $discountid,'status'=>0])->one();
+            if ($discount) {
+                $discount->locked = 0;
+                $discount->save();
+
+                $discModel = Discount::findOne($discount->discount_id);
+                if($discModel->quantity_used > 0)
+                    $discModel->quantity_used = $discModel->quantity_used - 1;
+                if($discModel->quantity_left !=  $discModel->quantity)
+                 $discModel->quantity_left = $discModel->quantity_left + 1;
+
+                $discModel->save();
+
+                $session->remove('discountid');
+
+            } else {
+
+                $session->remove('discountid');
+
+            }
+        }else{
+            $discounts = DiscountCode::find()->where(['locked'=>1])->all();
+            if ($discounts) {
+                $now = time();
+                foreach ($discounts as $discount) {
+                    $diff = round(abs($now - $discount->updated_at) / 60);
+
+                    if ($diff > 10) {
+                        $discount->locked = 0;
+                        $discount->save();
+
+                        $discModel = Discount::findOne($discount->discount_id);
+                        if($discModel->quantity_used > 0)
+                            $discModel->quantity_used = $discModel->quantity_used - 1;
+                        if($discModel->quantity_left !=  $discModel->quantity)
+                            $discModel->quantity_left = $discModel->quantity_left + 1;
+                        $discModel->save();
+
+                    }
+                }
+            }
+
+        }
+        return true;
+    }
     /**
      * @param $id
      * @return int
@@ -430,6 +509,7 @@ class Cart extends \yii\db\ActiveRecord
     public function getValidateCart($id){
         $cartModel = new Cart();
         $carts = $cartModel->getResetCart();
+
         $min_carts = array();
         foreach($carts['items'] as $key => $cartprod){
             if($key != $carts['max']['id'])
