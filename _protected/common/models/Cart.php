@@ -430,6 +430,7 @@ class Cart extends \yii\db\ActiveRecord
     {
 
         $session = Yii::$app->session;
+        $cartModel = new Cart();
         if ($session->has('discountid')) {
 
             $discountid = $session->get('discountid');
@@ -440,13 +441,15 @@ class Cart extends \yii\db\ActiveRecord
                 $diff = round(abs($now-$discount->updated_at) / 60);
 
                 if($diff > 10){
-                    $cartModel = new Cart();
+
                     $cartModel->getRemoveDiscount();
                 }
             } else {
                 $session->remove('discountid');
 
             }
+        }else{
+            $cartModel->getRemoveDiscount();
         }
         return true;
     }
@@ -455,6 +458,7 @@ class Cart extends \yii\db\ActiveRecord
     {
         $session = Yii::$app->session;
         if ($session->has('discountid')) {
+
             $discountid = $session->get('discountid');
 
             $discount = DiscountCode::find()->where(['id' => $discountid,'status'=>0])->one();
@@ -478,6 +482,7 @@ class Cart extends \yii\db\ActiveRecord
 
             }
         }else{
+
             $discounts = DiscountCode::find()->where(['locked'=>1])->all();
             if ($discounts) {
                 $now = time();
