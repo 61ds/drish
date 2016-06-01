@@ -3796,3 +3796,11 @@ border: 1px solid #000;
   font-size: 18px;
   padding-right: 46px;
 }
+span#add_friend, span#remove_friend {
+    padding: 5px 10px;
+    background: #000;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 10px;
+}

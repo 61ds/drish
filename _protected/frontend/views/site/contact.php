@@ -3,16 +3,8 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\ContactForm */
-
-$this->title = Yii::t('app', 'Contact');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="col-lg-5 well bs-component">
 
@@ -24,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'name') ?>
             <?= $form->field($model, 'email') ?>
+            <?= $form->field($model, 'to_email') ?>
             <?= $form->field($model, 'subject') ?>
             <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
             <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [

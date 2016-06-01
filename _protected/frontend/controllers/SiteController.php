@@ -21,6 +21,7 @@ use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SearchForm;
+use frontend\models\FriendForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Profile;
@@ -485,6 +486,18 @@ class SiteController extends Controller
 
         return $this->redirect('login');
     }
+	public function actionTellAFriend(){
+		$this->layout="account";
+		$model = new FriendForm();
+		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
+        {
+			echo"<pre>";print_r($model);die;
+			
+        }
+		return $this->render('tell-a-friend', [
+                'model' => $model,
+        ]);
+	}
 	public function actionPage($slug){
 		$this->layout="page";
 		$page = Pages::find()->where(['slug' =>$slug ])->one();
