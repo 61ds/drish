@@ -7,6 +7,7 @@ use common\models\Newsletter;
 use common\models\Product;
 use common\models\Profile;
 use common\models\Orders;
+use common\models\Wishlist;
 use common\models\Cart;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
@@ -174,16 +175,37 @@ class AccountController extends FrontendController
 
     public function actionAddress()
     { 
+		$this->layout = 'account'; 
 		return $this->render('address');
     }
 
     public function actionNotifications()
     { 
+		$this->layout = 'account'; 
 		return $this->render('notifications');
-    }	
+    }
+	public function actionProductReview()
+    { 
+		$this->layout = 'account'; 
+		return $this->render('product-review');
+    }
 
+	public function actionAccountNewsletter()
+    { 
+		$this->layout = 'account'; 
+		return $this->render('newsletter');
+    }	
+	public function actionMywishlist()
+    {  
+		$this->layout = 'account'; 
+		$model = Wishlist::find()->where(['client_id' => \Yii::$app->user->identity->id])->one();
+		return $this->render('mywishlist',[
+			'wishlist' => $model,
+		]);
+    }
 	public function beforeAction($action)
 	{
+		
 		$this->layout = 'account'; 
 		if(Yii::$app->user->isGuest){
 			return $this->redirect(Yii::$app->homeUrl);	
@@ -193,12 +215,37 @@ class AccountController extends FrontendController
 	
 	public function actionOrders()
     { 
+		$this->layout = 'account'; 
 		$app_model = new Orders;
 		if(Yii::$app->user->isGuest){
 			return $this->redirect(Yii::$app->homeUrl);	
 		}		
 		$model = $app_model->find()->where(['user_id' => \Yii::$app->user->identity->id])->all();
-		return $this->render('applications',[
+		return $this->render('orders',[
+			"model" => $model,
+		]);
+    }
+	public function actionOrder($id)
+    { 
+		$this->layout = 'account'; 
+		$app_model = new Orders;
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}		
+		$model = $app_model->findOne($id);
+		return $this->render('order',[
+			"model" => $model,
+		]);
+    }
+	public function actionReturnRequest()
+    { 
+		$this->layout = 'account'; 
+		$app_model = new Orders;
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}		
+		$model = $app_model->find()->where(['user_id' => \Yii::$app->user->identity->id])->all();
+		return $this->render('return-request',[
 			"model" => $model,
 		]);
     }
