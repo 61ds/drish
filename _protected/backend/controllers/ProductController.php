@@ -32,7 +32,7 @@ use yii\web\UploadedFile;
 class ProductController extends BackendController
 {
     use ImageUploadTrait;
-
+	public $enableCsrfValidation = false;
 
     /**
      * Lists all Product models.

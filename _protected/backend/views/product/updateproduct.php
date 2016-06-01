@@ -7,7 +7,6 @@
     use kartik\slider\Slider;
     use kartik\file\FileInput;
     use common\models\DropdownValues;
-	
 	use common\models\Product;
 	use common\models\ProductSearch;
 	use common\models\ProductForm;
@@ -19,6 +18,7 @@
 	use common\models\ProductTextValues;
 	use common\models\ProductDescValues;
    $this->title = 'Update product';
+  
    if($ProductImagesModel->main_image){
 	   $main_image = Yii::$app->params['baseurl'] . '/uploads/product/flip/'.$model->id.'/thumbs/'.$ProductImagesModel->main_image;
    }else{
@@ -93,6 +93,7 @@
 									   if(count($general_attrs) > 0){
                                           $count = round(count($general_attrs)/2);
                                           $i = 0;
+										 
                                           foreach($general_attrs as $attr){
 											  if($attr->entity_id == 2 || $attr->entity_id == 1 ){
 												    echo "<div class='col-md-6'>";
@@ -104,7 +105,13 @@
 														
 													$attr_name = 'general_attrs['.$attr->id.']';
 													  if($attr->entity_id == 2){
-													  	
+													  	$data = ProductDropdownValues::find()->where(['product_id'=> $model->id ])->all();
+														foreach($data as $get){
+															$val = DropdownValues::find()->where(['attribute_id' => $attr->id , 'id' => $get->value_id])->one();
+															if($val){
+																 $model->general_attrs[$attr->id] = $val->id;
+															}
+														}
 													  echo $form->field($model, $attr_name)->dropDownList(
                                                       $dropdownmodel->getAttrValues($attr->id),
                                                       [
@@ -138,13 +145,13 @@
                                                   $attr_name = 'optional_attrs['.$attr->id.']';
 
                                                 if($attr->entity_id == 2){
-													$getdata = ProductDropdownValues::find()->where(['product_id' => $model->id])->one();
-													if($getdata){
-														$getvalue = DropdownValues::find()->where(['id' => $getdata->id])->one();
-														if($getvalue){
-															$model->optional_attrs[$attr->id] = $getvalue->id;
+														$data = ProductDropdownValues::find()->where(['product_id'=> $model->id ])->all();
+														foreach($data as $get){
+															$val = DropdownValues::find()->where(['attribute_id' => $attr->id , 'id' => $get->value_id])->one();
+															if($val){
+																 $model->optional_attrs[$attr->id] = $val->id;
+															}
 														}
-													}
 														echo $form->field($model, $attr_name)->dropDownList(
                                                       $dropdownmodel->getAttrValues($attr->id),
                                                       [
@@ -332,19 +339,30 @@
                               <?= $form->field($model, 'meta_keyword')->textInput(['maxlength' => true]) ?>
                            </div>
                            <div class="tab-pane" id="tab_5">
-							
-						
-							   <?php
-							   if($product_model){ ?>
-							   <div class="form-group field-product-meta_title">
-									<label class="control-label" for="product-meta_title">Related Products</label>
-								<?php	foreach($product_model as $product){ ?>
-									<input type="checkbox" name="related[]" value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  
-									<?php  } ?>
-								</div>
-							<?php   }
-							   ?>
-						   
+								<?php
+								if($product_model){ ?>
+									<div class="form-group field-product-meta_title">
+										<label class="control-label" for="product-meta_title">Offer Products</label>
+										<br>
+										<?php
+										$ids = unserialize($model->related);
+										$model->related ="";
+										$i=1;
+										if($ids){
+										foreach($product_model as $product){
+											if(in_array($product->id,$ids)){
+												$sd = "checked";
+											}else{
+												$sd="";
+											}	
+										
+											?>
+											<input type="checkbox" name="related[]" <?=  $sd ?> value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  <br>
+										<?php  } ?>
+									</div>
+								<?php   }
+								}
+								?>
                            </div>
 						   
                            <div class="tab-pane" id="tab_6">

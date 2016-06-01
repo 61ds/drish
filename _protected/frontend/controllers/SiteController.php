@@ -491,8 +491,14 @@ class SiteController extends Controller
 		$model = new FriendForm();
 		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()))
         {
-			echo"<pre>";print_r($model);die;
-			
+			if ($model->contact($model)) 
+            {
+                return "success";
+            } 
+            else 
+            {
+                 return "fail";
+            }
         }
 		return $this->render('tell-a-friend', [
                 'model' => $model,

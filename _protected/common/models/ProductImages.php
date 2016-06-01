@@ -31,7 +31,7 @@ class ProductImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'main_image', 'flip_image', 'other_image','home_image'], 'required'],
+           
             [['product_id'], 'integer'],
             [['other_image'], 'string'],
             [['main_image', 'flip_image','home_image'], 'string', 'max' => 100],

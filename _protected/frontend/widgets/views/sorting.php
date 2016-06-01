@@ -49,7 +49,7 @@ $this->registerJs($js);
 ?>
 
 <?php $form = ActiveForm::begin([
-	'action'=>['site/product-search'],
+	'action'=>['finder/product-search'],
 	'id'     => 'sort_form',
 ]); ?>
 		<div class="tool-tip">
