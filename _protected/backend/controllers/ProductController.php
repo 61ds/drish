@@ -204,22 +204,22 @@ class ProductController extends BackendController
                         {
                             $name = time().$model->id;
                             $main_folder = "product/home/".$model->id;
-                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size,$folder);
-                            $ProductImagesModel->home_image = $image_name;
+                            $image_name1 = $this->uploadImage($home_image,$name,$main_folder,$size,$folder);
+                            $ProductImagesModel->home_image = $image_name1;
                         }
                         if($video)
                         {
                             $name = time().$model->id;
                             $main_folder = "product/video/".$model->id;
-                            $image_name= $this->uploadFile($video,$name,$main_folder);
-                            $ProductImagesModel->video = $image_name;
+                            $image_name2 = $this->uploadFile($video,$name,$main_folder);
+                            $ProductImagesModel->video = $image_name2;
                         }
                         if($flip_image)
                         {
                             $name = time().$model->id;
                             $main_folder = "product/flip/".$model->id;
-                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size,$folder);
-                            $ProductImagesModel->flip_image = $image_name;
+                            $image_name3 = $this->uploadImage($flip_image,$name,$main_folder,$size,$folder);
+                            $ProductImagesModel->flip_image = $image_name3;
                         }
                         //save all other images
                         if($other_images)
@@ -230,8 +230,8 @@ class ProductController extends BackendController
 
                                 $name = time().$model->id;
                                 $main_folder = "product/other/".$model->id;
-                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size,$folder);
-                                $prod_otherimages[] = $image_name;
+                                $image_name4 = $this->uploadImage($other_image,$name,$main_folder,$size,$folder);
+                                $prod_otherimages[] = $image_name4;
                             }
                             $ProductImagesModel->other_image = serialize($prod_otherimages);
                         }
@@ -435,13 +435,17 @@ class ProductController extends BackendController
                     if($model->save()){
 						
                         //save dropdown values
+						ProductDropdownValues::deleteAll(['product_id'=>$model->id]);
+						ProductDescValues::deleteAll(['product_id'=>$model->id]);
+						ProductTextValues::deleteAll(['product_id'=>$model->id]);
                         foreach($model->general_attrs as $key=>$gen_attrs){
-							
 							$check_type =  Attributes::find()->where(['id'=>$key])->one();
 							if($check_type->entity_id == 2){
+								
 								$ProductDropdownValues = new ProductDropdownValues;
 								$ProductDropdownValues->value_id = $gen_attrs;
 							}elseif($check_type->entity_id == 4){
+								
 								$ProductDropdownValues = new ProductDescValues;
 								$ProductDropdownValues->value = $gen_attrs;
 								$ProductDropdownValues->attr_id = $key;
@@ -496,22 +500,22 @@ class ProductController extends BackendController
                         {
                             $name = time().$model->id;
                             $main_folder = "product/home/".$model->id;
-                            $image_name= $this->uploadImage($home_image,$name,$main_folder,$size,$folder);
-                            $ProductImagesModel->home_image = $image_name;
+                            $image_name1 = $this->uploadImage($home_image,$name,$main_folder,$size,$folder);
+                            $ProductImagesModel->home_image = $image_name1;
                         }
                         if($video)
                         {
                             $name = time().$model->id;
                             $main_folder = "product/video/".$model->id;
-                            $image_name= $this->uploadFile($video,$name,$main_folder);
-                            $ProductImagesModel->video = $image_name;
+                            $image_name2 = $this->uploadFile($video,$name,$main_folder);
+                            $ProductImagesModel->video = $image_name2;
                         }
                         if($flip_image)
                         {
                             $name = time().$model->id;
                             $main_folder = "product/flip/".$model->id;
-                            $image_name= $this->uploadImage($flip_image,$name,$main_folder,$size,$folder);
-                            $ProductImagesModel->flip_image = $image_name;
+                            $image_name3= $this->uploadImage($flip_image,$name,$main_folder,$size,$folder);
+                            $ProductImagesModel->flip_image = $image_name3;
                         }
                         //save all other images
                         if($other_images)
@@ -522,8 +526,8 @@ class ProductController extends BackendController
 
                                 $name = time().$model->id;
                                 $main_folder = "product/other/".$model->id;
-                                $image_name= $this->uploadImage($other_image,$name,$main_folder,$size,$folder);
-                                $prod_otherimages[] = $image_name;
+                                $image_name4= $this->uploadImage($other_image,$name,$main_folder,$size,$folder);
+                                $prod_otherimages[] = $image_name4;
                             }
                             $ProductImagesModel->other_image = serialize($prod_otherimages);
                         }

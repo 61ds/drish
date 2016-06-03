@@ -20,12 +20,12 @@
    $this->title = 'Update product';
   
    if($ProductImagesModel->main_image){
-	   $main_image = Yii::$app->params['baseurl'] . '/uploads/product/flip/'.$model->id.'/thumbs/'.$ProductImagesModel->main_image;
+	   $main_image = Yii::$app->params['baseurl'] . '/uploads/product/main/'.$model->id.'/thumbs/'.$ProductImagesModel->main_image;
    }else{
 	   $main_image = Yii::$app->params['baseurl'] . '/uploads/no-image.png';
    }
    if($ProductImagesModel->flip_image){
-	   $main_image1 =Yii::$app->params['baseurl'] . '/uploads/product/main/'.$model->id.'/thumbs/'.$ProductImagesModel->flip_image;
+	   $main_image1 =Yii::$app->params['baseurl'] . '/uploads/product/flip/'.$model->id.'/thumbs/'.$ProductImagesModel->flip_image;
    }else{
 	   $main_image1 = Yii::$app->params['baseurl'] . '/uploads/no-image.png';
    }
@@ -96,7 +96,13 @@
 										 
                                           foreach($general_attrs as $attr){
 											  if($attr->entity_id == 2 || $attr->entity_id == 1 ){
-												    echo "<div class='col-md-6'>";
+												  
+												   if($attr->id == 1 || $attr->id == 2 || $attr->id == 3 ){
+															continue;
+													}else{
+														echo "<div class='col-md-6'>";
+													}
+												    
 											  }else{
 												   echo "<div class='col-md-12'>"; 
 											  }
@@ -105,6 +111,9 @@
 														
 													$attr_name = 'general_attrs['.$attr->id.']';
 													  if($attr->entity_id == 2){
+														 if($attr->id == 1 || $attr->id == 2 || $attr->id == 3 ){
+															continue;
+														}
 													  	$data = ProductDropdownValues::find()->where(['product_id'=> $model->id ])->all();
 														foreach($data as $get){
 															$val = DropdownValues::find()->where(['attribute_id' => $attr->id , 'id' => $get->value_id])->one();
@@ -145,6 +154,9 @@
                                                   $attr_name = 'optional_attrs['.$attr->id.']';
 
                                                 if($attr->entity_id == 2){
+													if($attr->id == 1 || $attr->id == 2 || $attr->id == 3 ){
+															continue;
+														}
 														$data = ProductDropdownValues::find()->where(['product_id'=> $model->id ])->all();
 														foreach($data as $get){
 															$val = DropdownValues::find()->where(['attribute_id' => $attr->id , 'id' => $get->value_id])->one();
@@ -338,43 +350,69 @@
                               <?= $form->field($model, 'meta_description')->textarea(['rows' => 3]) ?>
                               <?= $form->field($model, 'meta_keyword')->textInput(['maxlength' => true]) ?>
                            </div>
-                           <div class="tab-pane" id="tab_5">
+                           <div class="tab-pane" id="tab_5"> 
 								<?php
 								if($product_model){ ?>
 									<div class="form-group field-product-meta_title">
-										<label class="control-label" for="product-meta_title">Offer Products</label>
+										<label class="control-label" for="product-meta_title">Related Products</label>
 										<br>
 										<?php
 										$ids = unserialize($model->related);
 										$model->related ="";
 										$i=1;
-										if($ids){
 										foreach($product_model as $product){
-											if(in_array($product->id,$ids)){
-												$sd = "checked";
+											if($ids){
+												if(in_array($product->id,$ids)){
+													$sd = "checked";
+												}else{
+													$sd="";
+												}	
 											}else{
 												$sd="";
-											}	
-										
-											?>
+											} ?>
 											<input type="checkbox" name="related[]" <?=  $sd ?> value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  <br>
-										<?php  } ?>
-									</div>
-								<?php   }
+									<?php	}
+											?>
+											
+							<?php   ?>
+									
+								<?php   
+								echo'</div>';
 								}
 								?>
                            </div>
 						   
                            <div class="tab-pane" id="tab_6">
-						    <?= $form->field($model, 'special')->dropDownList(
-								$model->specialProducts,
-								[
-									'prompt'=>'- Select Product -',
-									'class'=>'form-control select2'
-
-								]
-							);
-							?>
+						    
+							<?php
+								if($product_model){ ?>
+									<div class="form-group field-product-meta_title">
+										<label class="control-label" for="product-meta_title">Special Products</label>
+										<br>
+										<?php
+										$ids = unserialize($model->special);
+										$model->special ="";
+										$i=1;
+										foreach($product_model as $product){
+											if($ids){
+												if(in_array($product->id,$ids)){
+													$sd = "checked";
+												}else{
+													$sd="";
+												}	
+											}else{
+												$sd="";
+											} ?>
+											<input type="checkbox" name="special[]" <?=  $sd ?> value="<?= $product->id ?>" id="special[]" >&nbsp; <?= $product->name ?>  <br>
+									<?php	}
+											?>
+											
+							<?php   ?>
+									
+								<?php   
+								echo'</div>';
+								}
+								?>
                            </div>
                         </div>
                      </div>

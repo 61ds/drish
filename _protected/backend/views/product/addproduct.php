@@ -67,7 +67,11 @@
                                           foreach($general_attrs as $attr){
 											  if($attr->id != 1 && $attr->id != 2  && $attr->id != 3 ){
 											  if($attr->entity_id == 2 || $attr->entity_id == 1 ){
-												    echo "<div class='col-md-6'>";
+												   if($attr->id == 1 || $attr->id == 2 || $attr->id == 3 ){
+															continue;
+													}else{
+														echo "<div class='col-md-6'>";
+													}
 											  }else{
 												   echo "<div class='col-md-12'>"; 
 											  }
@@ -75,7 +79,10 @@
                                               if( $attr->isrequired == 1){
                                                   
 													$attr_name = 'general_attrs['.$attr->id.']';
-													if($attr->entity_id == 2){
+													if($attr->entity_id ){
+														if($attr->id == 1 || $attr->id == 2 || $attr->id == 3 ){
+															continue;
+														}
 														echo $form->field($model, $attr_name)->dropDownList(
                                                       $dropdownmodel->getAttrValues($attr->id),
                                                       [
@@ -101,6 +108,9 @@
                                                   $attr_name = 'optional_attrs['.$attr->id.']';
 
                                                 if($attr->entity_id == 2){
+														if($attr->id == 1 || $attr->id == 2 || $attr->id == 3 ){
+															continue;
+														}
 														echo $form->field($model, $attr_name)->dropDownList(
                                                       $dropdownmodel->getAttrValues($attr->id),
                                                       [
@@ -238,34 +248,37 @@
                               <?= $form->field($model, 'meta_keyword')->textInput(['maxlength' => true]) ?>
                            </div>
                            <div class="tab-pane" id="tab_5">
-							
-						
-							   <?php
-							   if($product_model){ ?>
-							   <div class="form-group field-product-meta_title">
-									<label class="control-label" for="product-meta_title">Related Products</label>
-									<br>
-								<?php	foreach($product_model as $product){ ?>
-									<input type="checkbox" name="related[]" value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  <br>
-									<?php  } ?>
-								</div>
-							<?php   }
-							   ?>
+						   	<div class="form-group field-product-meta_title">
+							<?php
+								if($product_model){ ?>
+								
+										<label class="control-label" for="product-meta_title">Related Products</label>
+										<br>
+										<?php
+										foreach($product_model as $product){
+											 ?>
+											<input type="checkbox" name="related[]"  value="<?= $product->id ?>" id="related[]" >&nbsp; <?= $product->name ?>  <br>
+									<?php	} 
+								}
+								?>
 						   
+                           </div>
                            </div>
 						   
                            <div class="tab-pane" id="tab_6">
-						   <?php
-							   if($product_model){ ?>
-							   <div class="form-group field-product-meta_title">
-									<label class="control-label" for="product-meta_title">Related Products</label>
-									<br>
-								<?php	foreach($product_model as $product){ ?>
-									<input type="checkbox" name="special[]" value="<?= $product->id ?>" id="special[]" >&nbsp; <?= $product->name ?>  <br>
-									<?php  } ?>
-								</div>
-							<?php   }
-							   ?>
+						   <div class="form-group field-product-meta_title">
+								<?php
+								if($product_model){ ?>
+									
+										<label class="control-label" for="product-meta_title">Special Products</label>
+										<br>
+										<?php
+										foreach($product_model as $product){
+											 ?>
+											<input type="checkbox" name="special[]"  value="<?= $product->id ?>" id="special[]" >&nbsp; <?= $product->name ?>  <br>
+									<?php	} 
+								}
+								?>
 							   
 						    <!--?= $form->field($model, 'special')->dropDownList(
 								$model->specialProducts,
