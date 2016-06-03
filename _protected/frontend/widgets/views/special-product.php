@@ -8,7 +8,9 @@ if($product_ids){
     <ul class="bxslider-pros">
 		<?php
 		 foreach($product_ids as $id){
-			 $product = Product::findOne($id); ?>
+			 $product = Product::findOne($id);
+			if($product){
+			 ?>
 			 <li>
 				 <div class="sreen-gallery">
                             <a href="<?= Url::to(['men/product','slug'=>$product->slug]) ?>"><?= $product->name ?>
@@ -26,6 +28,7 @@ if($product_ids){
 			</li>
 			
 		<?php }
+		 }
 		?>
 
     </ul>
