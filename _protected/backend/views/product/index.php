@@ -60,6 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             // 'meta_keyword',
                             ['class' => 'yii\grid\ActionColumn','header'=>'Actions',
                                 'buttons' => [
+                                    'view' => function ($url, $model, $key) {
+                                        $purl = $model->createProductUrl($model->id);
+                                        return Html::a('',  $purl, ['title'=>'View Product',
+                                            'class'=>'glyphicon glyphicon-eye-open']);
+                                    },
                                     'viewitems' =>function ($url, $model, $key) {
                                         $options = array_merge([
                                             'title' => Yii::t('yii', 'View Items'),
@@ -77,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         return Html::a('<span class="glyphicon glyphicon-cog"></span>', ['product/generate','id'=>$model->id], $options);
                                     },
                                 ],
-                                'template' => '{generate}{viewitems}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
+                                'template' => '{view}{generate}{viewitems}{update}', 'contentOptions' => ['style' => 'width:160px;letter-spacing:10px;text-align:center'],
                             ],
                         ],
                     ]); ?>

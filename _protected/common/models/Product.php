@@ -6,6 +6,8 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
+
 /**
  * This is the model class for table "product".
  *
@@ -177,6 +179,22 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasMany(VarientProduct::className(), ['product_id' => 'id']);
     }
 
+    public function CreateProductUrl($id)
+    {
+        $model = Product::findOne($id);
+        $cat = Category::findOne(['id' => $model->category_id]);
+        if($cat->root == 1){
+            $url = Url::to(['./../kids/product'])."/".$model->slug.".html";
+        }else if($cat->root == 2){
+            $url = Url::to(['./../men/product'])."/".$model->slug.".html";
+
+        }else{
+            $url = Url::to(['./../women/product'])."/".$model->slug.".html";
+        }
+
+        $url = Url::to(['./../product'])."/".$model->slug.".html";
+        return $url;
+    }
     /**
      * @inheritdoc
      * @return ProductQuery the active query used by this AR class.
