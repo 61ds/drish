@@ -5,7 +5,8 @@ use frontend\widgets\Sorting;
 <div class="loading_gif" style="display:none;"><img src="<?= Yii::$app->params['baseurl'] ?>/uploads/ajax-loader.gif"></div>
 <section class="caterogy-area-outer">
    <div class="container-fluid cate-pad">
-	<?php  if($category){ 
+	<?php  if($category){
+			echo'<input type="hidden" name="cat_id" id="cat_id" value="'.$category->id.'">';
 		$categorys = $category->find()->where(['id'=>$category->id, 'active' =>1])->one();
 			$parents = $categorys->parents()->all();
 				$sub_children = $categorys->children(1)->all();

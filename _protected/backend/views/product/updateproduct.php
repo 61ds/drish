@@ -65,17 +65,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab_1">
                                  <input type="hidden" name="step" value="pbi">
-                                 <div class="row">
-									<div class="col-md-12">
-										<?= $form->field($model, 'size_width_id')->dropDownList(
-                                             $model->sizeWidthGroup,
-                                             [
-                                                 'prompt'=>'- Select Size width group -',
-                                                 'class'=>'form-control select2'
-                                             ]
-                                         );
-                                         ?>
-									</div>
+                                 <div class="row" >
                                     <div class="col-md-6">
                                        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                                        <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>

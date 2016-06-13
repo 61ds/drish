@@ -96,7 +96,6 @@ class FinderController extends Controller
 
 	public function actionCategory($slug,$main=0,$submain = 0){
 		$this->layout="category";
-		
 		if($main){
 			$parent_main = Category::find()->where(['slug' =>$main ])->one();
 			$cat = Category::find()->where(['slug' =>$slug,'root' => $parent_main->id])->one();
@@ -247,14 +246,14 @@ class FinderController extends Controller
 			return json_encode($data);
 			
 		}
-		if ($model->load(Yii::$app->request->post())) {
+		if ($model->load(Yii::$app->request->get())) {
 			$products = array();
 			$productimage = new ProductImages;
 			$products1 = Product::find()->where(['like', 'name', $model->search])->limit(20)->orderBy(['updated_at' => SORT_DESC, ])->all();
 			if($products1){
 				$products[] = $products1;
 			}
-			return $this->render('search', [
+			return $this->render('/site/search', [
 		   'search'=> $model->search,
            'dropdown' => $dropdown,
            'product_model' => $product_model,
