@@ -45,7 +45,7 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['payment_method'], 'required'],
-            [['user_id', 'guest_id','discount_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'guest_id','is_refunded','refund_request','discount_id', 'items_count', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
             [['price_total', 'delivery_charges', 'grand_total','discount','cod_charge'], 'number'],
             [['production_url'],'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -91,6 +91,7 @@ class Orders extends \yii\db\ActiveRecord
             'payment_status' => 'Payment Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'is_refunded' => 'Refund',
         ];
     }
 

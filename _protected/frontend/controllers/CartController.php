@@ -10,6 +10,12 @@ use common\models\User;
 use frontend\models\DiscountForm;
 use frontend\models\SignupForm;
 use yii\web\Response;
+use common\models\Cities;
+use common\models\CitiesSearch;
+use common\models\Countries;
+use common\models\CountriesSearch;
+use common\models\States;
+use common\models\StatesSearch;
 use common\models\Cart;
 use common\models\Product;
 use common\models\Orders;
@@ -93,6 +99,27 @@ class CartController extends FrontendController
 				return $error; 
 		}	
 
+    }
+	public function actionActiveStates($id)
+    {
+        $model = new States();
+        $model->country_id = $id;
+        $states = $model->getStates();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'states' => $states,
+            'cities' => '<option value="">- Select City -</option>',
+        ];
+    }
+    public function actionActiveCities($id)
+    {
+        $model = new Cities();
+        $model->state_id = $id;
+        $cities = $model->getCities();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            $cities
+        ];
     }
 
 	public function actionCart()

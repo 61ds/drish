@@ -23,6 +23,7 @@ return array(
     'kartik\\tree\\' => array($vendorDir . '/kartik-v/yii2-tree-manager'),
     'kartik\\sortable\\' => array($vendorDir . '/kartik-v/yii2-sortable'),
     'kartik\\slider\\' => array($vendorDir . '/kartik-v/yii2-slider'),
+    'kartik\\rating\\' => array($vendorDir . '/kartik-v/yii2-widget-rating'),
     'kartik\\plugins\\fileinput\\' => array($vendorDir . '/kartik-v/bootstrap-fileinput'),
     'kartik\\form\\' => array($vendorDir . '/kartik-v/yii2-widget-activeform'),
     'kartik\\file\\' => array($vendorDir . '/kartik-v/yii2-widget-fileinput'),

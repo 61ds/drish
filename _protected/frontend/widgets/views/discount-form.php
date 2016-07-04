@@ -16,14 +16,16 @@ $('form#{$model->formName()}').on('beforeSubmit', function(e) {
 		type: 'post',
 		data: form.serialize(),
 		success: function (response) {
+			obj = jQuery.parseJSON( response );
 			if(response.type == 'success'){
 				$('form#{$model->formName()}').trigger('reset');
 				$('.form-success').html(response.msg);
 				$('.form-error').html("");
 
 			}else{
+				obj = jQuery.parseJSON( response );
 				$('form#{$model->formName()}').trigger('reset');
-				$('.form-error').html(response.msg);
+				$('.form-error').html(obj.msg);
 				$('.form-success').html("");
 			}
 		}

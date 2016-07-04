@@ -34,6 +34,7 @@ class InnerAsset extends AssetBundle
         'css/style.css',
         'css/font-awesome.css',
         'css/responsive.css',
+        'css/flaticon.css',
         'css/demo.css',
         'css/jquery.mmenu.all.css',
     ];

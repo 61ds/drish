@@ -121,6 +121,17 @@ $this->registerJs($js);
                 ?>
             </fieldset>
         </div>
+		<div class="input-first-half">
+            <fieldset class="form-group">
+                <label for="firstname">Company</label>
+                <?= $form->field($billingModel, 'company',[
+                        'inputOptions' => [
+                            'class'=>'form-control',
+                        ]]
+                )->label(false);
+                ?>
+            </fieldset>
+        </div>
         <div class="input-first-half">
             <fieldset class="form-group">
                 <label for="firstname">Email Address*</label>
@@ -145,43 +156,63 @@ $this->registerJs($js);
             </fieldset>
         </div>
         <!-- end of email and phone-->
-        <div class="input-first-half">
-            <fieldset class="form-group">
-                <label for="firstname">Company</label>
-                <?= $form->field($billingModel, 'company',[
-                        'inputOptions' => [
-                            'class'=>'form-control',
-                        ]]
-                )->label(false);
-                ?>
-            </fieldset>
-        </div>
 
         <!-- end of company-->
         <div class="input-first-half">
-            <fieldset class="form-group">
-                <label for="firstname">City*</label>
-                <?= $form->field($billingModel, 'city_id',[
-                        'inputOptions' => [
-                            'class'=>'form-control',
-                        ]]
-                )->label(false);
+			<fieldset class="form-group country">
+                <label for="countrySelect1">Country*</label>
+				 <?= $form->field($billingModel, 'country_id')->dropDownList(
+                    $billingModel->countries,
+                    [
+                        'prompt'=>'- Select Country -',
+                        'class'=>'form-control dropfieldtxt',
+                        'id'=>'country',
+                        'onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('cart/active-states?id=').'"+$(this).val(), function( data ) {
+                                $( "select#state" ).empty();
+                                $( "select#city" ).html(data.cities);
+                                $( "select#state" ).html( data.states );
+                            });'
+
+                    ]
+                )->label(false)
                 ?>
             </fieldset>
         </div>
         <div class="input-first-half">
-            <fieldset class="form-group">
+			<fieldset class="form-group">
                 <label for="firstname">Province/Territory</label>
-                <?= $form->field($billingModel, 'state_id',[
-                        'inputOptions' => [
-                            'class'=>'form-control',
-                        ]]
-                )->label(false);
+				 <?= $form->field($billingModel, 'state_id')->dropDownList(
+                    array(),
+                    [
+                        'prompt'=>'- Select State -',
+                        'class'=>'form-control dropfieldtxt',
+                        'id'=>'state',
+                        'onchange'=> '$.post( "'.Yii::$app->urlManager->createUrl('cart/active-cities?id=').'"+$(this).val(), function( data ) {
+                                $( "select#city" ).empty();
+                                $( "select#city" ).html( data );
+                            });'
+                    ]
+                )->label(false)
                 ?>
+				
             </fieldset>
         </div>
 
         <!-- end of city-->
+        <div class="input-first-half">
+			<fieldset class="form-group">
+                <label for="firstname">City*</label>
+				 <?= $form->field($billingModel, 'city_id')->dropDownList(
+                    array(),
+                    [
+                        'prompt'=>'- Select City -',
+                        'class'=>'form-control dropfieldtxt',
+                        'id'=>'city',
+                    ]
+                )->label(false)
+                ?>
+            </fieldset>
+        </div>
         <div class="input-first-half">
             <fieldset class="form-group">
                 <label for="firstname">Postal Code</label>
@@ -191,18 +222,6 @@ $this->registerJs($js);
                         ]]
                 )->label(false);
                 ?>
-            </fieldset>
-        </div>
-        <div class="input-first-half">
-            <fieldset class="form-group country">
-                <label for="countrySelect1">Country*</label>
-                <select class="form-control dropfieldtxt" id="exampleSelect1">
-                    <option>India</option>
-                    <option>Chandigargh</option>
-                    <option>Goa</option>
-                    <option>Rajasthan</option>
-                    <option>Punjab</option>
-                </select>
             </fieldset>
         </div>
         <!-- end of country select-->

@@ -52,6 +52,8 @@ if($model->image_path != ''){
 	]) ?>
 	 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 	<?= $form->field($model, 'alt_title')->textInput(['maxlength' => true]) ?>
+	<?= $form->field($model, 'button_text')->textInput(['maxlength' => true]) ?>
+	<?= $form->field($model, 'button_link')->textInput(['maxlength' => true]) ?>
 	<?php
 		// Usage with ActiveForm and model
 		echo $form->field($model, 'image_path')->widget(FileInput::classname(), 

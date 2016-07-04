@@ -13,10 +13,8 @@ use frontend\widgets\OfferSlider;
                   <!--end col-lg-12-->
                </div>
                <!--end row--->
-               <div class="row">
-                  <div class="col-lg-12 bag col-padding">
+                <div class="full-slide"> 
                       <?= ProductsFeatured::widget(['type'=>"men"]); ?>
-                  </div>
                </div>
                <!--end row-->     
             </div>

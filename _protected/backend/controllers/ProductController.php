@@ -7,6 +7,7 @@ use common\models\Sizewidth;
 use common\models\VarientProductSearch;
 use Yii;
 use common\models\Product;
+use common\models\CsvImport;
 use common\models\ProductSearch;
 use common\models\ProductForm;
 use common\models\Category;
@@ -568,7 +569,87 @@ class ProductController extends BackendController
             'model' => $model,
         ]);
     }
+	public function actionUpload(){
 
+		$model = new CsvImport;
+
+		if($model->load(Yii::$app->request->post())){
+			
+			$file = UploadedFile::getInstance($model,'file');
+			$filename = 'Data.'.$file->extension;
+			$upload = $file->saveAs('uploads/tmp/'.$filename);
+			if($upload){
+				define('CSV_PATH','uploads/tmp/');
+				$csv_file = CSV_PATH . $filename;
+				$filde = fopen($csv_file,"r");
+				$titles = null;
+				while (($data = fgetcsv($filde)) !== FALSE) {
+					if ($titles === null) {
+						$titles = $data;
+						break;
+					}
+					
+				}
+
+				while (($data = fgetcsv($filde, 11000, ",")) !== FALSE) {
+					$product = new Product();
+					$product_images = new ProductImages();
+					$prosave = 0;
+					for($i = 0;$i< count($titles);$i++){
+						
+							if($i < 21){
+								$product->$titles[$i] = $data[$i];
+								
+								echo $titles[$i].'<br>';
+							}else if($i < 27){
+								if($prosave == 0){
+									if($product->slug == ""){
+										$product->slug = $product->id;
+									}
+									$product->general_attrs = 1;
+					
+									if(!$product->save()){
+										echo'<pre>';print_r($product->getErrors());die;
+									}
+									$prosave =1;
+								}
+								
+								$product_images->$titles[$i] = $data[$i];
+								$product_images->product_id = $product->id;
+
+							}else{
+								$check_type =  Attributes::find()->where(['name'=>$titles[$i]])->one();
+								if($check_type->entity_id == 2){
+									$ProductDropdownValues = new ProductDropdownValues;
+									$ProductDropdownValues->value_id = $data[$i];
+								}elseif($check_type->entity_id == 4){
+									$ProductDropdownValues = new ProductDescValues;
+									$ProductDropdownValues->value = $data[$i];
+									$ProductDropdownValues->attr_id = $check_type->id;
+									$ProductDropdownValues->status = 1;
+								}elseif($check_type->entity_id == 1){
+									$ProductDropdownValues = new ProductTextValues;
+									$ProductDropdownValues->value =$data[$i];
+									$ProductDropdownValues->attr_id = $check_type->id;
+									$ProductDropdownValues->status = 1;
+								}
+								$ProductDropdownValues->product_id = $data[0];
+								if(!$ProductDropdownValues->save()){
+									echo'<pre>';print_r($ProductDropdownValues->getErrors());die;
+								}
+								
+							}
+
+					}
+					if(!$product_images->save()){
+						echo'<pre>';print_r($product_images->getErrors());die;
+					}
+				}				
+			}
+		}else{
+			return $this->render('upload',['model'=>$model]);
+		}
+	}
     public function actionGenerate($id)
     {
         $model = new VarientProduct();

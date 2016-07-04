@@ -17,6 +17,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -35,16 +36,16 @@ AppAsset::register($this);
     </div><!--end section-->
     </div><!--end full page-->
     <?php $this->endBody() ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#fullpage').fullpage({
-                anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage', 'lastPage'],
-                menu: '#menu',
-                scrollingSpeed: 1000
-            });
+   <script type="text/javascript">
+		$(document).ready(function() {
+			$('#fullpage').fullpage({
+				anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage', 'lastPage'],
+				menu: '#menu',
+				scrollingSpeed: 1000
+			});
 
-        });
-    </script>
+		});
+	</script>
 </body>
 </html>
 <?php $this->endPage() ?>

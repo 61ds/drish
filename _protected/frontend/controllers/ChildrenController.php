@@ -2,6 +2,9 @@
 namespace frontend\controllers;
 
 use common\models\User;
+use common\models\KidsSlider;
+use common\models\KidsSetting;
+use common\models\Testimonial;
 use common\models\LoginForm;
 use frontend\models\AccountActivation;
 use frontend\models\PasswordResetRequestForm;
@@ -88,9 +91,17 @@ class ChildrenController extends Controller
 	public function actionIndex()
     {
 		$product_setting = ProductPageSetting::find()->where(['category_id' => 1])->one();
+		$kidslider = KidsSlider::find()->all();
+		$kidsetting = KidsSetting::find()->where(['status' => 1 ])->all();
+		$testimonial = Testimonial::find()->where(['id' => $product_setting->testimonial ])->one();
 		
-		$this->layout = "inner";
-        return $this->render('index', ['product_setting' => $product_setting,]);
+		$this->layout = "innerother";
+        return $this->render('index', [
+		'product_setting' => $product_setting,
+		'kidslider' => $kidslider,
+		'kidsetting' => $kidsetting,
+		'testimonial' => $testimonial,
+		]);
 		
     }
 

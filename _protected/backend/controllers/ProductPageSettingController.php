@@ -71,6 +71,7 @@ class ProductPageSettingController extends BackendController
     {
         $model = new ProductPageSetting();
         $video = UploadedFile::getInstance($model, 'video');
+		$image = UploadedFile::getInstance($model, 'banner');
         if ($model->load(Yii::$app->request->post())) {
             if($video)
             {
@@ -79,6 +80,14 @@ class ProductPageSettingController extends BackendController
                 $image_name= $this->uploadFile($video,$name,$main_folder);
                 $model->video = $image_name;
             }
+			if($image)
+			{
+					$name = time();
+					$size = Yii::$app->params['folders']['size'];
+					$main_folder = "product/setting/";
+					$image_name= $this->uploadImage($image,$name,$main_folder,$size);
+					$model->banner = $image_name;
+			}
             $model->product_slides = serialize(Yii::$app->request->post("product_slides"));
             Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! Setting has been Updated."));
             $model->save();
@@ -100,6 +109,7 @@ class ProductPageSettingController extends BackendController
     {
         $model = $this->findModel($id);
         $video = UploadedFile::getInstance($model, 'video');
+		$image = UploadedFile::getInstance($model, 'banner');
         if ($model->load(Yii::$app->request->post())) {
             if($video)
             {
@@ -110,6 +120,17 @@ class ProductPageSettingController extends BackendController
             }else{
 				$models = $this->findModel($id);
                 $model->video = $models->video;
+            }
+			if($image)
+			{
+					$name = time();
+					$size = Yii::$app->params['folders']['size'];
+					$main_folder = "product/setting/";
+					$image_name= $this->uploadImage($image,$name,$main_folder,$size);
+					$model->banner = $image_name;
+			}else{
+				$models = $this->findModel($id);
+                $model->banner = $models->banner;
             }
 
             $model->product_slides = serialize(Yii::$app->request->post("product_slides"));

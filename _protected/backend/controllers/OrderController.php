@@ -33,6 +33,19 @@ class OrderController extends BackendController
             'order' => $order,
         ]);
     }
+	public function actionRefund()
+    {
+        $searchModel = new OrderSearch();
+        $order = new Orders();
+		$refund = 2;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$refund);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'order' => $order,
+        ]);
+    }
 
     /**
      * Displays a single Orders model.

@@ -21,11 +21,11 @@ use frontend\widgets\Sorting;
 						if($parents){ 
 						foreach($sub_children as $category){
 							if(count($parents) == 2){ 
-								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[1]->slug ]) ?>"><?= $category->name ?></a></li><?php
+								?><li> <a href="<?= Url::to(['finder/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[1]->slug ]) ?>"><?= $category->name ?></a></li><?php
 							}else if(count($parents) == 1){ 
-								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[0]->slug ]) ?>"><?= $category->name ?></a></li><?php
+								?><li> <a href="<?= Url::to(['finder/category','slug'=>$category->slug ,'submain'=>$categorys->slug ,'main'=>$parents[0]->slug ]) ?>"><?= $category->name ?></a></li><?php
 							}else{  
-								?><li> <a href="<?= Url::to(['site/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li><?php
+								?><li> <a href="<?= Url::to(['finder/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li><?php
 							}
 							?>
 						
@@ -33,7 +33,7 @@ use frontend\widgets\Sorting;
 						}
 						} else{
 							foreach($sub_children as $category){?>
-							<li> <a href="<?= Url::to(['site/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li>
+							<li> <a href="<?= Url::to(['finder/category','slug'=>$category->slug,'main'=>$categorys->slug]) ?>"><?= $category->name ?></a></li>
 							<?php
 							}
 						}

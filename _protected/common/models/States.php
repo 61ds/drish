@@ -78,6 +78,7 @@ class States extends \yii\db\ActiveRecord
 	//get all cities related to this state model
     public function getStates()
     {
+
         $states = $this->find()->where(['country_id' => $this->country_id, 'status' => 1])->orderBy('name')->all();
         $html = '<option value="">- Select State -</option>';
         foreach($states as $state){

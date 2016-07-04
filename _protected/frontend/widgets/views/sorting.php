@@ -11,6 +11,7 @@ $('select').change(function(){
 	var sortform_color = $("#sortform-color").val();
 	var csrf = $("input[name='_csrf']").val();
 	var sortform_size = $("#sortform-size").val();
+	var cat_ids = $("#cat_id").val();
 	var sortform_width = $("#sortform-width").val();
 	var sortby = $("#sortby").val();
 	var brand = $("#brand").val();
@@ -20,6 +21,7 @@ $('select').change(function(){
 		$.post($('#sort_form').attr('action'), {
 		color: sortform_color,
 		size: sortform_size,
+		cat_id: cat_ids,
 		_csrf: csrf,
 		sortby: sortby,
 		brand: brand,

@@ -15,6 +15,12 @@ if($model->video){
 }else{
 		$img_url = '<img src="'.Yii::$app->params['baseurl'].'/uploads/no-video.jpg" style="width:200px;height:150px;">';
 }
+if($model->banner){
+		$image3 = Yii::$app->params['baseurl'] . '/uploads/product/setting/thumbs/'.$model->banner;
+		$img_urls = '<img src="'.$image3 .'" style="width:200px;height:150px;">'; 
+}else{
+		$img_urls = '<img src="'.Yii::$app->params['baseurl'].'/uploads/no-image.png" style="width:200px;height:150px;">';
+}
 ?>
 
 <div class="product-page-setting-form">
@@ -43,8 +49,9 @@ if($model->video){
     ?>
 	</div>
     <?php
-    $product_model = Product::find()->where( ["Status" => 1 ])->all();
-    if($product_model){ ?>
+	if($model->id != 3 ){
+		$product_model = Product::find()->where( ["Status" => 1 ])->all();
+		if($product_model){ ?>
         <div class="form-group field-product-meta_title">
             <label class="control-label" for="product-meta_title">Offer Products</label>
             <br>
@@ -62,7 +69,30 @@ if($model->video){
                 <input type="checkbox" name="product_slides[]" <?=  $sd ?> value="<?= $product->id ?>" id="product_slides[]" >&nbsp; <?= $product->name ?>  <br>
             <?php  } ?>
         </div>
-    <?php   }
+		<?php  }
+		} if($model->id == 3 ){ ?>
+		 <?php
+			// Usage with ActiveForm and model
+			echo $form->field($model, 'banner')->widget(FileInput::classname(),
+				[
+					'options' => ['accept' => 'image/*'],
+					'pluginOptions' => [
+						'showCaption' => false,
+						'showRemove' => true,
+						'showUpload' => false,
+						'initialPreview'=> $img_urls,
+					]
+				]);
+				echo $form->field($model, 'testimonial')->dropDownList(
+                    $model->getTestimonial(),
+                        [
+                            'prompt'=>'- Select Testimonial -',
+                            'class'=>'form-control select2',
+                        ]
+					);
+			?>
+			
+		<?php	}
     ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

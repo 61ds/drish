@@ -26,6 +26,7 @@
                         'url' => 'javascript:void(0);',
                         'items' => [
                             ['label' => 'All Orders', 'icon' => 'fa fa-angle-right', 'url' => ['/order'],'active' => ($this->context->route == 'order/index'),],
+							['label' => 'Refunds Request', 'icon' => 'fa fa-angle-right', 'url' => ['/refund'],'active' => ($this->context->route == 'order/refund'),],
 
                         ],
                     ],
@@ -48,8 +49,16 @@
                             ['label' => 'Add products', 'icon' => 'fa fa-angle-right', 'url' => ['/product/create'],'active' => ($this->context->route == 'product/create'),],
                             ['label' => 'Size width category', 'icon' => 'fa fa-angle-right', 'url' => ['/sizewidth'],'active' => ($this->context->route == 'sizewidth/index' || $this->context->route == 'sizewidth/create' || $this->context->route == 'sizewidth/index'),],
                             ['label' => 'Product Page Setting', 'icon' => 'fa fa-angle-right', 'url' => ['/product-page-setting'],'active' => ($this->context->route == 'product-page-setting/index' || $this->context->route == 'product-page-setting/create' || $this->context->route == 'product-page-setting/index'),],
+							['label' => 'Women Page Listing', 'icon' => 'fa fa-angle-right', 'url' => ['/women-page-setting'],'active' => ($this->context->route == 'women-page-setting/index' || $this->context->route == 'product-page-setting/create' || $this->context->route == 'women-page-setting/index'),],
+							['label' => 'Kids Slider below Banner', 'icon' => 'fa fa-angle-right', 'url' => ['/kids-slider'],'active' => ($this->context->route == 'kids-slider/index'),],
+                            ['label' => 'Kids Footer', 'icon' => 'fa fa-angle-right', 'url' => ['/kids-setting'],'active' => ($this->context->route == 'kids-setting/create'),],
                         ],
                     ],
+					[   'label' => 'Import Products',
+                        'icon' => 'fa fa-cogs',
+                        'url' => ['/product/upload'],
+                        	
+					],	
                     [
                         'label' => 'Category Management',
                         'icon' => 'fa fa-sitemap',

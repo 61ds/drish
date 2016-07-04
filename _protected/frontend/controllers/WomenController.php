@@ -8,6 +8,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\WomenPageSetting;
 use common\models\ProductPageSetting;
 use yii\helpers\Html;
 use yii\base\InvalidParamException;
@@ -88,9 +89,9 @@ class WomenController extends Controller
     public function actionIndex()
     {
 		$product_setting = ProductPageSetting::find()->where(['category_id' => 3])->one();
-		
-		$this->layout = "inner";
-        return $this->render('index', ['product_setting' => $product_setting,]);
+		$women_model = WomenPageSetting::find()->where(['id' => 1])->one();		
+		$this->layout = "innerother";
+        return $this->render('index', ['product_setting' => $product_setting,'women_model' => $women_model,]);
 		
     }
 

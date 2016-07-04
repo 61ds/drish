@@ -19,6 +19,7 @@ use yii\web\UploadedFile;
  */
 class SliderController extends BackendController
 {
+	public $enableCsrfValidation = false;
     public function behaviors()
     {
         return [

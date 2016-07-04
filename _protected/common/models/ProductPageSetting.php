@@ -3,6 +3,11 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\helpers\Url;
+use common\models\Testimonial;
 
 /**
  * This is the model class for table "product_page_setting".
@@ -32,8 +37,8 @@ class ProductPageSetting extends \yii\db\ActiveRecord
     {
         return [
             [['category_id','name'], 'required'],
-            [['category_id'], 'integer'],
-            [['video', 'name'], 'string', 'max' => 255],
+            [['category_id','testimonial'], 'integer'],
+            [['video', 'banner', 'name'], 'string', 'max' => 255],
             [['product_slides'], 'string', 'max' => 2550],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
@@ -49,6 +54,8 @@ class ProductPageSetting extends \yii\db\ActiveRecord
             'category_id' => 'Category',
             'video' => 'Video',
             'product_slides' => 'Product Slides',
+            'testimonial' => 'Select TestiMonial',
+            'banner' => 'Banner',
             'name' => 'Name',
         ];
     }
@@ -59,5 +66,9 @@ class ProductPageSetting extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+	public function getTestimonial(){
+        $test = Testimonial::find()->where(['status' => 1])->orderBy('name')->all();
+        return ArrayHelper::map($test,'id','name');
     }
 }

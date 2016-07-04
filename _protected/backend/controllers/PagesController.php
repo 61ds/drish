@@ -21,7 +21,7 @@ class PagesController extends BackendController
 {
 
 	use ImageUploadTrait;
-
+	public $enableCsrfValidation = false;
     /**
      * Lists all Pages models.
      * @return mixed

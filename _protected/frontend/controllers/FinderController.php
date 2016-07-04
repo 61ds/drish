@@ -188,6 +188,20 @@ class FinderController extends Controller
 			if(Yii::$app->request->post('color') != ""){
 				$query->andWhere(['varient_product.color' => Yii::$app->request->post('color')]);	
 			}
+			if(Yii::$app->request->post('cat_id') != ""){
+				$cat_all = Category::findOne(Yii::$app->request->post('cat_id'));
+				$cat_subchild = $cat_all->children(1)->all();
+				$cat_ids = array();
+				if($cat_subchild){
+					foreach($cat_subchild as $cat_subchild1){
+						$cat_ids[] = $cat_subchild1->id;
+					}
+					$query->andWhere(['product.category_id' => $cat_ids ]);	
+				}else{
+					$query->andWhere(['product.category_id' => $cat_all->id ]);	
+				}
+					
+			}
 			if(Yii::$app->request->post('size') != ""){
 				$query->andWhere(['varient_product.size' => Yii::$app->request->post('size')]);	
 			}

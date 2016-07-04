@@ -19,7 +19,7 @@ class TestimonialController extends BackendController
 {
 	use ImageUploadTrait;
 	use StatusChangeTrait;
-
+	public $enableCsrfValidation = false;
     public function behaviors()
     {
         return [
@@ -70,25 +70,17 @@ class TestimonialController extends BackendController
 
 		$image = UploadedFile::getInstance($model, 'feat_image');
         if ($model->load(Yii::$app->request->post())) {
-			$model->feat_image = $model->name;
-            if($model->save()) {
-				if($image)
-				{
-					$name = str_replace(' ','-',strtolower($model->name.$model->id));
+           if($image)
+			{
+					$name = time();
 					$size = Yii::$app->params['folders']['size'];
-					$size['uploadThumbs'] = '170';
 					$main_folder = "testimonial";
 					$image_name= $this->uploadImage($image,$name,$main_folder,$size);
-					$model->updateAttributes(['feat_image' => $image_name]);
-				}
-				
-                return $this->redirect(['index']);
-            } else {
-               return $this->render('create', [
-                'model' => $model,
-				]);
-            }
-
+					$model->feat_image = $image_name;
+			}
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations! Testimonial has been Updated."));
+            $model->save();
+			return $this->redirect(['index']);
 
         } else {
 			return $this->render('create', [
@@ -107,23 +99,19 @@ class TestimonialController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-		$imgval = $model->feat_image;
 		$image = UploadedFile::getInstance($model, 'feat_image');
-		$sliders = [1 => ["Home Slider", "home-slider"]];
-		if($image != '')
-		{
-			$newname = $model->name .''. $id;
-			$name = str_replace(' ','-',strtolower($newname));
-			$size = Yii::$app->params['folders']['size'];
-			$size['uploadThumbs'] = '170';
-			$main_folder = "testimonial";
-			$image_name= $this->uploadImage($image,$name,$main_folder,$size);
-			if($image_name)
-				$imgval = $image_name;			
-		}
-
         if ($model->load(Yii::$app->request->post()) ) {		
-			$model->feat_image = $imgval;
+			if($image)
+			{
+					$name = time();
+					$size = Yii::$app->params['folders']['size'];
+					$main_folder = "testimonial";
+					$image_name= $this->uploadImage($image,$name,$main_folder,$size);
+					$model->feat_image = $image_name;
+			}else{
+				$models = $this->findModel($id);
+                $model->feat_image = $models->feat_image;
+            }
 			$model->save();	
 			Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Testmonial has been updated successfully!'));			
             return $this->redirect(['index']);

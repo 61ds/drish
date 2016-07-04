@@ -45,7 +45,7 @@ class Testimonial extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'descr', 'feat_image'], 'required'],
+            [['name', 'descr'], 'required'],
             [['short_descr', 'descr'], 'string'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['name', 'feat_image'], 'string', 'max' => 255]

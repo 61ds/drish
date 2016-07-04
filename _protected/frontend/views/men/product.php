@@ -82,14 +82,18 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
                         </div>
 
                         <div class="rating-area">
-                            <div class="rating"> <span>Rating :</span>
+                            <div class="rating">
+							<span>Rating : <?=  $rating->rating?></span>
                                 <ul>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
+								<?php 
+								for($i=1;$i<=$rating->rating;$i++){
+								 echo '<li><i class="fa fa-star"></i></li>';
+								}
+								$count = 5-$rating->rating;
+								for($i=1;$i<=$count;$i++){
+								 echo '<li><i class="fa fa-star-o"></i></li>';
+								}
+								?>
                                 </ul>
 
 
@@ -101,14 +105,29 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
 
                                 <p> Share with:</p>
                                 <div class="foot-socials">
+								<!-- I got these buttons from simplesharebuttons.com -->
+
                                     <ul>
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        <li><a href="#" ><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                                        <li>
+											<a href="http://www.facebook.com/sharer.php?url=<?= Yii::$app->homeUrl ?>products/<?= $model->slug ?>.html" target="_blank">
+												<i class="fa fa-facebook" aria-hidden="true"></i>
+											</a>
+										</li>
+                                        <li>  
+											<a href="https://twitter.com/share?url=<?= Yii::$app->homeUrl ?>products/<?= $model->slug ?>.html&amp;text=<?= $model->name ?>&amp;hashtags=<?= $model->slug ?>" target="_blank">
+												<i class="fa fa-twitter" aria-hidden="true"></i>
+											</a>
+										</li>
+                                        <li>  
+										<a href="https://plus.google.com/share?url=<?= Yii::$app->homeUrl ?>products/<?= $model->slug ?>.html" target="_blank">
+										<i class="fa fa-google-plus" aria-hidden="true"></i>
+										</a>
+										</li>
+                                        <li> 
+										<a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?= Yii::$app->homeUrl ?>products/<?= $model->slug ?>.html" target="_blank">
+										<i class="fa fa-linkedin" aria-hidden="true"></i>
+										</a>
+										</li>
                                     </ul>
                                 </div><!--end foot-social-->
                             </div>

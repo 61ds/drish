@@ -30,7 +30,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/jquery.fullPage.css',
         'css/bootstrap.min.css',
-        'css/style.css',
+        'css1/style.css',
         'css/responsive.css',
     ];
     public $js = [

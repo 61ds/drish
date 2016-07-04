@@ -35,6 +35,7 @@ class ProductsAsset extends AssetBundle
         'css/responsive.css',
         'css/slider-pro.min.css',
         'css/jquery-ui.css',
+		'css/flaticon.css',
         'css/demo.css',
         'css/jquery.mmenu.all.css',
     ];

@@ -83,12 +83,15 @@ $this->registerJs("var product_price = ".json_encode($model->price)."; var varie
                         <div class="rating-area">
                             <div class="rating"> <span>Rating :</span>
                                 <ul>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
+								<?php 
+								for($i=1;$i<=$rating->rating;$i++){
+								 echo '<li><i class="fa fa-star"></i></li>';
+								}
+								$count = 5-$rating->rating;
+								for($i=1;$i<=$count;$i++){
+								 echo '<li><i class="fa fa-star-o"></i></li>';
+								}
+								?>
                                 </ul>
 
 

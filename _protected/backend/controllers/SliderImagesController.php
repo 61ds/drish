@@ -21,6 +21,7 @@ use common\traits\ImageUploadTrait;
 class SliderImagesController extends BackendController
 {
 	use ImageUploadTrait;
+	public $enableCsrfValidation = false;
     public function behaviors()
     {
         return [

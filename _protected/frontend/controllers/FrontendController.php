@@ -39,7 +39,7 @@ class FrontendController extends Controller
                     ],
                     [
                         'controllers' => ['article','cart'],
-                        'actions' => ['index', 'view','add','cart','checkout','remove','address','place-order','discount','payment-method'],
+                        'actions' => ['index', 'view','add','cart','checkout','active-cities','active-states','remove','address','place-order','discount','payment-method'],
                         'allow' => true
                     ],
 

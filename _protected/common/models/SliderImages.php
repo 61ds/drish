@@ -38,7 +38,7 @@ class SliderImages extends \yii\db\ActiveRecord
             [['slider_id'], 'integer'],
 			[['image_path'], 'file', 'extensions' => 'png, jpg, gif, mp4, mkv, avi',],
             [['content','name','alt_title'], 'string', 'max' => 1000],
-            [['type'], 'string', 'max' => 100]
+            [['type','button_link','button_text'], 'string', 'max' => 250]
         ];
     }
 
@@ -54,6 +54,8 @@ class SliderImages extends \yii\db\ActiveRecord
             'image_path' => 'Image',
             'alt_title' => 'Image Alt Title',
             'name' => 'Image Name',
+            'button_text' => 'Button Text',
+            'button_link' => 'Button Link',
         ];
     }
 

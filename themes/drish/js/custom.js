@@ -200,6 +200,15 @@ $(document).ready(function(){
 					pager:true,			
 				});
 			}
+			if($('.bxslider-2').length){
+				$('.bxslider-2').bxSlider({
+				 minSlides: 2,
+				  maxSlides: 6,
+				  slideWidth: 320,
+				  moveSlides:1,
+				  
+				}); 
+			}
 			if($('.bxslider-1').length){
 				$('.bxslider-1').bxSlider({
 					infiniteLoop: false,

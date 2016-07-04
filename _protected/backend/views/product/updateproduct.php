@@ -373,7 +373,7 @@
                            </div>
 						   
                            <div class="tab-pane" id="tab_6">
-						    
+						    <?= $form->field($model, 'featured')->dropDownList(['1' => 'Yes','0' => 'No']); ?>
 							<?php
 								if($product_model){ ?>
 									<div class="form-group field-product-meta_title">

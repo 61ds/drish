@@ -51,6 +51,7 @@ class ProductsFeatured extends Widget
         if($prod_model) {
             return $this->render('product-featured', [
                 'product_ids' => $prod_model,
+                'type' => $this->type,
             ]);
         }
     }

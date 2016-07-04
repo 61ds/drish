@@ -68,10 +68,9 @@ $('#searchform-search').keyup(function () {
 	'enableAjaxValidation'   => false,
 ]); ?>
  <?php if($type == "second"){ ?>
-		<div class="search-right mob-serach">
+		<div class="search-right"> 
 			<?= $form->field($model, 'search')->textInput(['maxlength' => true,"placeholder" => "Search...",'class'=>"search-txt"])->label(false) ?>
 		</div>
-        <span class="f-mob-search"><i class="fa fa-search"></i></span>
 		<ul id="search_li">
 		</ul>
  <?php }else{ ?>

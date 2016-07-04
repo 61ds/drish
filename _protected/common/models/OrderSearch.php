@@ -39,10 +39,12 @@ class OrderSearch extends Orders
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$refund)
     {
         $query = Orders::find();
-
+		if($refund){
+		$query->where(['refund_request' => $refund]);	
+		}
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

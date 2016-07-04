@@ -1,9 +1,10 @@
 <?php
 
 namespace common\models;
-use yii\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "billing_address".
@@ -136,6 +137,24 @@ class BillingAddress extends \yii\db\ActiveRecord
     public function getGuest()
     {
         return $this->hasOne(GuestUser::className(), ['id' => 'guest_id']);
+    }
+	public function getCities(){
+        $cities = Cities::find()->where(['status' => 1])->orderBy('name')->all();
+        return ArrayHelper::map($cities,'id','name');
+    }
+
+    //get all states
+    public function getStates()
+    {
+        $states = States::find()->where(['status' => 1])->orderBy('name')->all();
+        return ArrayHelper::map($states,'id','name');
+    }
+
+    //get all countries
+    public function getCountries()
+    {
+        $countries = Countries::find()->where(['status' => 1])->orderBy('name')->all();
+        return ArrayHelper::map($countries,'id','name');
     }
 
     /**

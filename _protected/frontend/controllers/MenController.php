@@ -10,6 +10,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Product;
+use common\models\Review;
 use common\models\Cart;
 use common\models\ProductImages;
 use common\models\ProductPageSetting;
@@ -107,9 +108,22 @@ class MenController extends Controller
 
     public function actionProduct($slug){
         $this->layout = "products";
-		
+		$ratin_model = new Review;
 		$productid = Product::find()->where(['slug' => $slug])->one();
 		$id = $productid->id;
+		$get_rating = Review::find()->where(['product_id' => $id])->all();
+		if($get_rating){
+			$point = 0 ;
+			$count = 0 ;
+			foreach($get_rating as $get_ratings){
+				$point = $get_ratings->rating + $point;
+				$count++;
+			}
+			$avg_point = $point/$count;
+			$ratin_model->rating = $avg_point;
+		}else{
+			$ratin_model->rating = 0;
+		}
         $ProductDropdownValues = ProductDropdownValues::find()->where(['product_id' => $id])->all();
         $ProductDescValues = ProductDescValues::find()->where(['product_id' => $id])->all();
         $ProductTextValues = ProductTextValues::find()->where(['product_id' => $id])->all();
@@ -142,6 +156,7 @@ class MenController extends Controller
 
             return $this->render('product',['model'=>$model,
                 'productDropdownValues'=>$ProductDropdownValues,
+                'rating'=>$ratin_model,
                 'productDescValues'=>$ProductDescValues,
                 'productTextValues'=>$ProductTextValues,
                 'productImages'=>$ProductImages,
