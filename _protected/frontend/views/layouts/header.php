@@ -4,23 +4,23 @@ use frontend\widgets\Search;
 use frontend\widgets\CartProductCounter;
 use yii\helpers\Url;
 ?>
-   <div class="free-shipping"> 
-   <div class="container-fluid">
+ <div class="free-shipping">  
+	<div class="container-fluid">
         <div class="row">
             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-5 pad-right">
                 <div class="header">
-                <a href="<?= Url::to(['site/index']) ?>" class="header-logo"><img src="<?= Yii::$app->params['baseurl'] ?>/images/drish-logo.png" alt="Drish" title="Drish"></a>
+                 <a href="<?= Url::to(['site/index']) ?>" class="header-logo"><img src="<?= Yii::$app->params['baseurl'] ?>/images/drish-logo.png" alt="Drish" title="Drish"></a>
                     <a href="#menu" class="menu-bar"> <i class="fa fa-bars"></i></a>
                     <span class="menu-text">Menu</span>
                 </div>
                 <nav id="menu">
-                    <?= HomeMenuMain::widget() ?>
+                      <?= HomeMenuMain::widget() ?>
                 </nav>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-3 col-xs-7 pad-left">
            		 <div class="cart-top-header nav-480">
-                        <div class="top-link login-icon mob-cart">
-                            <ul>
+                          <div class="top-link login-icon mob-cart">
+                           <ul>
                             	<li class="s-icon"><a><img src="<?= Yii::$app->params['baseurl'] ?>/images/search-icon.png"></a></li>
                                 <li class="user-icon">
                                 	<a href="<?= Url::to(['site/login']) ?>" title="login">
@@ -40,10 +40,10 @@ use yii\helpers\Url;
 							<i class="glyph-icon flaticon-cart"></i><span class="login-text">My Cart</span></a></div> 
                                 </li>
                             </ul>
-                        </div><!--end top-icon-->
-                        <!--end top-icon-->
-                        </div>
-            </div>  
+                    </div><!--end top-icon-->
+					<!--end top-icon-->
+                </div>
+			</div>  
                       
             <div class="nav-none">
             <div class="col-lg-10 col-md-9 col-sm-9 col-xs-5 nav-full">
@@ -60,11 +60,11 @@ use yii\helpers\Url;
                         </div><!--end product type-->
                     </div>
             	<div class="serach-area">
-				 <?= Search::widget(['type'=>'second']) ?>
+            		  <?= Search::widget(['type'=>'second']) ?>
 				</div>              
                  	<div class="cart-top-header">
                           <div class="top-link login-icon mob-cart">
-                            <ul>
+                             <ul>
                             	<li class="s-icon"><a><img src="<?= Yii::$app->params['baseurl'] ?>/images/search-icon.png"></a></li>
                                 <li class="user-icon">
                                 	<a href="<?= Url::to(['site/login']) ?>" title="login">
@@ -91,28 +91,25 @@ use yii\helpers\Url;
             </div>
             
             <div class="pop-search">
-            	<div class="serach-area">
-            		<div class="search-right">   <input type="search" placeholder="Search" class="search-txt"></div>
-             </div> 
+              <?= Search::widget(['type'=>'second']) ?>
             </div>
             
             <div class="col-lg-10 col-md-9 col-sm-9 col-xs-5 nav-full">
             <div class="menu-header mob-header">
                    	<div class="women-nav">
                         <div class="product_type">
-                          <ul>
+                            <ul>
 							  <li <?php if(Yii::$app->controller->id == 'men'){ echo'style="display:none;"'; }  ?>><a href="<?= Url::to(['men/index']) ?>">Men</a></li>
 							  <li>|</li>
 							 <li <?php if(Yii::$app->controller->id == 'women'){ echo'style="display:none;"'; }  ?>><a href="<?= Url::to(['women/index']) ?>">Women</a></li>
-							  <li <?php if(Yii::$app->controller->id == 'women'){ echo'style="display:none;"'; }  ?>>|</li>
+							   <li <?php if(Yii::$app->controller->id == 'women'){ echo'style="display:none;"'; }  ?>>|</li>
 							  <li <?php if(Yii::$app->controller->id == 'children'){ echo'style="display:none;"'; }  ?>><a href="<?= Url::to(['children/index']) ?>">Kids</a></li>
 						   </ul>
                         </div><!--end product type-->
                     </div> 
-            <div class="collections">
-			<a href="#" class="view-collection">
-                  <span class="view-col">View collections</span><span class="shop-bag"><img src="<?= Yii::$app->params['baseurl'] ?>/images/bag_icon.png"> </span></a></div>
-				  <?php if(Yii::$app->user->isGuest){ ?>
+            <div class="collections"><a href="#" class="view-collection">
+                  <span class="view-col">View collections</span><span class="shop-bag"><img src="images/bag_icon.png"> </span></a></div>
+              		  <?php if(Yii::$app->user->isGuest){ ?>
               		<div class="foot-socials header-social">
                         <ul>
                                  <li><a href="#"><img src="<?= Yii::$app->params['baseurl'] ?>/images/Sign-in-with-Facebook.png"></a></li>
@@ -128,13 +125,13 @@ use yii\helpers\Url;
                                  <li><a href="#"><i aria-hidden="true" class="fa fa-instagram"></i></a></li>  
                         </ul>
                     </div>  
-				  <?php } ?>
+				  <?php } ?>                     
                 	<div class="serach-area">
-						  <?= Search::widget(['type'=>'second']) ?>
-					</div>              
+             <?= Search::widget(['type'=>'second']) ?>
+             </div>              
                  	<div class="cart-top-header">
                           <div class="top-link login-icon mob-cart">
-                           <ul>
+                             <ul>
                             	<li class="s-icon"><a><img src="<?= Yii::$app->params['baseurl'] ?>/images/search-icon.png"></a></li>
                                 <li class="user-icon">
                                 	<a href="<?= Url::to(['site/login']) ?>" title="login">
@@ -163,4 +160,3 @@ use yii\helpers\Url;
             </div>
     </div><!--end container-fluid-->
     </div>
- <!-- menu-end-->

@@ -23,10 +23,17 @@ use frontend\widgets\OfferSlider;
         </div>
 	</section>
 <!-- end of kids slide-->
+<?php 
+		if( $product_setting->testimonial_banner){ ?>
+			<div class="kids-shoe-banner">
+				<img src="<?= Yii::$app->params['baseurl'] ?>/uploads/product/setting/main/<?= $product_setting->testimonial_banner ?>" class="img-responsive" alt="kids-shoe-banner" title="kids-shoe-banners">
+			</div>
+	<?php }else{ ?>
 <section class="kids-proud">
     <div class="help-raise">
 		<div class="container">
 			<div class="row">
+			
 				 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
 					<div class="proud-text">
 						<p> <i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -43,11 +50,14 @@ use frontend\widgets\OfferSlider;
 			</div>
         </div>
     </div>
-</section>
 
+</section>
+	<?php } ?>
 <div class="outer-container">
         <div class="kids-section">
-		<?php if($kidsetting){
+		<?php
+
+		if($kidsetting){
 		$i = 1;
 		?>
         	<ul>

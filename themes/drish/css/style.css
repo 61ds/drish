@@ -5822,14 +5822,25 @@ transition: all 2.9s ease;
   width: 1009px;
 }
 .menu-header.mob-header {
-  padding: 0;
-  width: 958px;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  width: 1104px;
 }
+
 .menu-header.mob-header .cart-top-header {
   padding: 3px 0 0;
 }
 .menu-header.mob-header .women-nav {
-  padding: 10px 0 0;
+  padding-bottom: 0; float:left;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 10px;
+  width: 23%;
+}
+.menu-header.mob-header .women-nav .product_type {
+  float: left;
 }
 .menu-header.mob-header .foot-socials.header-social {
   padding: 10px 0 0;
@@ -6045,10 +6056,14 @@ li.user-icon a {
 .glyph-icon.flaticon-social-1 {
   font-size: 20px;
 }
-.form-group.field-searchform-search.required {
-    margin: 0;
+.kids-shoe-banner {
+  float: left;
+  margin: 20px 0;
+  width: 100%;
 }
-.search-right .help-block {
-    margin: 0;
+.kids-shoe-banner {
+    float: left;
+    margin: 20px 0;
+    width: 100%;
 }
 /* top nav css end*/

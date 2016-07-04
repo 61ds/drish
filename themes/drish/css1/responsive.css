@@ -11,7 +11,7 @@
 }
 @media (max-width:1900px) {
 .grid li {
-  width: 16%;
+  width: 14%;
 }
 }
 
@@ -26,17 +26,9 @@
 .color.sort {
   width: 47%;
 }
-.slider-area .bx-controls {
-  top: 82%;
-}
+
 .top-link {
   width: 34%;
-}
-.search-right {
-  width: 60%;
-}
-.serach-area {
-  width: 64%;
 }
 .wishlist-cross {
   padding: 10px;
@@ -82,9 +74,8 @@
 .color.sort {
   width: 47%;
 }
-.women-nav {
-  width: 27%;
-}
+
+
 .usp-text p {
   padding: 0;
 }
@@ -97,6 +88,14 @@
 .footer-socials li {
   width: 23.9%;
 }
+.slide-text .view-collection {
+  float: left;
+  left: 35px;
+  margin: 4% 0 0;
+  position: absolute;
+  top: 37%;
+}
+
 }
 @media (max-width:1500px) {
 .leather-left {
@@ -175,12 +174,8 @@
 .top-link {
   width: 39%;
 }
-.search-right {
-  width: 87%;
-}
-.serach-area {
-  width: 61%;
-}
+
+
 
 .order-history .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th {
   font-size: 12px;
@@ -196,14 +191,14 @@
 section.offer .braided-main {
   min-height: 374px;
 }
-.women-nav {
-    width: 27%;
+.slide-text .view-collection {
+  top: 37%;
 }
+
 }
 @media (max-width:1400px) {
-.women-nav {
-  width: 26%;
-}
+
+
 .cart-top-header .top-link {
   width: auto;
 }
@@ -220,7 +215,7 @@ section.offer .braided-main {
   width: auto;
 }
 .grid li {
-  width: 16.3%;
+  width: 13.3%;
 }
 .card {
   height: 228px;
@@ -244,12 +239,8 @@ section.offer .braided-main {
 .parent-guide p {
   font-size: 12px;
   padding: 0 0 10px;}
-  .serach-area {
-  width: 48%;
-}
-.search-right {
-  width: 100%;
-}
+
+
 
 .wishlist-account p {
   font-size: 12px;
@@ -315,17 +306,13 @@ section.woman-shoes h3 {
   min-height: 305px;
 }
 
-.women-nav {
-  width:25%;
-}
+
+
 .grid.cs-style-2 h3 {
   font-size: 13px;
   margin-top: 0;
 }
-.search-main {
-  padding: 0;
-  width: 14%;
-}
+
 
 .gry-bg {
   width: 95%;
@@ -459,14 +446,37 @@ section.woman-shoes h3 {
   left: 0;
   width: 70%;
 }
+
+.search-bar-home .form-control {
+  font-size: 11px;
+}
+.slider-area .bx-controls {
+top: 86%;
+}
+.slide-text h1 {
+top: 60%;
+}
+.grid li {
+    width: 16.3%;
+}
+
 }
 
 
 
 @media (max-width:1300px) {
-.women-nav {
-    width: 17%;
+	.slide-text h1 {
+  top: 66%; font-size:30px; line-height:20px;
 }
+.slide-text h1 > span {
+  font-size: 20px;
+}
+
+	.slide-text .view-collection {
+  top: 42%;
+}
+
+
 .slider-text h1 {
   font-size: 31px;
 }
@@ -482,9 +492,7 @@ section.woman-shoes h3 {
   display: block;
   padding: 20px 0;
 }
-.search-right.mob-serach {
-  display: none;
-}
+
 .tool-tip {
   width: 39%;
 }
@@ -530,15 +538,6 @@ section.woman-shoes h3 {
 .blk-color {
   height: 100%;
 }
-.slider-area .bx-controls {
-  top: 84%;
-}
-.search-main {
-  padding: 0;
-  width: 21%;
-
-}
-
 
 
 .gry-bg {
@@ -574,12 +573,11 @@ section.woman-shoes h3 {
 .revosize-sm {
   width: 54%;
 }
-.search-right .search-txt {
-  font-size: 17px;
+.slider-area .bx-controls {
+  top: 84%;
 }
-.serach-area {
-  width: 44%;
-}
+
+
 .footer-socials li {
   width: 22.9%;
 }
@@ -603,7 +601,18 @@ section.woman-shoes h3 {
 .summer-text h5 {
   font-size: 50px;
 }
-
+.search-bar-home .form-control {
+  font-size: 12px;
+}
+.menu-header.mob-header {
+  width: 1035px;
+}
+.menu-header.mob-header .women-nav .product_type {
+  float: right;
+}
+.menu-header.mob-header .women-nav {
+  width: auto;
+}
 }
 
 @media (max-width:1200px) {
@@ -696,14 +705,15 @@ section.woman-shoes h3 {
 .sign-in-chek-out button {
   width: 67%;
 }
-.women-nav {
-  width: 33%;
-}
+
+
 .bxslider-pro li {
   width: 233px !important;
 }
 .facbook-post {
+  float: left; max-width:100%;
   margin-bottom: 20px;
+  width: 100%;
 }
 .foot-socials a {
   float: left;
@@ -744,6 +754,10 @@ section.woman-shoes h3 {
   font-size: 16px;
   width: 56%;
 }
+
+.foot-socials.mob-social {
+  margin: -4px 13px;
+}
 }
 
 @media (max-width:1100px) {
@@ -752,8 +766,8 @@ section.woman-shoes h3 {
 .insta img {
   padding-top: 6px;
 }
-.foot-socials ul li {
-  padding: 8px 3px;
+.news-section h1 {
+    font-size: 31px; 
 }
 .tool-tip {
   margin-bottom: 10px;
@@ -849,9 +863,8 @@ section.woman-shoes h3 {
 .collars-text {
   top: 20px;
 }
-.women-nav {
-  width:24%;
-}
+
+
 .desktop-nav.pull-right {
   width: auto;
 }
@@ -919,9 +932,77 @@ section.woman-shoes h3 {
 .revosize-md {
   width: 88%;
 }
+
+
+.menu-header.mob-header .foot-socials.mob-social {
+  margin: 6px 13px;
+}
+.slider-text h1 {
+  font-size: 28px;
+}
+.search-main {
+  width: 159px;
+}
+.menu-header {
+  width: 100%;
+}
+.menu-header {
+  display: none;
+  width: 100%;
+}
+.menu-header.mob-header {
+  display: block;
+}
+.menu-header.mob-header {
+  padding: 0;
+  width: 100%;
+}
+.foot-socials.header-social {
+  float: left;
+  margin: 2px 1px;
+}
+.s-icon img {
+    width: 71%;
+    padding: 9px 0 0;
+}
+.s-icon {
+  display: block;
+}
+.top-link.login-icon.mob-cart ul li a {
+  padding: 0 4px;
+}
+
+.foot-socials ul li {
+  padding: 0 1px;
+}
+.nav-full {
+  padding-left: 0;
+}
+
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1100px) {
+.pad-right {
+  padding: 0;
+  width: 18%;
+}
+	.col-lg-10.col-md-9.col-sm-9.col-xs-5.nav-full {
+  float: left;
+    padding: 0;
+  width: 82%;
+}
 }
 
 @media (max-width:1024px) {
+	.top-link.login-icon.mob-cart ul li a {
+  padding: 0 2px;
+}
+.cart-count {
+  right: 11px;
+}
+.nav-full {
+  padding: 3px;
+}
 
 .f-mob-search {
   display: block;
@@ -1029,7 +1110,45 @@ section.woman-shoes {
 .summer-text {
   bottom: 6px;
 }
+.slide-text .view-collection {
+  top: 55%;
 }
+.serach-area {
+  display: none;
+}
+.slide-text h1 {
+  top: 64%; font-size:25px; line-height:20px;
+}
+.slide-text h1 > span {
+  font-size: 18px;
+}
+
+.pop-search {
+  border: 1px solid #ccc;
+  display: none;
+  position: absolute;
+  top: 61px; display:none;
+  width: 100%;
+}
+.pop-search .serach-area {
+  background: #fff none repeat scroll 0 0;
+  display: block;
+  width: 100%;
+}
+.pop-search .search-right {
+  border-left: 0px solid #ccc;
+  border-right: 0px solid #ccc;
+  float: right;
+  padding: 0 20px;
+  width: 100%;
+}
+.slide-text h1 {
+  top: 79%;
+}
+
+}
+
+
 @media (max-width:1000px) {
 .social-btn li a {
   font-size: 9px;
@@ -1055,10 +1174,7 @@ section.woman-shoes {
 .cart-width {
   width: 14%;
 }
-.search-main {
-  padding: 0;
-  width: 28%;
-}
+
 .braided-main {
   min-height: 259px;
 }
@@ -1237,6 +1353,13 @@ section.woman-shoes {
   text-align: center;
   width: 100%;
 }
+.menu-header .foot-socials {
+  clear: inherit;
+  margin: 5px 13px;
+  padding: 0;
+  text-align: center;
+  width: auto;
+}
 
 .foot-socials ul {
   display: inline-flex;
@@ -1378,9 +1501,63 @@ section.woman-shoes {
   margin-bottom: 20px;
   padding: 0;
 }
+.nav-none {
+  display: block;
+  float: right;
+  width: auto;
+}
+.nav-none .cart-top-header {
+  padding: 10px 0;
+}
+.nav-none .mob-header .serach-area {
+  display: nblock;
+}
+.menu-header.mob-header .cart-top-header {
+  display: none;
+}
+.menu-header.mob-header .serach-area {
+  display: none;
+}
+.menu-header.mob-header .foot-socials.header-social {
+  display: none;
+}
+.side-sign-up {
+  display: block;
+}
+.top-link ul li {
+  display: block;  
+}
+
+.women-nav {
+  float: left;
+  padding: 11px 0 0px;
+  width: auto;
+}
+.menu-header.mob-header {
+  display: none;
+}
+.product_type {
+  margin-top: 21px;
+}
+.nav-none {
+  display: block;
+  float: right;
+  width: 52%;
+}
+.nav-full {
+  padding: 0 15px;
+  width: 100%;
+}
+.s-icon img {
+  padding: 7px 0 0;
+  width: 71%;
+}
 }
 
 @media (max-width:950px) {
+	.pop-search {
+  top: 76px;
+}
 	
 .f-mob {
   display: block;
@@ -1447,7 +1624,8 @@ height:300px;
   width: 100%;
 }
 .grid li {
-  width: 32.9%;
+  float: left;
+  width: 31.9%;
 }
 .bxslider-pro li {
   width: 182px !important;
@@ -1476,6 +1654,26 @@ height:300px;
 .why-img p {
   font-size: 16px;
   line-height: 31px;
+}
+.slide-text .view-collection {
+  top: 55%;
+}
+.slide-text h1 {
+  line-height: 17px;
+      font-size: 27px;
+}
+.slide-text h1 > span {
+  font-size: 18px;
+}
+.shop-txt a {
+  font-size: 16px;
+  line-height: 30px;
+}
+.shop-txt {
+  margin-top: 29px;
+}
+.shop-txt {
+  display: none;
 }
 }
 @media (max-width:850px) {
@@ -1606,16 +1804,12 @@ height:300px;
 .collars-text h1 {
   padding: 0 0 1px;
 }
-.women-nav {
-  width: 28%;
-}
+
 
 .card {
   height: 152px;
 }
-.slider-area .bx-controls {
-  top: 77%;
-}
+
 .slider-pro.sp-horizontal {
   max-width: 700px !important;
 }
@@ -1739,14 +1933,36 @@ section.offer .braided-main {
   top: 50px;
   width: 50%;
 }
+.slide-text h1 {
+    top: 64%;
+}
+.slide-text .view-collection {
+  top: 42%;
+}
+
+.slider-area .bx-controls {
+  top: 77%;
+}
+
 }
 
 @media (max-width:767px) {
+
+	.women-nav {
+  padding: 17px 0 0;
+}
 	.heart-area .cart-count { 
   top: 17px;
 }
-.women-nav {
+.menu-header.mob-header {
+  display: block;
   width: 100%;
+}
+.menu-header .foot-socials {
+  margin: 5px 10px;
+}
+.top-link.mob-cart {
+  display: block;
 }
 .social-btn li a .fa {
   font-size: 22px;
@@ -1778,15 +1994,6 @@ section.offer .braided-main {
   padding: 24px 3px 0;
 }
 
-.input-group.search-bar-home {
-  display: none;
-}
-.top-link.mob-cart {
-  display: none;
-}
-.div-1 {
-  padding: 0;
-}
 .cart-width {
   width: 24%;
 }
@@ -1885,9 +2092,7 @@ section.offer .braided-main {
   position: inherit;
   top: 33%;
 }
-.cart-count {
-  top: 7px;
-}
+
 .reserch-blog-img {
   width: 100%;
 }
@@ -2125,9 +2330,7 @@ color:#000;
   max-width: 100%;
   width: 100%;
 }
-.slider-area .bx-controls {
-  top: 64%;
-}
+
 .gallery {
   padding-top: 0;
 }
@@ -2466,23 +2669,12 @@ white-space: normal;
   display: none;
 }
 .heart-area .cart-count {
-  top: -7px;
+    top: -1px;
 }
-.cart-count {
-  top: 3px;
-}
-.top-link ul li {
-  padding: 2px 9px;
-}
-.serach-area {
-  width: 48%;
-}
-.top-link {
-  margin: 10px 9px 0;
-}
-.serach-area {
-  display: none;
-}
+
+
+
+
 .serach-xs img {
   width: 18px;
 }
@@ -2493,10 +2685,7 @@ white-space: normal;
   margin: 0 0 2px;
   width: 29%;
 }
-.top-link ul li {
-  float: left;
-  padding: 0 7px;
-}
+
 .contact-us-banner img {
   height: 100px;
 }
@@ -2664,12 +2853,93 @@ section.woman-shoes h3 {
   line-height: 20px;
   margin: 30px 0 10px;
 }
+.woman-shoes .padding-zero {
+  padding: 0;
+}
+.proud-child img {
+    max-width: 100%;
+}
+section.woman-shoes {
+    margin: 5px 0;
+}
+
+.full-slide .bx-wrapper .bx-controls-direction a {
+  height: 10px;
+  width: 10px;
+}
+.menu-header {
+  display: none;
+}
+.menu-header.mob-header .foot-socials.mob-social {
+  display: none;
+}
+.search-right {
+    padding: 5px 20px;
+}
+
+.slide-text {
+  display: none;
+}
+.product_type {
+  margin-top: 5px;
+}
+.nav-none {
+    width: 58%;
+}
+.menu-header.mob-header .women-nav {
+    display: none;
+}
+.pop-search {
+    top: 70px;
+}
+
+.slider-area .bx-controls {
+  top: 56%;
+}
+
+}
+@media (max-width:650px) {
+
+.menu-header.mob-header {
+  display: none;
+}
+
+
+.collections .view-collection { display:block;}
+.collections {
+  float: right; display:block;
+  margin: 5px 0;
+  width: auto;
+}
+.product_type ul li {
+    padding: 0 1px;
+}
+.view-col {
+  font-size: 12px;
+  padding: 6px 10px;
+}
+.shop-bag {
+  padding: 5px;
+}
+.shop-bag img {
+  width: 80%;
+}
+
+.nav-none {
+  width: 56%;
+}
+.cart-box svg {
+    margin: 0 10px 0;
+}
+
+
 }
 @media (max-width:600px) {
 
 .cart-width {
   width: 30%;
 }
+
 .foot-logo {
   height: 83px;
   margin-top: 0;
@@ -2877,8 +3147,36 @@ header img {
 .do-something-text h2 img {
   max-width: 200px;
 }
+.women-nav {
+  padding: 15px 0 0;
 }
+.nav-none {
+  width: 58%;
+}
+.nav-full {
+  border-top: 0 none;
+  padding-left: 0;
+}
+.cs-style-2 figcaption {
+  display: none;
+}
+	.pop-search {
+  top: 70px;
+}
+.slider-area {
+    top: 64px;
+}
+.top-link.login-icon.mob-cart ul li a {
+    padding: 0 0px;
+}
+.s-icon img {
+    padding: 9px 0 0;
+    width: 64%;
+}
+}
+
 @media (max-width:480px) {
+
 .pop-up-wishlist .pop-up-images h5 {
   width: 84%;
 }
@@ -2902,15 +3200,13 @@ header img {
 }
 .top-link ul li {
   float: left;
-  padding: 0 5px;
+  padding: 0 0px;
 }
 
 .f-mob-search {
   padding: 26px 0;
 }
-.top-link ul li {
-  padding: 2px 5px;
-}
+
 
 .price-frame h4 {
   font-size: 20px;
@@ -3150,7 +3446,7 @@ button.blk-btn {
 }
 .bag .grid.cs-style-2 li {
   margin: 0;
-  width: 49.3% !important;
+  width: 47.3% !important;
 }
 .grid figcaption Button {
   width: 100%;
@@ -3413,7 +3709,7 @@ section.offer .braided-main {
   line-height: 25px;
 }
 .proud-child img {
-  max-width: 226px;
+  max-width: 100%;
 }
 .woamn-collection {
   width: 100%;
@@ -3422,10 +3718,69 @@ section.offer .braided-main {
   margin-top: 30px;
   width: 100%;
 }
+.do-something-text h2 {
+ width:100%; 
+}
+.do-something-text p {
+  left: 0;
+  padding: 20px;
+  position: inherit;
+  width: 100%;
+}
+.summer-text {
+  bottom: 4px;
+  box-sizing: border-box;
+  margin: 20px 0 0; color:#000;
+  padding: 20px;
+  right: 0;  position: inherit;
+  width: 100%;
+}
+.woamn-collection {
+  position: inherit;
+}
+
+
+.foot-socials.header-social ul li a img {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.pad-right {
+    padding: 0;
+    width: 30%;
+}
+
+.women-nav {
+  padding: 17px 0 0;
+}
+.nav-none {
+    width: 70%;
+}
+.cart-top-header {
+    float: left;
+}
+.cart-icon {
+    padding-left: 4px !important;
+}
+.nav-full {
+  border-top: 0 none;
+  padding: 0;
+}
+
+.full-480 {
+    width: 100%;
+}
+.slider-area .bx-controls {
+  top: 67%;
+}
+
 }
 
 
 @media (max-width:360px) {
+	.slider-area {
+  top: 109px;
+}
 	.craftman-ship-title img {
   height: 100px;
 }
@@ -3619,12 +3974,7 @@ section.offer .braided-main {
 .do-something-text p {
  padding: 20px;
 }
-.do-something-text p {
-  left: 0;
-  padding: 20px;
-  position: inherit;
-  width: 100%;
-}
+
 .proud-child img {
   max-width: 141px;
 }
@@ -3635,20 +3985,52 @@ section.offer .braided-main {
 .full-480 {
   width: 100%;
 }
-.summer-text {
-  bottom: 4px;
-  box-sizing: border-box;
-  margin: 20px 0 0; color:#000;
-  padding: 20px;
-  right: 0;  position: inherit;
-  width: 100%;
+
+.women-nav {
+  display: none;
+  padding: 15px 0 0;
 }
-.woamn-collection {
-  position: inherit;
+.menu-header.mob-header {
+  display: block;
 }
+.menu-header.mob-header .women-nav {
+  display: block;
+  padding: 10px;
+}
+.nav-full {
+  border: 1px solid #ccc;
+  padding-left: 0;
+border-bottom:0px
+}
+.nav-none .nav-full {
+  border: 0px solid #ccc;
+  padding-left: 0;
+}
+.pop-search {
+  top: 69px;
+  z-index: 999;
+}
+.nav-none {
+    width: 52%;
+}
+.kids-section ul li {
+  width: 44%;
+}
+
+}
+@media (max-width:350px) {
+.pad-right {
+  padding: 0;
+}
+.cart-top-header .top-link.login-icon {
+    float: left;
+}
+
 }
 @media (max-width:320px) {
-
+.pad-left {
+  padding: 0;
+}
 .foot-title h3 {
   font-size: 22px;
 
@@ -3692,12 +4074,8 @@ section.offer .braided-main {
 .range-prize {
   width: 85%;
 }
-
-.main-slider .bx-pager {
-  top: -5%;
-}
 .slider-area .bx-controls {
-  top: 76%;
+    top: 77%;
 }
 .bg-select li {
   width: 32%;

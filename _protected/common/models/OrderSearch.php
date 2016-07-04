@@ -18,7 +18,7 @@ class OrderSearch extends Orders
     public function rules()
     {
         return [
-            [['id', 'user_id', 'guest_id', 'items_count', 'discount_id', 'status', 'locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'user_id', 'guest_id', 'items_count', 'discount_id', 'status', 'is_refunded','locked', 'payment_method', 'payment_status', 'created_at', 'updated_at'], 'integer'],
             [['price_total', 'delivery_charges', 'discount', 'grand_total'], 'number'],
         ];
     }
@@ -39,7 +39,7 @@ class OrderSearch extends Orders
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$refund)
+    public function search($params,$refund=0)
     {
         $query = Orders::find();
 		if($refund){
@@ -73,6 +73,7 @@ class OrderSearch extends Orders
             'status' => $this->status,
             'locked' => $this->locked,
             'payment_method' => $this->payment_method,
+            'is_refunded' => $this->is_refunded,
             'payment_status' => $this->payment_status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

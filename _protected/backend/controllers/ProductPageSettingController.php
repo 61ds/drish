@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\Category;
 use common\models\ProductPageSetting;
 use common\models\ProductPageSettingSearch;
 use yii\web\Controller;
@@ -108,8 +109,10 @@ class ProductPageSettingController extends BackendController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $cat_model = new Category();
         $video = UploadedFile::getInstance($model, 'video');
 		$image = UploadedFile::getInstance($model, 'banner');
+		$image1 = UploadedFile::getInstance($model, 'testimonial_banner');
         if ($model->load(Yii::$app->request->post())) {
             if($video)
             {
@@ -132,6 +135,17 @@ class ProductPageSettingController extends BackendController
 				$models = $this->findModel($id);
                 $model->banner = $models->banner;
             }
+			if($image1)
+			{
+					$name = time();
+					$size = Yii::$app->params['folders']['size'];
+					$main_folder = "product/setting/";
+					$image_name= $this->uploadImage($image1,$name,$main_folder,$size);
+					$model->testimonial_banner = $image_name;
+			}else{
+				$models = $this->findModel($id);
+                $model->testimonial_banner = $models->testimonial_banner;
+            }
 
             $model->product_slides = serialize(Yii::$app->request->post("product_slides"));
             Yii::$app->getSession()->setFlash('success', Yii::t('app', "Congratulations!Products Setting has been Updated."));
@@ -140,6 +154,7 @@ class ProductPageSettingController extends BackendController
         }else {
             return $this->render('update', [
                 'model' => $model,
+                'cat_model' =>  $cat_model,
             ]);
         }
     }

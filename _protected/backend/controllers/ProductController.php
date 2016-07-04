@@ -590,7 +590,6 @@ class ProductController extends BackendController
 					}
 					
 				}
-
 				while (($data = fgetcsv($filde, 11000, ",")) !== FALSE) {
 					$product = new Product();
 					$product_images = new ProductImages();
@@ -609,7 +608,7 @@ class ProductController extends BackendController
 									$product->general_attrs = 1;
 					
 									if(!$product->save()){
-										echo'<pre>';print_r($product->getErrors());die;
+										echo'<pre>';print_r($product->getErrors());echo"</pre>";
 									}
 									$prosave =1;
 								}

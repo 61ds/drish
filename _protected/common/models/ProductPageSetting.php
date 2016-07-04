@@ -38,7 +38,7 @@ class ProductPageSetting extends \yii\db\ActiveRecord
         return [
             [['category_id','name'], 'required'],
             [['category_id','testimonial'], 'integer'],
-            [['video', 'banner', 'name'], 'string', 'max' => 255],
+            [['video', 'banner', 'testimonial_banner', 'name'], 'string', 'max' => 255],
             [['product_slides'], 'string', 'max' => 2550],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
@@ -56,6 +56,7 @@ class ProductPageSetting extends \yii\db\ActiveRecord
             'product_slides' => 'Product Slides',
             'testimonial' => 'Select TestiMonial',
             'banner' => 'Banner',
+            'testimonial_banner' => 'TestiMonial Banner',
             'name' => 'Name',
         ];
     }

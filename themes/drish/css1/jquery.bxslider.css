@@ -144,11 +144,15 @@
 	width: 32px;
 	height: 32px;
 	text-indent: -9999px;
-	z-index: 9999;
 }
-
+.kids-slider .bx-wrapper .bx-controls-direction a {
+  z-index: 0;
+}
 .bx-wrapper .bx-controls-direction a.disabled {
 	display: none;
+}
+.kids-slider .bx-wrapper .bx-controls-direction a.disabled {
+  display: block;
 }
 
 /* AUTO CONTROLS (START / STOP) */

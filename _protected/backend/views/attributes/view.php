@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'contentOptions' => ['style' => 'width:50px;text-align:center'],
                             ],
 
+                            'id',
                             'name',
                             [
                                 'attribute' => 'status',

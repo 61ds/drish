@@ -1,12 +1,12 @@
 nav:not(.mm-menu) { display: none; }
-.header, .content { text-align: center; }
+.header{ text-align: center; }
 .header {
   box-sizing: border-box;
   color: #c09d4c;
   font-size: 16px;
   font-weight: bold;
   line-height: 40px;
-  margin: 10px 0;
+  margin: 10px 0 0;
   padding: 0;
   text-align: left;
 }
@@ -17,12 +17,12 @@ nav:not(.mm-menu) { display: none; }
   float: left;
   position: inherit;
 }
-.content { padding: 150px 50px 50px 50px; }
 .header a .fa {
   float: left;
   font-size: 24px;
   padding: 8px 10px;
 }
+
 
 
 @media (max-width:360px) {

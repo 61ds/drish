@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use kartik\file\FileInput;
 use common\models\Product;
+use common\models\Category;
 /* @var $this yii\web\View */
 /* @var $model common\models\ProductPageSetting */
 /* @var $form yii\widgets\ActiveForm */
@@ -20,6 +21,12 @@ if($model->banner){
 		$img_urls = '<img src="'.$image3 .'" style="width:200px;height:150px;">'; 
 }else{
 		$img_urls = '<img src="'.Yii::$app->params['baseurl'].'/uploads/no-image.png" style="width:200px;height:150px;">';
+}
+if($model->testimonial_banner){
+		$image3 = Yii::$app->params['baseurl'] . '/uploads/product/setting/thumbs/'.$model->testimonial_banner;
+		$img_urls1 = '<img src="'.$image3 .'" style="width:200px;height:150px;">'; 
+}else{
+		$img_urls1 = '<img src="'.Yii::$app->params['baseurl'].'/uploads/no-image.png" style="width:200px;height:150px;">';
 }
 ?>
 
@@ -50,7 +57,12 @@ if($model->banner){
 	</div>
     <?php
 	if($model->id != 3 ){
-		$product_model = Product::find()->where( ["Status" => 1 ])->all();
+		$countries = Category::findOne(['id' => $model->category_id ]);
+		$category_id = $countries->children()->all();
+		foreach($category_id as $cat_id){
+			$catid[] = $cat_id->id;
+		}
+		$product_model = Product::find()->where( ["Status" => 1 , 'category_id'=> $catid ])->all();
 		if($product_model){ ?>
         <div class="form-group field-product-meta_title">
             <label class="control-label" for="product-meta_title">Offer Products</label>
@@ -70,7 +82,9 @@ if($model->banner){
             <?php  } ?>
         </div>
 		<?php  }
-		} if($model->id == 3 ){ ?>
+	}
+	
+	if($model->id == 3 ){ ?>
 		 <?php
 			// Usage with ActiveForm and model
 			echo $form->field($model, 'banner')->widget(FileInput::classname(),
@@ -83,6 +97,17 @@ if($model->banner){
 						'initialPreview'=> $img_urls,
 					]
 				]);
+				echo $form->field($model, 'testimonial_banner')->widget(FileInput::classname(),
+				[
+					'options' => ['accept' => 'image/*'],
+					'pluginOptions' => [
+						'showCaption' => false,
+						'showRemove' => true,
+						'showUpload' => false,
+						'initialPreview'=> $img_urls1,
+					]
+				]);
+
 				echo $form->field($model, 'testimonial')->dropDownList(
                     $model->getTestimonial(),
                         [

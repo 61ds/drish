@@ -40,7 +40,7 @@ class OrderController extends BackendController
 		$refund = 2;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$refund);
 
-        return $this->render('index', [
+        return $this->render('refundindex', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'order' => $order,
@@ -154,6 +154,38 @@ class OrderController extends BackendController
         return $this->render('summary', [
             'orderdetail' => $orderdetail,
             'model' => $model,
+            'comments' => $comments,
+        ]);
+    }
+	public function actionRefundUpdate($id)
+    {
+        $models = $this->findModel($id);
+        $model = new OrderComments();
+        $model->order_id = $id;
+        if ($model->load(Yii::$app->request->post()) && $models->load(Yii::$app->request->post())) {
+            if($model->save() || $models->save()){
+                $models->status = $model->status;
+                $models->save();
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', "Order status updated successfully."));
+
+            }else{
+
+                Yii::$app->getSession()->setFlash('danger', Yii::t('app', "This status already updated."));
+
+            }
+            return $this->redirect(['refund-update', 'id' => $id]);
+        }
+        $model->status = $models->status;
+        $comments = OrderComments::find()->where(['order_id' => $id])->orderBy([
+	           'created_at' => SORT_DESC,
+	        ])->all();
+
+        $orderdetail = Orders::getOrderDetail($id);
+
+        return $this->render('refundupdate', [
+            'orderdetail' => $orderdetail,
+            'model' => $model,
+            'models' => $models,
             'comments' => $comments,
         ]);
     }
