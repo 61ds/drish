@@ -4,8 +4,7 @@ return [
         'db' => [
             'class' => 'yii\db\Connection',
 
-            'dsn' => 'mysql:host=localhost;dbname=drish',
-            'username' => 'root',
+
             'dsn' => 'mysql:host=192.168.1.73;dbname=drish',
             'username' => 'admin',
             'password' => 'root1234',
