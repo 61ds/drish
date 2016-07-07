@@ -36,7 +36,7 @@ use frontend\widgets\OfferSlider;
                </div>
                <!--end col-lg-7-->
                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 col-padding">
-                   <?= OfferSlider::widget(['type'=>"women"]); ?>
+                   <?= OfferSlider::widget(['type'=>"men"]); ?>
 				 </div>
                <!--end col-lg-5-->
             </div>

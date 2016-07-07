@@ -38,6 +38,10 @@ if($model->testimonial_banner){
 
     <?= $form->field($model, 'category_id')->dropDownList(['prompt'=>"Select Category",'1' => 'Kids','2' => 'Men','3' => 'WoMen']); ?>
 	
+	
+    <?php
+	if($model->id == 1 ){ ?>
+	
 	<div class="form-group field-course-name">
 		<div class="image_div">
 			<?= $img_url  ?>
@@ -55,8 +59,7 @@ if($model->testimonial_banner){
         ])->label(false);
     ?>
 	</div>
-    <?php
-	if($model->id != 3 ){
+	<?php
 		$countries = Category::findOne(['id' => $model->category_id ]);
 		$category_id = $countries->children()->all();
 		foreach($category_id as $cat_id){
@@ -97,6 +100,7 @@ if($model->testimonial_banner){
 						'initialPreview'=> $img_urls,
 					]
 				]);
+				echo'<label class="control-label" for="product-meta_title">Or</label>';
 				echo $form->field($model, 'testimonial_banner')->widget(FileInput::classname(),
 				[
 					'options' => ['accept' => 'image/*'],

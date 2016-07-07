@@ -1,92 +1,92 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-$this->registerJs("
-	$('.editable').hide();
-	$('.edit_admin_display').click(function() {
-		target = $(this).attr('target-class');
-		type = $(this).attr('attr-type');
-		if(type == 'edit'){
-			$(this).text('save');
-			$(this).attr('attr-type','save');
-			$('.'+target).find('.readable').hide();			
-			$('.'+target).find('.editable').show();
-		}else{
-			id = $( '.'+target+' form').attr('id');
-			response = $('#'+id).yiiActiveForm('submitForm');
-			return false;
-		}
-	});
-");
-?>	<div class="acount-arrow">		<img title="edit" alt="edit" src="<?= Yii::$app->params['baseurl'] ?>/uploads/account-arrow.png">	</div>
-			<div class="row">
-			<div class="account-create">
-				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
-					<h3>Account Information</h3>
-				</div>
-
-			</div>
-		</div>
-		<?php $form = ActiveForm::begin([
-			'id' => 'account-information',
-			'action' => ['account/information'],
-			'enableAjaxValidation'   => true,
-			'options' => ['onsubmit'=>'return false;']
-			]) 
-		?>			
-			<div class="row readable">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="input-field">
-						<label> First Name :</label>
-						<div class="first-name">		
-							<?= $profile->fname ?> 
-						</div>
-					</div>					<div class="input-field">						<label> Last Name :</label>						<div class="first-name">									<?= $profile->lname ?>						</div>					</div>
-						
-
-
-					<div class="input-field">
-						<label>Phone no :</label>
-						<div class="first-name">		
-							<?= $profile->phone ?>
-						</div>
-					</div>
-				</div>	
-			</div>
-			<div class="row editable">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="input-field">
-						<label> First Name :</label>
-						<div class="first-name">		
-						
-
-								<?= $form->field($profile, 'fname',[
-									'template' => '<div class="input-group">{label}{input}{error}{hint}</div>'
-								])->label(false) ?> 									
-								
-			
-						</div>
-					</div>					<div class="input-field">						<label> Last Name :</label>						<div class="first-name">																<?= $form->field($profile, 'lname',[									'template' => '<div class="input-group">{label}{input}{error}{hint}</div>'								])->label(false) ?> 																										</div>					</div>
-						
-
-
-					<div class="input-field">
-						<label>Phone no :</label>
-						<div class="first-name">		
-
-								<?= $form->field($profile, 'phone',[
-									'template' => '<div class="input-group">{label}{input}{error}{hint}</div>'
-								])->label(false) ?> 	
-						</div>
-					</div>
-				</div>	
-			</div>
-		
-		<?php ActiveForm::end(); ?>	
-	
-			
-			<div class="row">
-				<div class="col-lg-12">
-				<button type="button" target-class="account-information" attr-type="edit"class="btn btn-default edit_admin_display">Edit</button>
-				</div>
+?>
+
+<?php
+use yii\helpers\Url;
+$user_id = \Yii::$app->user->identity->id;
+?>
+
+<!-- account dashboard -->
+     <section class="dashboard-user">
+       <div class="container-fluid craftsmanship-area">
+         <div class="user-dashboard">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                 <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="dashboard-list">
+                <h4>Account</h4>
+                    <ul class="acc-dash">
+						<li><a href="<?= Url::to(['account/index']) ?>" class="active">Account Dashboard</a></li>
+						<li><a href="<?= Url::to(['account/orders']) ?>">Orders Detail</a></li>
+						<li><a href="<?= Url::to(['account/mywishlist']) ?>" >My Wishlist</a></li>
+					</ul>
+                </div>
+            </div>
+                </div>
+            </div>
+            <!-- end of left part of account list-->
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                 <div class="account-detail record-pro">
+                    <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="acount-arrow">
+								<img title="edit" alt="edit" src="<?= Yii::$app->params['baseurl'] ?>/uploads/account-arrow.png">
+							</div>
+
+			<div class="row">
+
+			<div class="account-create">
+
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+
+					<h3>Account Information</h3>
+
+				</div>
+
+
+
 			</div>
+
+		</div>
+
+		<?php $form = ActiveForm::begin() 
+
+		?>	
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="input-field">
+						<?= $form->field($profile, 'fname')->textInput(['maxlength' => true]) ?>
+					</div>
+					<div class="input-field">
+						<?= $form->field($profile, 'lname')->textInput(['maxlength' => true]) ?>
+					</div>
+					<div class="input-field">
+						<?= $form->field($profile, 'phone')->textInput(['maxlength' => true]) ?>
+					</div>
+				</div>	
+			</div>
+
+		 <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+
+		<?php ActiveForm::end(); ?>	
+
+                    </div>
+                </div>
+                    
+            </div>
+            </div>
+            <!-- end of right part of account detail-->
+        </div>
+    </div>
+       </div>
+     </section>
+<!-- account dashboard end -->
+
+
+
+
+            
+				

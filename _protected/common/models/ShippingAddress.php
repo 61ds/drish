@@ -79,16 +79,16 @@ class ShippingAddress extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'fname' => 'Fname',
-            'lname' => 'Lname',
+            'fname' => 'First name',
+            'lname' => 'Last name',
             'address' => 'Address',
             'email' => 'Email',
             'phone' => 'Phone',
             'company' => 'Company',
-            'city_id' => 'City ID',
-            'state_id' => 'State ID',
-            'country_id' => 'Country ID',
-            'zip' => 'Zip',
+            'city_id' => 'City ',
+            'state_id' => 'State ',
+            'country_id' => 'Country ',
+            'zip' => 'Zip Code',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -136,7 +136,16 @@ class ShippingAddress extends \yii\db\ActiveRecord
         $states = States::find()->where(['status' => 1])->orderBy('name')->all();
         return ArrayHelper::map($states,'id','name');
     }
-
+	public function getIndiacity($state){
+        $cities = Cities::find()->where(['status' => 1,'state_id' => $state])->orderBy('name')->all();
+        return ArrayHelper::map($cities,'id','name');
+    }
+    //get all states
+    public function getIndiastates()
+    {
+        $states = States::find()->where(['status' => 1,'country_id' => 101])->orderBy('name')->all();
+        return ArrayHelper::map($states,'id','name');
+    }
     //get all countries
     public function getCountries()
     {

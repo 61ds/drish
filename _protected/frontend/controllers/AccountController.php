@@ -4,8 +4,11 @@ use yii\helpers\Url;
 use common\models\User;
 use common\models\LoginForm;
 use common\models\Newsletter;
+use common\models\OrderComments;
 use common\models\Product;
 use common\models\Profile;
+use common\models\ShippingAddress;
+use common\models\BillingAddress;
 use common\models\Orders;
 use common\models\Wishlist;
 use common\models\Cart;
@@ -142,7 +145,15 @@ class AccountController extends FrontendController
     }
 	public function actionIndex()
     { 
-		return $this->render('index');
+		$this->layout = 'account'; 
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}
+		
+		$userId = \Yii::$app->user->identity->id;
+		$profile = Profile::find()->where(['user_id' => $userId])->one();
+		$user = User::find()->where(['id' => $userId])->one();
+		return $this->render('index',['profile' => $profile, 'user' => $user ]);
     }
 	
     public function actionDashboard()
@@ -152,13 +163,14 @@ class AccountController extends FrontendController
 
     public function actionInformation()
     { 
+	
 		if(Yii::$app->user->isGuest){
 			return $this->redirect(Yii::$app->homeUrl);	
 		}
+		
 		$userId = \Yii::$app->user->identity->id;
 		$profile = Profile::find()->where(['user_id' => $userId])->one();
-
-		if (Yii::$app->request->isAjax && $profile->load(Yii::$app->request->post()))
+		if ($profile->load(Yii::$app->request->post()))
 		{	
 
 			if($profile->save()){
@@ -173,10 +185,52 @@ class AccountController extends FrontendController
 		return $this->render('information',['profile' => $profile]);
     }
 
-    public function actionAddress()
+    public function actionBillingAddress()
     { 
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}
+		$userId = \Yii::$app->user->identity->id;
+		$biladd = BillingAddress::find()->where(['user_id' => $userId])->one();
+		$this->layout = 'account';
+		if ($biladd->load(Yii::$app->request->post()))
+		{	
+
+			if($biladd->save()){
+				Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Account Information updated successfully!'));
+				return $this->render('address',['model' => $biladd ]);
+			}else{
+				Yii::$app->response->format = Response::FORMAT_JSON;
+				return ActiveForm::validate($biladd);
+			}
+				
+		}else{
+			return $this->render('address',['model' => $biladd ]);			
+		}
+
+    }
+	public function actionShippingAddress()
+    { 
+		if(Yii::$app->user->isGuest){
+			return $this->redirect(Yii::$app->homeUrl);	
+		}
+		$userId = \Yii::$app->user->identity->id;
+		$shipadd = ShippingAddress::find()->where(['user_id' => $userId])->one();
 		$this->layout = 'account'; 
-		return $this->render('address');
+		if ($shipadd->load(Yii::$app->request->post()))
+		{	
+
+			if($shipadd->save()){
+				Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Account Information updated successfully!'));
+				return $this->render('address',['model' => $shipadd ]);
+			}else{
+				Yii::$app->response->format = Response::FORMAT_JSON;
+				return ActiveForm::validate($shipadd);
+			}
+				
+		}else{
+			return $this->render('address',['model' => $shipadd ]);			
+		}
     }
 
     public function actionNotifications()
@@ -226,16 +280,20 @@ class AccountController extends FrontendController
 		]);
     }
 	public function actionOrder($id)
-    { 
-		$this->layout = 'account'; 
-		$app_model = new Orders;
-		if(Yii::$app->user->isGuest){
-			return $this->redirect(Yii::$app->homeUrl);	
-		}		
-		$model = $app_model->findOne($id);
-		return $this->render('order',[
-			"model" => $model,
-		]);
+    {
+        $models = Orders::find($id);
+        $model = new OrderComments();
+        $comments = OrderComments::find()->where(['order_id' => $id])->orderBy([
+	           'created_at' => SORT_DESC,
+	        ])->all();
+
+        $orderdetail = Orders::getOrderDetail($id);
+
+        return $this->render('order', [
+            'orderdetail' => $orderdetail,
+            'model' => $model,
+            'comments' => $comments,
+        ]);
     }
 	public function actionReturnRequest()
     { 

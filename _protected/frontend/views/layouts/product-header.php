@@ -23,10 +23,18 @@ use yii\helpers\Url;
                             <ul>
                             	<li class="s-icon"><a><img src="<?= Yii::$app->params['baseurl'] ?>/images/search-icon.png"></a></li>
                                 <li class="user-icon">
-                                	<a href="<?= Url::to(['site/login']) ?>" title="login">
-                                        <i class="glyph-icon flaticon-social-1"></i>
-                                        <span class="login-text">Login</span>
-                                    </a>
+                                	<?php 
+									if(!Yii::$app->user->isGuest){ ?>
+										<a href="<?= Url::to(['account/index']) ?>" title="login">
+											<i class="glyph-icon flaticon-social-1"></i>
+											<span class="login-text">Account</span>
+										</a>
+								<?php }else{ ?>
+										<a href="<?= Url::to(['site/login']) ?>" title="login">
+											<i class="glyph-icon flaticon-social-1"></i>
+											<span class="login-text">Login</span>
+										</a>
+								<?php } ?>
                                </li>
                              <li>
                                   <a href="#"  title="Wishlist"> 

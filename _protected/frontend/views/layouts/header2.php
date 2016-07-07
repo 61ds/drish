@@ -55,10 +55,18 @@ use frontend\widgets\Search;
                           <div class="top-link login-icon mob-cart">
 								<ul>
 									<li class="user-icon">
+								<?php 
+									if(!Yii::$app->user->isGuest){ ?>
+										<a href="<?= Url::to(['account/index']) ?>" title="login">
+											<i class="glyph-icon flaticon-social-1"></i>
+											<span class="login-text">Account</span>
+										</a>
+								<?php }else{ ?>
 										<a href="<?= Url::to(['site/login']) ?>" title="login">
 											<i class="glyph-icon flaticon-social-1"></i>
 											<span class="login-text">Login</span>
 										</a>
+								<?php } ?>
 									</li>
 									<li>
 									 <a href="<?= Url::to(['account/wishlist']) ?>"  title="Wishlist">   <div class="heart-area">
